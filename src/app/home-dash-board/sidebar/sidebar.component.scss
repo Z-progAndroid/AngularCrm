@@ -1,6 +1,6 @@
 .sidebar {
     position: fixed;
-    top: 55px;
+    top: 63px;
     overflow: auto;
     background-color: #fff;
     height: 100%;
@@ -9,6 +9,9 @@
     padding: 30px 5px;
     width: 200px;
     list-style: none;
+    z-index: 99;
+    display: block;
+
     ul {
         padding: 0;
     }
@@ -41,6 +44,6 @@
 }
 @media screen and (min-width: 500px) {
     .sidebar {
-        display: block;
+        display: block!important;
     }
 }
