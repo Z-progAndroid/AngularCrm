@@ -9,11 +9,15 @@ import { CitaComponent } from './home-dash-board/cita/cita.component';
 import { ContratoComponent } from './home-dash-board/contrato/contrato.component';
 import { SeguimientoComponent } from './home-dash-board/seguimiento/seguimiento.component';
 import { TareaComponent } from './home-dash-board/tarea/tarea.component';
+import { UserDetailsComponent } from './home-dash-board/user/user-details/user-details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'user', component: UserComponent },
+  { path: 'user/editar/:id', component: UserDetailsComponent },
+  { path: 'user/ver/:id', component: UserDetailsComponent },
+  { path: 'user/crear', component: UserDetailsComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'inmueble', component: InmuebleComponent },
   { path: 'cita', component: CitaComponent },

@@ -1,0 +1,141 @@
+<div class="wrapper">
+    <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
+            <h2>Usuarios</h2>
+        </div>
+    </div>
+    <div class="border rounded-6 p-3 bg-white shadow box-area">
+        <form (submit)="onSubmit()" [formGroup]="userForm">
+            <div class="group-inputs">
+                <div class="row">
+                    <div class="text-center margin-form col-12 col-sm-12 col-md">
+                        <mdb-form-control>
+                            <input mdbInput type="text" maxlength="9" id="nombre" class="form-control"
+                                formControlName="nombre" />
+                            <label mdbLabel class="form-label" for="nombre">Nombre(*)</label>
+                        </mdb-form-control>
+                        <span class="text-danger"
+                            *ngIf="userForm.controls['nombre'].invalid && userForm.controls['nombre'].touched">El nombre
+                            es requerido</span>
+                    </div>
+                    <div class="text-center margin-form col-12 col-sm-12 col-md px-md-0 ">
+                        <mdb-form-control>
+                            <input mdbInput type="text" id="apellido" class="form-control" formControlName="apellido" />
+                            <label mdbLabel class="form-label" for="apellido">Apellidos(*)</label>
+                        </mdb-form-control>
+                        <span class="text-danger"
+                            *ngIf="userForm.controls['apellido'].invalid && userForm.controls['apellido'].touched">El
+                            apellido es requerido</span>
+                    </div>
+                    <div class="text-center margin-form col-12 col-sm-12 col-md">
+                        <mdb-form-control>
+                            <input mdbInput type="text" id="email" class="form-control" formControlName="email" />
+                            <label mdbLabel class="form-label" for="email">Email(*)</label>
+                        </mdb-form-control>
+                        <span class="text-danger"
+                            *ngIf="userForm.controls['email'].invalid && userForm.controls['email'].touched">El email es
+                            requerido <br></span>
+                        <span class="text-danger" *ngIf="userForm.controls['email'].errors?.email">El email no
+                            esvalido</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="text-center margin-form col-12 col-sm-12 col-md">
+                        <mdb-form-control>
+                            <input mdbInput type="text" maxlength="9" id="telefono" class="form-control"
+                                formControlName="telefono" />
+                            <label mdbLabel class="form-label" for="telefono">Telefono</label>
+                        </mdb-form-control>
+                        <span class="text-danger" *ngIf="userForm.controls['telefono'].errors?.pattern">El telefono no
+                            es valido</span>
+                    </div>
+                    <div class="text-center margin-form col-12 col-sm-12 col-md px-md-0 ">
+                        <mdb-form-control>
+                            <input mdbInput type="text" id="dni" class="form-control" formControlName="dni" />
+                            <label mdbLabel class="form-label" for="dni">Dni</label>
+                        </mdb-form-control>
+                        <span class="text-danger" *ngIf="userForm.controls['dni'].errors?.pattern">El dni no
+                            cumple con el patron 12345678Z </span>
+                    </div>
+                    <div class="text-center margin-form col-12 col-sm-12 col-md">
+                        <mdb-form-control>
+                            <input mdbInput type="text" id="direccion" class="form-control"
+                                formControlName="direccion" />
+                            <label mdbLabel class="form-label" for="direccion">Direccion</label>
+                        </mdb-form-control>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="text-center margin-form col-12 col-sm-12 col-md-6">
+                        <mdb-form-control>
+                            <input mdbInput type="text" id="usuario" class="form-control" formControlName="username" />
+                            <label mdbLabel class="form-label" for="usuario">Usuario(*)</label>
+                        </mdb-form-control>
+                        <span class="text-danger"
+                            *ngIf="userForm.controls['username'].invalid && userForm.controls['username'].touched">El
+                            usuario es requerido<br></span>
+                        <span class="text-danger" *ngIf="userForm.controls['username'].errors?.['minlength']">La
+                            usuario debe tener minimo {{ userForm.get('username').errors.minlength.requiredLength }}
+                            caracteres</span>
+                    </div>
+                    <div class="text-center margin-form col-12 col-sm-12 col-md-6">
+                        <div class="d-flex flex-row">
+                            <button class="btn btn-primary" (click)="mostrarPassword = !mostrarPassword" type="button"
+                                id="button-addon1" mdbRipple rippleColor="danger">
+                                <i class="{{ mostrarPassword ? 'fas fa-eye' : 'fas fa-eye-slash' }}"></i>
+                            </button>
+                            <mdb-form-control class="w-100">
+                                <input mdbInput type="{{ mostrarPassword ? 'text' : 'password' }}" id="contraseña"
+                                    class="form-control" formControlName="password" />
+                                <label mdbLabel class="form-label" for="contraseña">Contraseña(*)</label>
+                            </mdb-form-control>
+                        </div>
+                        <span class="text-danger"
+                            *ngIf="userForm.controls['password'].invalid && userForm.controls['password'].touched">La
+                            contraseña es requerida</span>
+                        <br>
+                        <span class="text-danger" *ngIf="userForm.controls['password'].errors?.['minlength']">La
+                            contraseña debe tener minimo {{ userForm.get('password').errors.minlength.requiredLength }}
+                            caracteres</span>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-around flex-md-row flex-sm-column flex-column gap-2">
+                    <div class="floating-label w-100">
+                        <select class="form-control" formControlName="rol">
+                            <option selected>Seleciona una opción</option>
+                            <option *ngFor="let rol of roles" value="{{rol.idRol}}">{{rol.rol}}</option>
+                        </select>
+                        <label for="floatingSelectRoles">Rol(*)</label>
+                        <span class="text-danger text-center"
+                            *ngIf="userForm.controls['rol'].invalid && userForm.controls['rol'].touched">El rol es
+                            requerido</span>
+                    </div>
+                    <div class="floating-label w-100">
+                        <select class="form-control" formControlName="estado">
+                            <option selected>Seleciona una opción</option>
+                            <option *ngFor="let estado of estados" value="{{estado.idEstadoUsuario}}">
+                                {{estado.estadoUsuario}}</option>
+                        </select>
+                        <label>Estado(*)</label>
+                        <span class="text-danger text-center"
+                            *ngIf="userForm.controls['estado'].invalid && userForm.controls['estado'].touched">El estado
+                            es requerido</span>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" formControlName="idUsuario" />
+            <input type="hidden" formControlName="fechaCreacion" />
+            <input type="hidden" formControlName="fechaModificacion" />
+            <input type="hidden" formControlName="modificado" />
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-6">
+                    <a routerLink="/user" mdbBtn type="button" id="btnSave"
+                        class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Volver</a>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6">
+                    <button mdbBtn type="submit" [disabled]="userForm.invalid || botonSave" id="btnSave"
+                        class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>

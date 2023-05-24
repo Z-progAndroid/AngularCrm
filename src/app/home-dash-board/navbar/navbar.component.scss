@@ -5,6 +5,7 @@
     left: 0;
     background-color: #fff;
     border-bottom: 1px solid #ccc;
+    z-index: 99;
 
     a {
         float: left;
@@ -31,7 +32,7 @@
     }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 768px) {
     .topnav {
         .menu {
             display: block;

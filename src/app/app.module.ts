@@ -33,6 +33,12 @@ import { ContratoComponent } from './home-dash-board/contrato/contrato.component
 import { SeguimientoComponent } from './home-dash-board/seguimiento/seguimiento.component';
 import { TareaComponent } from './home-dash-board/tarea/tarea.component';
 import { MenuServiceService } from './services/menu-service.service';
+import { ChartService } from './services/chart.service';
+import { TableComponent } from './home-dash-board/user/table/table.component';
+import { UsuarioService } from './services/usuario.service';
+import { HttpClientModule } from '@angular/common/http';
+import { UserDetailsComponent } from './home-dash-board/user/user-details/user-details.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -47,6 +53,8 @@ import { MenuServiceService } from './services/menu-service.service';
     ContratoComponent,
     SeguimientoComponent,
     TareaComponent,
+    TableComponent,
+    UserDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,8 +75,10 @@ import { MenuServiceService } from './services/menu-service.service';
     MdbTooltipModule,
     MdbValidationModule,
     AppRoutingModule,
+    HttpClientModule, 
+    ReactiveFormsModule
   ],
-  providers: [MenuServiceService],
+  providers: [MenuServiceService,ChartService,UsuarioService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
