@@ -1,0 +1,83 @@
+<div class="wrapper">
+    <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
+            <h2>Usuarios</h2>
+        </div>
+    </div>
+    <div class="border rounded-6 p-3 bg-white shadow box-area">
+        <form (submit)="onSubmit()" [formGroup]="userSearchForm">
+            <div class="group-inputs">
+                <div class="row">
+                    <div class="text-center col-12 col-sm-12 col-md pe-md-2 margin-form">
+                        <mdb-form-control>
+                            <input mdbInput type="text" id="form1" class="form-control" formControlName="nombre" />
+                            <label mdbLabel class="form-label" for="form1">Nombre</label>
+                        </mdb-form-control>
+                    </div>
+                    <div class="text-center col-12 col-sm-12 col-md px-md-0 margin-form">
+                        <mdb-form-control>
+                            <input mdbInput type="text" id="form1" class="form-control" style="width: 100%;"
+                                formControlName="apellido" />
+                            <label mdbLabel class="form-label" for="form1">Apellidos</label>
+                        </mdb-form-control>
+                    </div>
+                    <div class="text-center col-12 col-sm-12 col-md ps-md-2 margin-form">
+                        <mdb-form-control>
+                            <input mdbInput type="text" id="form1" class="form-control" formControlName="email" />
+                            <label mdbLabel class="form-label" for="form1">Email</label>
+                        </mdb-form-control>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="text-center col-12 col-sm-12 col-md pe-md-2 margin-form">
+                        <mdb-form-control>
+                            <input mdbInput type="text" id="form1" class="form-control" formControlName="telefono" />
+                            <label mdbLabel class="form-label" for="form1">Telefono</label>
+                        </mdb-form-control>
+                    </div>
+                    <div class="text-center col-12 col-sm-12 col-md px-md-0 margin-form">
+                        <mdb-form-control>
+                            <input mdbInput type="text" id="form1" class="form-control" formControlName="dni" />
+                            <label mdbLabel class="form-label" for="form1">Dni</label>
+                        </mdb-form-control>
+                    </div>
+                    <div class="text-center col-12 col-sm-12 col-md ps-md-2 margin-form">
+                        <mdb-form-control>
+                            <input mdbInput type="text" id="form1" class="form-control" formControlName="direccion" />
+                            <label mdbLabel class="form-label" for="form1">Direccion</label>
+                        </mdb-form-control>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-around flex-md-row flex-sm-column flex-column gap-2">
+                    <div class="floating-label margin-form" style="width: 100%">
+                        <select class="form-control" formControlName="rol">
+                            <option selected>Seleciona una opción</option>
+                            <option *ngFor="let rol of roles" value="{{rol.idRol}}">{{rol.rol}}</option>
+                        </select>
+                        <label for="floatingSelectRoles">Roles</label>
+                    </div>
+                    <div class="floating-label   margin-form" style="width: 100%">
+                        <select class="form-control" formControlName="estado">
+                            <option selected>Seleciona una opción</option>
+                            <option *ngFor="let estado of estados" value="{{estado.idEstadoUsuario}}">
+                                {{estado.estadoUsuario}}</option>
+                        </select>
+                        <label>Estados</label>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button mdbBtn type="submit" color="primary" class="btn btn-primary btn-lg">
+                    <i class="fas fa-search mx-2"></i>Buscar
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="d-flex justify-content-end mx-5 my-3">
+        <a routerLink="/user/crear" mdbBtn color="primary" class="btn btn-primary btn-lg">
+            <i class="fas fa-user-plus mx-2"></i>Nuevo Usuario
+        </a>
+    </div>
+    <app-table [usuarios]="usuarios"></app-table>
+</div>

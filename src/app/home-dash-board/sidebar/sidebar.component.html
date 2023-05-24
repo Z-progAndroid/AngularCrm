@@ -1,0 +1,7 @@
+<aside class="sidebar shadow p-2" id="sidebar" [ngStyle]="responsiveClass">
+    <ul>
+        <li *ngFor="let opcion of menu">
+            <i class="{{opcion.icon}}"></i>
+            <a [routerLink]="opcion.link">{{opcion.title}}</a></li>
+    </ul>
+</aside>

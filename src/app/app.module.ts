@@ -22,10 +22,39 @@ import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+import { HomeDashBoardComponent } from './home-dash-board/home-dash-board.component';
+import { NavbarComponent } from './home-dash-board/navbar/navbar.component';
+import { SidebarComponent } from './home-dash-board/sidebar/sidebar.component';
+import { DashboardComponent } from './home-dash-board/dashboard/dashboard.component';
+import { UserComponent } from './home-dash-board/user/user.component';
+import { InmuebleComponent } from './home-dash-board/inmueble/inmueble.component';
+import { CitaComponent } from './home-dash-board/cita/cita.component';
+import { ContratoComponent } from './home-dash-board/contrato/contrato.component';
+import { SeguimientoComponent } from './home-dash-board/seguimiento/seguimiento.component';
+import { TareaComponent } from './home-dash-board/tarea/tarea.component';
+import { MenuServiceService } from './services/menu-service.service';
+import { ChartService } from './services/chart.service';
+import { TableComponent } from './home-dash-board/user/table/table.component';
+import { UsuarioService } from './services/usuario.service';
+import { HttpClientModule } from '@angular/common/http';
+import { UserDetailsComponent } from './home-dash-board/user/user-details/user-details.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeDashBoardComponent,
+    NavbarComponent,
+    SidebarComponent,
+    DashboardComponent,
+    UserComponent,
+    InmuebleComponent,
+    CitaComponent,
+    ContratoComponent,
+    SeguimientoComponent,
+    TareaComponent,
+    TableComponent,
+    UserDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,8 +75,10 @@ import { AppRoutingModule } from './app-routing.module';
     MdbTooltipModule,
     MdbValidationModule,
     AppRoutingModule,
+    HttpClientModule, 
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [MenuServiceService,ChartService,UsuarioService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

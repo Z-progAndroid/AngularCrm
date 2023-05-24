@@ -1,0 +1,41 @@
+.topnav {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    z-index: 99;
+
+    a {
+        float: left;
+        text-align: center;
+        font-size: 17px;
+        font-weight: bold;
+        padding: 14px 16px;
+        text-decoration: none;
+        color: #000;
+    }
+
+    .menu {
+        float: right;
+        margin-top: 10px;
+        margin-right: 10px;
+
+        i {
+            font-size: 30px;
+            color: #000;
+            cursor: pointer;
+        }
+
+        display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .topnav {
+        .menu {
+            display: block;
+        }
+    }
+}
