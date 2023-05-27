@@ -23,4 +23,7 @@ export class UsuarioService {
   findByParams(user:User): Observable<User[]> {
     return this.http.post<User[]>(`${environment.urlBase}usuario/search`, user);
   }
+  findAllUserAdminORAgente() : Observable<User[]>{
+    return this.http.get<User[]>(`${environment.urlBase}usuario/all/admin-or-agent`);
+  }
 }

@@ -42,7 +42,6 @@ export class UserDetailsComponent implements OnInit {
   }
   onSubmit() {
     this.usuarioService.save(this.formToUser()).subscribe((usuario: User) => {
-      console.log("Usuario:", usuario);
       this.router.navigate(['/user']);
     }), error => console.log(error);
   }

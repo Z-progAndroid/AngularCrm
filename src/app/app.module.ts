@@ -39,6 +39,13 @@ import { UsuarioService } from './services/usuario.service';
 import { HttpClientModule } from '@angular/common/http';
 import { UserDetailsComponent } from './home-dash-board/user/user-details/user-details.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { InmuebleTableComponent } from './home-dash-board/inmueble/inmueble-table/inmueble-table.component';
+import { EstadoUsuarioService } from './services/estado-usuario.service';
+import { InmuebleService } from './services/inmueble.service';
+import { RolService } from './services/rol.service';
+import { InmuebleDetailComponent } from './home-dash-board/inmueble/inmueble-detail/inmueble-detail.component';
+import { ImagenServiceService } from './services/imagen-service.service';
+import { LazyLoadModule } from 'ng-lazy-load';
 
 @NgModule({
   declarations: [
@@ -55,6 +62,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     TareaComponent,
     TableComponent,
     UserDetailsComponent,
+    InmuebleTableComponent,
+    InmuebleDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,10 +84,16 @@ import { ReactiveFormsModule } from '@angular/forms';
     MdbTooltipModule,
     MdbValidationModule,
     AppRoutingModule,
-    HttpClientModule, 
+    HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [MenuServiceService,ChartService,UsuarioService],
+  providers: [ChartService,
+    EstadoUsuarioService,
+    InmuebleService,
+    MenuServiceService,
+    RolService,
+    UsuarioService,
+    ImagenServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
