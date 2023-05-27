@@ -37,7 +37,6 @@ export class UserComponent implements OnInit {
   }
   onSubmit() {
     if (Utils.isFormEmpty(this.userSearchForm.value)) {
-      console.log("Formulario vacio");
       return;
     }
     this.usuarioService.findByParams(this.fromToUserSearch()).subscribe(

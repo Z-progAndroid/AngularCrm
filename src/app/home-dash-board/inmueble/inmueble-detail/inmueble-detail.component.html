@@ -1,0 +1,272 @@
+<div class="wrapper">
+    <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
+            <h2>Inmueble</h2>
+        </div>
+    </div>
+    <div class="border rounded-6 p-3 bg-white shadow box-area">
+        <form (submit)="onSubmit()" [formGroup]="inmuebleForm">
+
+            <div class="group-inputs">
+                <div class="row">
+                    <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
+                        <mdb-form-control>
+                            <input mdbInput type="number" min="0" id="precioventa" class="form-control"
+                                formControlName="precioventa" />
+                            <label mdbLabel class="form-label" for="precioventa">Precio Venta (*)</label>
+                        </mdb-form-control>
+                        <span class="text-danger"
+                            *ngIf="inmuebleForm.get('precioventa').invalid && inmuebleForm.get('precioventa').touched">El
+                            precio de venta es obligatorio</span>
+                    </div>
+                    <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
+                        <mdb-form-control>
+                            <input mdbInput type="number" min="0" id="precioalquiler" class="form-control"
+                                formControlName="precioalquiler" />
+                            <label mdbLabel class="form-label" for="precioalquiler">Precio Alquiler (*)</label>
+                        </mdb-form-control>
+                        <span class="text-danger"
+                            *ngIf="inmuebleForm.get('precioalquiler').invalid && inmuebleForm.get('precioalquiler').touched">El
+                            precio de alquiler es obligatorio</span>
+                    </div>
+                    <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
+                        <mdb-form-control>
+                            <input mdbInput type="number" min="0" id="numHabitaciones" class="form-control"
+                                formControlName="numHabitaciones" />
+                            <label mdbLabel class="form-label" for="numHabitaciones">Numero Habitaciones (*)</label>
+                        </mdb-form-control>
+                        <span class="text-danger"
+                            *ngIf="inmuebleForm.get('numHabitaciones').invalid && inmuebleForm.get('numHabitaciones').touched">El
+                            numero de habitaciones es obligatorio</span>
+                    </div>
+                    <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
+                        <mdb-form-control>
+                            <input mdbInput type="number" min="0" id="numBanos" class="form-control"
+                                formControlName="numBanos" />
+                            <label mdbLabel class="form-label" for="numBanos">Numero Baños (*)</label>
+                        </mdb-form-control>
+                        <span class="text-danger"
+                            *ngIf="inmuebleForm.get('numBanos').invalid && inmuebleForm.get('numBanos').touched">El
+                            numero de baños es obligatorio</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
+                        <mdb-form-control>
+                            <input mdbInput type="number" min="0" id="metroscuadrados" class="form-control"
+                                formControlName="metroscuadrados" />
+                            <label mdbLabel class="form-label" for="metroscuadrados">Metros Cuadrados (*)</label>
+                        </mdb-form-control>
+                        <span class="text-danger"
+                            *ngIf="inmuebleForm.get('metroscuadrados').invalid && inmuebleForm.get('metroscuadrados').touched">Los
+                            metros cuadrados son obligatorios</span>
+                    </div>
+                    <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
+                        <mdb-form-control>
+                            <input mdbInput type="number" min="0" id="anoconstruccion" class="form-control"
+                                formControlName="anoconstruccion" />
+                            <label mdbLabel class="form-label" for="anoconstruccion">Año Construcción (*)</label>
+                        </mdb-form-control>
+                        <span class="text-danger" *ngIf="inmuebleForm.get('anoconstruccion').errors?.invalidYear">El año
+                            debe ser un número válido.</span>
+                        <span class="text-danger"
+                            *ngIf="inmuebleForm.get('anoconstruccion').errors?.invalidYearRange">El año debe estar entre
+                            1800 y el año actual.</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
+                        <mdb-form-control>
+                            <input mdbInput type="text" id="direccion" class="form-control"
+                                formControlName="direccion" />
+                            <label mdbLabel class="form-label" for="direccion">Direccion (*)</label>
+                        </mdb-form-control>
+                        <span class="text-danger"
+                            *ngIf="inmuebleForm.get('direccion').invalid && inmuebleForm.get('direccion').touched">La
+                            direccion es obligatoria</span>
+                    </div>
+                    <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
+                        <mdb-form-control>
+                            <input mdbInput type="text" id="codigoPostal" class="form-control"
+                                formControlName="codigoPostal" />
+                            <label mdbLabel class="form-label" for="codigoPostal">Codigo Postal (*)</label>
+                        </mdb-form-control>
+                        <span class="text-danger"
+                            *ngIf="inmuebleForm.get('codigoPostal').invalid && inmuebleForm.get('codigoPostal').touched">El
+                            codigo postal es obligatorio <br></span>
+                        <span class="text-danger" *ngIf="inmuebleForm.get('codigoPostal').invalid && inmuebleForm.get('codigoPostal').touched
+                            && inmuebleForm.get('codigoPostal').errors?.pattern">Código postal inválido. Debe tener 5
+                            dígitos.</span>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-around flex-md-row flex-sm-column flex-column gap-2 margin-form">
+                    <div class="floating-label w-100">
+                        <select class="form-control" formControlName="idTipoInmueble">
+                            <option selected>Seleciona una opción</option>
+                            <option *ngFor="let tipoInmueble of tiposInmueble" [value]="tipoInmueble.id">
+                                {{tipoInmueble.tipo}}</option>
+                        </select>
+                        <label for="floatingSelectRoles">Tipo Inmueble(*)</label>
+                        <span class="text-danger"
+                            *ngIf="inmuebleForm.get('idTipoInmueble').invalid && inmuebleForm.get('idTipoInmueble').touched">El
+                            tipo de inmueble es obligatorio <br></span>
+                        <span class="text-danger"
+                            *ngIf="inmuebleForm.get('idTipoInmueble').errors && inmuebleForm.get('idTipoInmueble').errors.seleccionarOpcion">
+                            Por favor, selecciona una opción válida.</span>
+                    </div>
+                    <div class="floating-label w-100">
+                        <select class="form-control" formControlName="idEstadoInmueble">
+                            <option selected>Seleciona una opción</option>
+                            <option *ngFor="let estadoInmueble of estadosInmueble"
+                                [value]="estadoInmueble.idEstadoInmueble">{{estadoInmueble.estado}}</option>
+                        </select>
+                        <label>Estado Inmueble (*)</label>
+                        <span class="text-danger"
+                            *ngIf="inmuebleForm.get('idEstadoInmueble').invalid && inmuebleForm.get('idEstadoInmueble').touched">El
+                            estado del inmueble es obligatorio <br></span>
+                        <span class="text-danger"
+                            *ngIf="inmuebleForm.get('idEstadoInmueble').errors && inmuebleForm.get('idEstadoInmueble').errors.seleccionarOpcion">
+                            Por favor, selecciona una opción válida.</span>
+                    </div>
+                    <div class="floating-label w-100">
+                        <select class="form-control" formControlName="idUsuario">
+                            <option></option>
+                            <option>Seleciona una opción</option>
+                            <option *ngFor="let usuario of usuarios" [value]="usuario.idUsuario">
+                                {{usuario.nombre}} {{usuario.apellido}}</option>
+                        </select>
+                        <label>Agente (*)</label>
+                        <span class="text-danger"
+                            *ngIf="inmuebleForm.get('idUsuario').invalid && inmuebleForm.get('idUsuario').touched">El
+                            agente es obligatorio <br></span>
+                        <span class="text-danger"
+                            *ngIf="inmuebleForm.get('idUsuario').errors && inmuebleForm.get('idUsuario').errors.seleccionarOpcion">
+                            Por favor, selecciona una opción válida.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-around flex-md-row flex-sm-column flex-column gap-2 margin-form">
+                <div class="floating-label w-100">
+                    <select class="form-control" formControlName="idPais"
+                        (change)="changePais(inmuebleForm.get('idPais').value)">
+                        <option selected>Seleciona una opción</option>
+                        <option *ngFor="let pais of paises" [value]="pais.idPais">{{pais.pais}}</option>
+                    </select>
+                    <label for="floatingSelectRoles">Pais (*)</label>
+                    <span class="text-danger"
+                        *ngIf="inmuebleForm.get('idPais').invalid && inmuebleForm.get('idPais').touched">El pais es
+                        obligatorio <br></span>
+                    <span class="text-danger"
+                        *ngIf="inmuebleForm.get('idPais').errors && inmuebleForm.get('idPais').errors.seleccionarOpcion">
+                        Por favor, selecciona una opción válida.</span>
+                </div>
+                <div class="floating-label w-100">
+                    <select class="form-control" formControlName="idProvincia"
+                        (change)="changeProvincia(inmuebleForm.get('idProvincia').value)">
+                        <option selected>Seleciona una opción</option>
+                        <option *ngFor="let provincia of provincias" [value]="provincia.idProvincia">
+                            {{provincia.provincia}}</option>
+                    </select>
+                    <label>Provincia (*)</label>
+                    <span class="text-danger"
+                        *ngIf="inmuebleForm.get('idProvincia').invalid && inmuebleForm.get('idProvincia').touched">La
+                        provincia es obligatoria <br></span>
+                    <span class="text-danger"
+                        *ngIf="inmuebleForm.get('idProvincia').errors && inmuebleForm.get('idProvincia').errors.seleccionarOpcion">
+                        Por favor, selecciona una opción válida.</span>
+                </div>
+                <div class="floating-label w-100">
+                    <select class="form-control" formControlName="idMunicipio"
+                        (change)="changeMunicipio(inmuebleForm.get('idMunicipio').value)">
+                        <option selected>Seleciona una opción</option>
+                        <option *ngFor="let municipio of municipios" [value]="municipio.idMunicipio">
+                            {{municipio.municipio}}</option>
+                    </select>
+                    <label>Municipio (*)</label>
+                    <span class="text-danger"
+                        *ngIf="inmuebleForm.get('idMunicipio').invalid && inmuebleForm.get('idMunicipio').touched">El
+                        municipio es obligatorio <br></span>
+                    <span class="text-danger"
+                        *ngIf="inmuebleForm.get('idMunicipio').touched&&inmuebleForm.get('idMunicipio').errors && inmuebleForm.get('idMunicipio').errors.seleccionarOpcion">
+                        Por favor, selecciona una opción válida.</span>
+                </div>
+                <div class="floating-label w-100">
+                    <select class="form-control" formControlName="idBarrio">
+                        <option selected>Seleciona una opción</option>
+                        <option *ngFor="let barrio of barrios" [value]="barrio.idBarrio">{{barrio.barrio}}</option>
+                    </select>
+                    <label>Barrio (*)</label>
+                    <span class="text-danger"
+                        *ngIf="inmuebleForm.get('idBarrio').invalid && inmuebleForm.get('idBarrio').touched">El barrio
+                        es obligatorio <br></span>
+                    <span class="text-danger"
+                        *ngIf="inmuebleForm.get('idBarrio').errors && inmuebleForm.get('idBarrio').errors.seleccionarOpcion">
+                        Por favor, selecciona una opción válida.</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
+                    <mdb-form-control>
+                        <textarea mdbInput class="form-control" id="descripcion" formControlName="descripcion"
+                            rows="4"></textarea>
+                        <label mdbLabel class="form-label" for="descripcion">Descripcion</label>
+                    </mdb-form-control>
+                </div>
+            </div>
+            <div class="row">
+                <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
+                    <label class="form-label" for="img1">Portada (*)</label>
+                    <input [disabled]="deshabilitar()" type="file" class="form-control" id="img1"
+                        formControlName="img1" />
+                    <span class="text-danger"
+                        *ngIf="inmuebleForm.get('img1').invalid && inmuebleForm.get('img1').touched">La imagen de
+                        portada es obligatoria</span>
+                </div>
+                <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
+                    <label class="form-label" for="img2">Imagen 2</label>
+                    <input [disabled]="deshabilitar()" type="file" class="form-control" id="img2"
+                        formControlName="img2" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
+                    <label class="form-label" for="img3">Imagen 3</label>
+                    <input [disabled]="deshabilitar()" type="file" class="form-control" id="img3"
+                        formControlName="img3" />
+                </div>
+                <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
+                    <label class="form-label" for="img4">Imagen 4</label>
+                    <input [disabled]="deshabilitar()" type="file" class="form-control" id="img4"
+                        formControlName="img4" />
+                </div>
+            </div>
+            <input type="hidden" formControlName="img1text" />
+            <input type="hidden" formControlName="img2text" />
+            <input type="hidden" formControlName="img3text" />
+            <input type="hidden" formControlName="img4text" />
+            <input type="hidden" formControlName="idInmueble" />
+            <input type="hidden" formControlName="fechaCreacion" />
+            <input type="hidden" formControlName="fechaModificacion" />
+            <input type="hidden" formControlName="modificado" />
+            <div class="row" *ngIf="imagenes.length > 0">
+                <div *ngFor="let imagen of imagenes"
+                    class="imagen-inmueble margin-form col-12 col-sm-12 col-md margin-form">
+                    <img src="{{imagen.contenido}}" class="d-block w-100" alt="..." />
+                    <button type="button" [disabled]="botonSave" class="btn btn-danger btn-floating"
+                        (click)="deleteImagen(imagen.idImagen)">
+                        <h6><i class="fas fa-trash"></i></h6>
+                    </button>
+                </div>
+            </div>
+            <div class="row margin-form">
+                <div class="col-12 col-sm-12 col-md-6">
+                    <a routerLink="/inmueble" mdbBtn type="button" id="btnSave" class="btn btn-primary btn-lg btn-block"
+                        mdbWavesEffect>Volver</a>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6">
+                    <button mdbBtn type="submit" [disabled]="inmuebleForm.invalid || botonSave" id="btnSave"
+                        class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
