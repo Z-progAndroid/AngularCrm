@@ -1,7 +1,9 @@
 <table class="table align-middle mb-0 bg-white">
-    <thead class="bg-dark text-light" >
+    <thead class="bg-dark text-light">
         <tr>
             <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Email</th>
             <th>Rol</th>
             <th>Estado</th>
             <th>Actions</th>
@@ -10,14 +12,13 @@
     <tbody>
         <tr *ngFor="let user of usuarios">
             <td>
-                <div class="d-flex align-items-center">
-                    <div>
-                        <span class="fw-bold mb-1">{{user.nombre}}</span>
-                        <span class="fw-bold mb-1 mx-1">{{user.apellido}}</span>
-                        <p class="text-muted mb-0">{{user.email}}</p>
-                    </div>
-                </div>
+                <span class="fw-bold mb-1">{{user.nombre}}</span>
             </td>
+            <td>
+                <span class="fw-bold mb-1 mx-1">{{user.apellido}}</span>
+            </td>
+            <td>
+                <span class="fw-bold mb-1 mx-1">{{user.email}}</span>
             <td>
                 <span class="fw-normal mb-1">{{user.rol}}</span>
             </td>
@@ -28,10 +29,11 @@
                 <a (click)="onView(user.idUsuario)" type="button" class="btn btn-primary  btn-floating mx-1">
                     <i class="fas fa-eye"></i>
                 </a>
-                <a (click)="onEdit(user.idUsuario)" type="button" class="btn btn-warning btn-floating mx-1" mdbRipple rippleColor="dark">
+                <a (click)="onEdit(user.idUsuario)" type="button" class="btn btn-warning btn-floating mx-1" mdbRipple
+                    rippleColor="dark">
                     <i class="fas fa-pen"></i>
                 </a>
-                <a (click)="onDelete(user.idUsuario)"type="button" class="btn btn-danger btn-floating mx-1">
+                <a (click)="onDelete(user.idUsuario)" type="button" class="btn btn-danger btn-floating mx-1">
                     <i class="fas fa-trash"></i>
                 </a>
             </td>
