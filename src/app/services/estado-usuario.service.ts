@@ -13,10 +13,10 @@ export class EstadoUsuarioService {
     return this.http.post<EstadoUsuario>(`${environment.urlBase}usuario-estado`, estadoUsuario);
   }
   delete(id: number): Observable<EstadoUsuario> {
-    return this.http.delete<EstadoUsuario>(`${environment.urlBase}usuario-estado/${id}`);
+    return this.http.delete<EstadoUsuario>(`${environment.urlBase}usuario-estado?id=${id}`);
   }
   findById(id: number): Observable<EstadoUsuario> {
-    return this.http.get<EstadoUsuario>(`${environment.urlBase}usuario-estado/${id}`);
+    return this.http.get<EstadoUsuario>(`${environment.urlBase}usuario-estado?id=${id}`);
   }
   findAll(): Observable<EstadoUsuario[]> {
     return this.http.get<EstadoUsuario[]>(`${environment.urlBase}usuario-estado/all`);

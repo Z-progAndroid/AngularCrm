@@ -53,6 +53,7 @@ import { EstadoInmueblesComponent } from './home-dash-board/estados/estado-inmue
 import { EstadoInmuebleService } from './services/estado-inmueble.service';
 import { EstadoTareaComponent } from './home-dash-board/estados/estado-tarea/estado-tarea.component';
 import { EstadoTareaService } from './services/estado-tarea.service';
+import { EstadoUsuarioComponent } from './home-dash-board/estados/estado-usuario/estado-usuario.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { EstadoTareaService } from './services/estado-tarea.service';
     CabeceraEstadosComponent,
     EstadoInmueblesComponent,
     EstadoTareaComponent,
+    EstadoUsuarioComponent,
   ],
   imports: [
     BrowserModule,
