@@ -14,10 +14,10 @@ export class TipoInmuebleService {
     return this.http.post<TipoInmueble>(`${environment.urlBase}tipoInmueble`, tipoInmueble);
   }
   delete(id: number): Observable<TipoInmueble> {
-    return this.http.delete<TipoInmueble>(`${environment.urlBase}tipoInmueble?id=${id}`);
+    return this.http.delete<TipoInmueble>(`${environment.urlBase}tipoInmueble?idTipoInmueble=${id}`);
   }
   findById(id: number): Observable<TipoInmueble> {
-    return this.http.get<TipoInmueble>(`${environment.urlBase}tipoInmueble?id=${id}`);
+    return this.http.get<TipoInmueble>(`${environment.urlBase}tipoInmueble?idTipoInmueble=${id}`);
   }
   findAll(): Observable<TipoInmueble[]> {
     return this.http.get<TipoInmueble[]>(`${environment.urlBase}tipoInmueble/all`);

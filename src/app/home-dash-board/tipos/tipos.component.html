@@ -1,0 +1,19 @@
+<div class="wrapper">
+    <app-cabecera-tipos [estados]="estados" [titulo]="titulo"
+        (opcionSeleccionada)="opcionSeleccionada($event)"></app-cabecera-tipos>
+    <div *ngIf="tipoContratos">
+        <app-tipo-contratos></app-tipo-contratos>
+    </div>
+    <div *ngIf="tipoInmuebles">
+        <app-tipo-inmuebles></app-tipo-inmuebles>
+    </div>
+    <div *ngIf="tipoPagos">
+        <app-tipo-pagos></app-tipo-pagos>
+    </div>
+    <div *ngIf="tipoSeguimientos">
+        <app-tipo-seguimientos></app-tipo-seguimientos>
+    </div>
+    <div *ngIf="tiposCitas">
+        <app-tipos-citas></app-tipos-citas>
+    </div>
+</div>

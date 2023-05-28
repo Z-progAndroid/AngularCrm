@@ -55,6 +55,13 @@ import { EstadoTareaComponent } from './home-dash-board/estados/estado-tarea/est
 import { EstadoTareaService } from './services/estado-tarea.service';
 import { EstadoUsuarioComponent } from './home-dash-board/estados/estado-usuario/estado-usuario.component';
 import { EstadoCitasComponent } from './home-dash-board/estados/estado-citas/estado-citas.component';
+import { TiposComponent } from './home-dash-board/tipos/tipos.component';
+import { CabeceraTiposComponent } from './home-dash-board/tipos/cabecera-tipos/cabecera-tipos.component';
+import { TipoContratosComponent } from './home-dash-board/tipos/tipo-contratos/tipo-contratos.component';
+import { TipoInmueblesComponent } from './home-dash-board/tipos/tipo-inmuebles/tipo-inmuebles.component';
+import { TipoPagosComponent } from './home-dash-board/tipos/tipo-pagos/tipo-pagos.component';
+import { TipoSeguimientosComponent } from './home-dash-board/tipos/tipo-seguimientos/tipo-seguimientos.component';
+import { TiposCitasComponent } from './home-dash-board/tipos/tipos-citas/tipos-citas.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +87,14 @@ import { EstadoCitasComponent } from './home-dash-board/estados/estado-citas/est
     EstadoTareaComponent,
     EstadoUsuarioComponent,
     EstadoCitasComponent,
+    TiposComponent,
+    CabeceraTiposComponent,
+    TipoContratosComponent,
+    TipoInmueblesComponent,
+    TipoPagosComponent,
+    TipoSeguimientosComponent,
+    TiposCitasComponent,
+    TipoSeguimientosComponent,
   ],
   imports: [
     BrowserModule,

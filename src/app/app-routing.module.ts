@@ -12,6 +12,7 @@ import { TareaComponent } from './home-dash-board/tarea/tarea.component';
 import { UserDetailsComponent } from './home-dash-board/user/user-details/user-details.component';
 import { InmuebleDetailComponent } from './home-dash-board/inmueble/inmueble-detail/inmueble-detail.component';
 import { EstadosComponent } from './home-dash-board/estados/estados.component';
+import { TiposComponent } from './home-dash-board/tipos/tipos.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'inmueble/ver/:id', component: InmuebleDetailComponent },
   { path: 'inmueble/crear', component: InmuebleDetailComponent },
   { path: 'estados', component: EstadosComponent },
+  { path: 'tipos', component: TiposComponent },
   { path: 'cita', component: CitaComponent },
   { path: 'contrato', component: ContratoComponent },
   { path: 'seguimiento', component: SeguimientoComponent },
