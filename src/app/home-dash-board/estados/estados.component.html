@@ -1,4 +1,11 @@
 <div class="wrapper">
-    <app-cabecera-estados [estados]="estados" [titulo]="titulo"></app-cabecera-estados>
-    <app-estado-contratos></app-estado-contratos>
-</div>
+    <app-cabecera-estados [estados]="estados" [titulo]="titulo" (opcionSeleccionada)="opcionSeleccionada($event)"></app-cabecera-estados>
+    <div *ngIf="estadoContratos">
+      <app-estado-contratos></app-estado-contratos>
+    </div>
+    <div *ngIf="estadoInmuebles">
+      <app-estado-inmuebles></app-estado-inmuebles>
+    </div>
+    <!-- Agrega las demás condiciones para los otros componentes -->
+  </div>
+  

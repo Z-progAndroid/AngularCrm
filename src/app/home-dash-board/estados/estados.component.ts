@@ -7,20 +7,20 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./estados.component.scss']
 })
 export class EstadosComponent implements OnInit {
-  estadoContratos: boolean
-  estadoInmuebles: boolean
-  estadoTarea: boolean
-  estadoUsuarios: boolean
-  estadosCitas: boolean
+  estadoContratos: boolean = false
+  estadoInmuebles: boolean = false
+  estadoTarea: boolean = false
+  estadoUsuarios: boolean = false
+  estadosCitas: boolean = false
   estados: any[]
   titulo: string
 
 
   constructor() { }
   ngOnInit(): void {
+    this.estadoContratos = true;
+    this.titulo = 'Contratos Estados';
     this.fillEstados()
-    this.titulo = "Contratos Estados";
-
   }
   fillEstados() {
     this.estados = [
@@ -31,5 +31,30 @@ export class EstadosComponent implements OnInit {
       { titulo: 'Citas Estados', valor: "CE" }
     ]
   }
+  opcionSeleccionada(opcion: string) {
+    console.log(opcion);
+    this.estadoContratos = false;
+    this.estadoInmuebles = false;
+    this.estadoTarea = false;
+    this.estadoUsuarios = false;
+    this.estadosCitas = false;
+    this.titulo = '';
 
+    if (opcion === 'CE') {
+      this.estadoContratos = true;
+      this.titulo = 'Contratos Estados';
+    } else if (opcion === 'IE') {
+      this.estadoInmuebles = true;
+      this.titulo = 'Inmuebles Estados';
+    } else if (opcion === 'TE') {
+      this.estadoTarea = true;
+      this.titulo = 'Tareas Estados';
+    } else if (opcion === 'UE') {
+      this.estadoUsuarios = true;
+      this.titulo = 'Usuarios Estados';
+    } else if (opcion === 'CE2') {
+      this.estadosCitas = true;
+      this.titulo = 'Citas Estados';
+    }
+  }
 }

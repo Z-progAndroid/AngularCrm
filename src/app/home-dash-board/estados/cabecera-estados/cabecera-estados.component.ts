@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
 
 @Component({
   selector: 'app-cabecera-estados',
@@ -8,5 +9,10 @@ import { Component, Input } from '@angular/core';
 export class CabeceraEstadosComponent {
   @Input() titulo: string
   @Input() estados: any[]
+  @Output() opcionSeleccionada: EventEmitter<string> = new EventEmitter<string>(); 
   constructor() { }
+  change(opcion: string) {
+    console.log(opcion);
+    this.opcionSeleccionada.emit(opcion);
+  }
 }
