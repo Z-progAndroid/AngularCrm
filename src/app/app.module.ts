@@ -49,6 +49,10 @@ import { EstadosComponent } from './home-dash-board/estados/estados.component';
 import { EstadoContratosComponent } from './home-dash-board/estados/estado-contratos/estado-contratos.component';
 import { CabeceraEstadosComponent } from './home-dash-board/estados/cabecera-estados/cabecera-estados.component';
 import { EstadoContratoService } from './services/estado-contrato.service';
+import { EstadoInmueblesComponent } from './home-dash-board/estados/estado-inmuebles/estado-inmuebles.component';
+import { EstadoInmuebleService } from './services/estado-inmueble.service';
+import { EstadoTareaComponent } from './home-dash-board/estados/estado-tarea/estado-tarea.component';
+import { EstadoTareaService } from './services/estado-tarea.service';
 
 @NgModule({
   declarations: [
@@ -70,6 +74,8 @@ import { EstadoContratoService } from './services/estado-contrato.service';
     EstadosComponent,
     EstadoContratosComponent,
     CabeceraEstadosComponent,
+    EstadoInmueblesComponent,
+    EstadoTareaComponent,
   ],
   imports: [
     BrowserModule,
@@ -100,7 +106,9 @@ import { EstadoContratoService } from './services/estado-contrato.service';
     RolService,
     UsuarioService,
     ImagenServiceService,
-    EstadoContratoService
+    EstadoContratoService,
+    EstadoInmuebleService,
+    EstadoTareaService
   ],
   bootstrap: [AppComponent]
 })
