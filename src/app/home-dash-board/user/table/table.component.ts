@@ -19,7 +19,6 @@ export class TableComponent {
   }
   onDelete(id: number) {
     this.usuarioService.delete(id).subscribe((data: any) => {
-      console.log(data);
       this.location.go(this.location.path());
       window.location.reload();
     }), error => {

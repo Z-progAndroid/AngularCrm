@@ -30,10 +30,8 @@ export class EstadoTareaComponent implements OnInit {
     estadoTarea.fechaCreacion = new Date();
     estadoTarea.fechaModificacion = new Date();
     estadoTarea.modificado = 'admin';
-    console.log(estadoTarea);
     this.tareaEstadosService.save(estadoTarea).subscribe(
       (estadoTarea: EstadoTarea) => {
-        console.log(estadoTarea);
         this.tareaEstadosService.findAll().subscribe(
           estadosTarea => this.estadosTarea = estadosTarea
         ), error => console.log(error);
@@ -60,9 +58,11 @@ export class EstadoTareaComponent implements OnInit {
     this.tareaEstadosService.delete(id).subscribe(
       (mensaje: any) => {
         this.estadosTarea = [];
-        console.log(mensaje);
         this.tareaEstadosService.findAll().subscribe(estadosTarea => this.estadosTarea = estadosTarea)
           , error => console.log(error);
       });
   }
+  deshabilitar(id: number): boolean {
+    return id === 0;
+  }  
 }

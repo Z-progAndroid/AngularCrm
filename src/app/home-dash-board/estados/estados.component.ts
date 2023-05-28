@@ -28,11 +28,10 @@ export class EstadosComponent implements OnInit {
       { titulo: 'Inmuebles Estados', valor: "IE" },
       { titulo: 'Tareas Estados', valor: "TE" },
       { titulo: 'Usuarios Estados', valor: "UE" },
-      { titulo: 'Citas Estados', valor: "CE" }
+      { titulo: 'Citas Estados', valor: "CIE" }
     ]
   }
   opcionSeleccionada(opcion: string) {
-    console.log(opcion);
     this.estadoContratos = false;
     this.estadoInmuebles = false;
     this.estadoTarea = false;
@@ -52,7 +51,7 @@ export class EstadosComponent implements OnInit {
     } else if (opcion === 'UE') {
       this.estadoUsuarios = true;
       this.titulo = 'Usuarios Estados';
-    } else if (opcion === 'CE2') {
+    } else if (opcion === 'CIE') {
       this.estadosCitas = true;
       this.titulo = 'Citas Estados';
     }

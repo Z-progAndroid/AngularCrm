@@ -10,7 +10,7 @@
                     </mdb-form-control>
                     <span class="text-danger"
                         *ngIf="estadoTareaForm.get('idEstadoTarea').touched && estadoTareaForm.get('idEstadoTarea').invalid">Id
-                        del estado del inmueble es requerido</span>
+                        del estado del tarea es requerido</span>
                 </div>
                 <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
                     <mdb-form-control>
@@ -20,7 +20,7 @@
                     </mdb-form-control>
                     <span class="text-danger"
                         *ngIf="estadoTareaForm.get('estadoTarea').touched && estadoTareaForm.get('estadoTarea').invalid">El
-                        estado del inmueble es requerido</span>
+                        estado del tarea es requerido</span>
                 </div>
             </div>
         </div>
@@ -54,16 +54,18 @@
                 <span class="fw-normal mb-1">{{estado.estadoTarea}}</span>
             </td>
             <td>
-                <a (click)="ver(estado.idEstadoTarea)" type="button" class="btn btn-primary  btn-floating mx-1">
+                <button (click)="ver(estado.idEstadoTarea)" [disabled]="deshabilitar(estado.idEstadoTarea)"
+                    type="button" class="btn btn-primary  btn-floating mx-1">
                     <i class="fas fa-eye"></i>
-                </a>
-                <a (click)="editar(estado.idEstadoTarea)" type="button" class="btn btn-warning btn-floating mx-1"
-                    mdbRipple rippleColor="dark">
+                </button>
+                <button (click)="editar(estado.idEstadoTarea)" [disabled]="deshabilitar(estado.idEstadoTarea)"
+                    type="button" class="btn btn-warning btn-floating mx-1" mdbRipple rippleColor="dark">
                     <i class="fas fa-pen"></i>
-                </a>
-                <a (click)="eliminar(estado.idEstadoTarea)" type="button" class="btn btn-danger btn-floating mx-1">
+                </button>
+                <button (click)="eliminar(estado.idEstadoTarea)" [disabled]="deshabilitar(estado.idEstadoTarea)"
+                    type="button" class="btn btn-danger btn-floating mx-1">
                     <i class="fas fa-trash"></i>
-                </a>
+                </button>
             </td>
         </tr>
     </tbody>

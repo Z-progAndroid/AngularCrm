@@ -50,16 +50,16 @@
                     <span class="fw-normal mb-1">{{estado.estado}}</span>
                 </td>
                 <td>
-                    <a (click)="ver(estado.idEstadoInmueble)" type="button" class="btn btn-primary  btn-floating mx-1">
+                    <button (click)="ver(estado.idEstadoInmueble)" [disabled]="deshabilitar(estado.idEstadoInmueble)" type="button" class="btn btn-primary  btn-floating mx-1">
                         <i class="fas fa-eye"></i>
-                    </a>
-                    <a (click)="editar(estado.idEstadoInmueble)" type="button" class="btn btn-warning btn-floating mx-1"
+                    </button>
+                    <button (click)="editar(estado.idEstadoInmueble)" [disabled]="deshabilitar(estado.idEstadoInmueble)" type="button" class="btn btn-warning btn-floating mx-1"
                         mdbRipple rippleColor="dark">
                         <i class="fas fa-pen"></i>
-                    </a>
-                    <a (click)="eliminar(estado.idEstadoInmueble)" type="button" class="btn btn-danger btn-floating mx-1">
+                    </button>
+                    <button (click)="eliminar(estado.idEstadoInmueble)" [disabled]="deshabilitar(estado.idEstadoInmueble)" type="button" class="btn btn-danger btn-floating mx-1">
                         <i class="fas fa-trash"></i>
-                    </a>
+                    </button>
                 </td>
             </tr>
         </tbody>

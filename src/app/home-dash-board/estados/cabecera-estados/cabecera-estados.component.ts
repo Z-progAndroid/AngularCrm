@@ -12,7 +12,6 @@ export class CabeceraEstadosComponent {
   @Output() opcionSeleccionada: EventEmitter<string> = new EventEmitter<string>(); 
   constructor() { }
   change(opcion: string) {
-    console.log(opcion);
     this.opcionSeleccionada.emit(opcion);
   }
 }

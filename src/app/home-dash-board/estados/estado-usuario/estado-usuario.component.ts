@@ -28,10 +28,8 @@ export class EstadoUsuarioComponent implements OnInit {
     estadoUsuario.fechaCreacion = new Date();
     estadoUsuario.fechaModificacion = new Date();
     estadoUsuario.modificado = 'admin';
-    console.log(estadoUsuario);
     this.estadoUsuarioService.save(estadoUsuario).subscribe(
       (estadoUsuario: EstadoUsuario) => {
-        console.log(estadoUsuario);
         this.estadoUsuarioService.findAll().subscribe(
           estadosUsuario => this.estadosUsuario = estadosUsuario
         ), error => console.log(error);
@@ -49,7 +47,6 @@ export class EstadoUsuarioComponent implements OnInit {
   eliminar(id: number) {
     this.estadoUsuarioService.delete(id).subscribe(
       (mensaje: any) => {
-        console.log(mensaje);
         this.estadoUsuarioService.findAll().subscribe(
           estadosUsuario => this.estadosUsuario = estadosUsuario
         ), error => console.log(error);
@@ -63,5 +60,7 @@ export class EstadoUsuarioComponent implements OnInit {
       }
     ), error => console.log(error);
   }
-
+  deshabilitar(id: number): boolean {
+    return id === 0;
+  }  
 }

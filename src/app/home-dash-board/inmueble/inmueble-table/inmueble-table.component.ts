@@ -16,7 +16,6 @@ export class InmuebleTableComponent {
   ) { }
   onDelete(id: number) {
     this.inmuebleService.delete(id).subscribe((mensaje: Mensaje) => {
-      console.log("🚀 ~ file: inmueble-table.component.ts:22 ~ InmuebleTableComponent ~ this.inmuebleService.delete ~ mensaje", mensaje)
       this.location.go(this.location.path());
       window.location.reload();
     });

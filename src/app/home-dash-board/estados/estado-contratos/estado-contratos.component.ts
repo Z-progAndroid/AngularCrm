@@ -11,6 +11,7 @@ import { EstadoContratoService } from 'src/app/services/estado-contrato.service'
 export class EstadoContratosComponent implements OnInit {
   estadocontratoForm: FormGroup;
   estadosContrato: Estadocontrato[];
+  disabled: boolean = false;
   constructor(
     private fb: FormBuilder,
     private estadocontratoService: EstadoContratoService
@@ -20,9 +21,7 @@ export class EstadoContratosComponent implements OnInit {
     this.createForm();
     this.estadocontratoService.findAll().subscribe((data: Estadocontrato[]) => {
       this.estadosContrato = data;
-    }), (error) => {
-      console.log(error);
-    }
+    }), (error) =>  console.log(error);
   }
 
   createForm() {
@@ -39,9 +38,7 @@ export class EstadoContratosComponent implements OnInit {
     estadoContrato.fechaCreacion = new Date();
     estadoContrato.fechaModificacion = new Date();
     estadoContrato.modificado = 'N';
-    console.log(estadoContrato);
     this.estadocontratoService.save(estadoContrato).subscribe((data: Estadocontrato) => {
-      console.log(data);
       this.estadocontratoService.findAll().subscribe((data: Estadocontrato[]) => {
         this.estadosContrato = data;
       }), (error) => console.log(error);
@@ -50,7 +47,6 @@ export class EstadoContratosComponent implements OnInit {
   }
   ver(id: number) {
     this.estadocontratoService.findById(id).subscribe((data: Estadocontrato) => {
-      console.log(data);
       this.estadocontratoForm.get('idEstadoContrato').setValue(data.idestadoContrato);
       this.estadocontratoForm.get('estadoContrato').setValue(data.estado);
       this.estadocontratoForm.disable();
@@ -59,7 +55,6 @@ export class EstadoContratosComponent implements OnInit {
   }
   editar(id: number) {
     this.estadocontratoService.findById(id).subscribe((data: Estadocontrato) => {
-      console.log(data);
       this.estadocontratoForm.get('idEstadoContrato').setValue(data.idestadoContrato);
       this.estadocontratoForm.get('estadoContrato').setValue(data.estado);
       this.estadocontratoForm.enable();
@@ -67,11 +62,13 @@ export class EstadoContratosComponent implements OnInit {
   }
   eliminar(id: number) {
     this.estadocontratoService.delete(id).subscribe((data: any) => {
-      console.log(data);
       this.estadosContrato = [];
       this.estadocontratoService.findAll().subscribe((data: Estadocontrato[]) => {
         this.estadosContrato = data;
       }), (error) => console.log(error);
     }), (error) => console.log(error);
   }
+  deshabilitar(id: number): boolean {
+    return id === 0;
+  }  
 }

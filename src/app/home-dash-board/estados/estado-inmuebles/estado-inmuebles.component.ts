@@ -24,9 +24,10 @@ export class EstadoInmueblesComponent {
       idEstadoInmueble: ['', Validators.required],
       estadoInmueble: ['', Validators.required],
     })
+    this.inmuebleEstados.findAll().subscribe((data) => this.estadosInmueble = data)
+    ,(error) => console.log('error', error)
   }
   submit() {
-    console.log('submit', this.estadoInmuebleForm.value)
     let estadoInmueble: EstadoInmueble = new EstadoInmueble(); // Crear instancia del objeto estadoInmueble
     estadoInmueble.idEstadoInmueble = this.estadoInmuebleForm.get('idEstadoInmueble').value
     estadoInmueble.estado = this.estadoInmuebleForm.get('estadoInmueble').value
@@ -35,11 +36,9 @@ export class EstadoInmueblesComponent {
     estadoInmueble.modificado = 'admin'
     this.inmuebleEstados.save(estadoInmueble).subscribe(
       (data) => {
-        console.log('data', data)
         this.estadoInmuebleForm.reset()
         this.inmuebleEstados.findAll().subscribe(
           (data) => {
-            console.log('data', data)
             this.estadosInmueble = data
           }, error => console.log('error', error));
       }, error => console.log('error', error));
@@ -47,10 +46,8 @@ export class EstadoInmueblesComponent {
   eliminar(id: number) {
     this.inmuebleEstados.delete(id).subscribe(
       (data) => {
-        console.log('data', data)
         this.inmuebleEstados.findAll().subscribe(
           (data) => {
-            console.log('data', data)
             this.estadosInmueble = data
           }, error => console.log('error', error));
       }, error => console.log('error', error));
@@ -59,7 +56,6 @@ export class EstadoInmueblesComponent {
   editar(id: number) {
     this.inmuebleEstados.findById(id).subscribe(
       (data) => {
-        console.log('data', data)
         this.estadoInmuebleForm.get('idEstadoInmueble').setValue(data.idEstadoInmueble)
         this.estadoInmuebleForm.get('estadoInmueble').setValue(data.estado)
       });
@@ -68,11 +64,12 @@ export class EstadoInmueblesComponent {
   ver(id: number) {
     this.inmuebleEstados.findById(id).subscribe(
       (data) => {
-        console.log('data', data)
         this.estadoInmuebleForm.get('idEstadoInmueble').setValue(data.idEstadoInmueble)
         this.estadoInmuebleForm.get('estadoInmueble').setValue(data.estado)
         this.estadoInmuebleForm.disable();
       });
   }
-
+  deshabilitar(id: number): boolean {
+    return id === 0;
+  }  
 }
