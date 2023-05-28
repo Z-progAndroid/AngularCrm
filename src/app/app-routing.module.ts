@@ -11,6 +11,7 @@ import { SeguimientoComponent } from './home-dash-board/seguimiento/seguimiento.
 import { TareaComponent } from './home-dash-board/tarea/tarea.component';
 import { UserDetailsComponent } from './home-dash-board/user/user-details/user-details.component';
 import { InmuebleDetailComponent } from './home-dash-board/inmueble/inmueble-detail/inmueble-detail.component';
+import { EstadosComponent } from './home-dash-board/estados/estados.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'inmueble/editar/:id', component: InmuebleDetailComponent },
   { path: 'inmueble/ver/:id', component: InmuebleDetailComponent },
   { path: 'inmueble/crear', component: InmuebleDetailComponent },
+  { path: 'estados', component: EstadosComponent },
   { path: 'cita', component: CitaComponent },
   { path: 'contrato', component: ContratoComponent },
   { path: 'seguimiento', component: SeguimientoComponent },

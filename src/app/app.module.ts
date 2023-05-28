@@ -45,7 +45,10 @@ import { InmuebleService } from './services/inmueble.service';
 import { RolService } from './services/rol.service';
 import { InmuebleDetailComponent } from './home-dash-board/inmueble/inmueble-detail/inmueble-detail.component';
 import { ImagenServiceService } from './services/imagen-service.service';
-import { LazyLoadModule } from 'ng-lazy-load';
+import { EstadosComponent } from './home-dash-board/estados/estados.component';
+import { EstadoContratosComponent } from './home-dash-board/estados/estado-contratos/estado-contratos.component';
+import { CabeceraEstadosComponent } from './home-dash-board/estados/cabecera-estados/cabecera-estados.component';
+import { EstadoContratoService } from './services/estado-contrato.service';
 
 @NgModule({
   declarations: [
@@ -64,6 +67,9 @@ import { LazyLoadModule } from 'ng-lazy-load';
     UserDetailsComponent,
     InmuebleTableComponent,
     InmuebleDetailComponent,
+    EstadosComponent,
+    EstadoContratosComponent,
+    CabeceraEstadosComponent,
   ],
   imports: [
     BrowserModule,
@@ -93,7 +99,9 @@ import { LazyLoadModule } from 'ng-lazy-load';
     MenuServiceService,
     RolService,
     UsuarioService,
-    ImagenServiceService],
+    ImagenServiceService,
+    EstadoContratoService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

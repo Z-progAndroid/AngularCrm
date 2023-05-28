@@ -45,6 +45,11 @@ export class MenuServiceService {
         link: '/tarea'
       },
       {
+        title: 'Estados',
+        icon: 'fas fa-flag',
+        link: '/estados'
+      },
+      {
         title: 'Desconectar',
         icon: 'fas fa-sign-out-alt',
         link: '/'

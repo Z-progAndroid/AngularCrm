@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router, UrlSegment } from '@angular/router';
-import { error } from 'console';
 import { forkJoin } from 'rxjs';
 import { Barrio } from 'src/app/models/barrio';
 import { EstadoInmueble } from 'src/app/models/estado-inmueble';
@@ -23,7 +22,6 @@ import { TipoInmuebleService } from 'src/app/services/tipo-inmueble.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { CustomValidators } from 'src/app/utils/CustomValidators';
 import { Utils } from 'src/app/utils/Utils';
-import { Location } from '@angular/common';
 @Component({
   selector: 'app-inmueble-detail',
   templateUrl: './inmueble-detail.component.html',
