@@ -55,6 +55,11 @@ export class MenuServiceService {
         link: '/tipos'
       },
       {
+        title: 'Paises',
+        icon: 'fas fa-globe',
+        link: '/ciudad'
+      },
+      {
         title: 'Desconectar',
         icon: 'fas fa-sign-out-alt',
         link: '/'

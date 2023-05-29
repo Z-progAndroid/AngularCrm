@@ -14,10 +14,10 @@ export class ProvinciaService {
     return this.http.post<Provincia>(`${environment.urlBase}provincia`, provincia);
   }
   delete(id: number): Observable<Provincia> {
-    return this.http.delete<Provincia>(`${environment.urlBase}provincia?id=${id}`);
+    return this.http.delete<Provincia>(`${environment.urlBase}provincia?idProvincia=${id}`);
   }
   findById(id: number): Observable<Provincia> {
-    return this.http.get<Provincia>(`${environment.urlBase}provincia?id=${id}`);
+    return this.http.get<Provincia>(`${environment.urlBase}provincia?idProvincia=${id}`);
   }
   findAll(): Observable<Provincia[]> {
     return this.http.get<Provincia[]>(`${environment.urlBase}provincia/all`);

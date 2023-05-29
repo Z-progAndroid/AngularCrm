@@ -1,0 +1,85 @@
+<div class="border rounded-6 p-3 bg-white shadow box-area">
+    <form (submit)="submit()" [formGroup]="municipiosForm">
+        <div class="group-inputs">
+            <div class="row">
+                <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
+                    <div class="floating-label">
+                        <select class="form-control" formControlName="idProvincia">
+                            <option *ngFor="let pais of provincias" [value]="pais.idProvincia">{{pais.provincia}}</option>
+                        </select>
+                        <label>Provincia(*)</label>
+                    </div>
+                    <span class="text-danger" *ngIf="municipiosForm.get('idProvincia').invalid && municipiosForm.get('idProvincia').touched">
+                        El campo es requerido</span>
+                </div>
+                <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
+                    <mdb-form-control>
+                        <input mdbInput formControlName="idMunicipio" type="number" min="0" id="metroscuadrados"
+                            class="form-control" />
+                        <label mdbLabel class="form-label" for="metroscuadrados">Codigo Municipio (*)</label>
+                    </mdb-form-control>
+                    <span class="text-danger"
+                        *ngIf="municipiosForm.get('idMunicipio').invalid && municipiosForm.get('idMunicipio').touched">
+                        El campo es requerido</span>
+                </div>
+                <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
+                    <mdb-form-control>
+                        <input mdbInput formControlName="municipio" type="text" id="anoconstruccion" class="form-control" />
+                        <label mdbLabel class="form-label" for="anoconstruccion">Municipio (*)</label>
+                    </mdb-form-control>
+                    <span class="text-danger"
+                        *ngIf="municipiosForm.get('municipio').invalid && municipiosForm.get('municipio').touched">
+                        El campo es requerido</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 margin-form">
+                <a routerLink="/dashboard" mdbBtn type="button" id="btnSave" class="btn btn-primary btn-lg btn-block"
+                    mdbWavesEffect>Volver</a>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 margin-form">
+                <button mdbBtn type="submit" id="btnSave" [disabled]="municipiosForm.invalid||municipiosForm.disabled"
+                    class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Guardar</button>
+            </div>
+        </div>
+    </form>
+</div>
+<table class="table align-middle mb-0 bg-white  margin-form">
+    <thead class="bg-dark text-light text-center">
+        <tr>
+            <th>Codigo Provincia</th>
+            <th>Codigo Municipio</th>
+            <th>Municipio</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody class="margin-form text-center">
+        <tr *ngFor="let estado of municipios">
+            <td>
+                <span class="fw-normal mb-1">{{estado.idProvincia}}</span>
+            </td>
+            <td>
+                <span class="fw-normal mb-1">{{estado.idMunicipio}}</span>
+            </td>
+            <td>
+                <span class="fw-normal mb-1">{{estado.municipio}}</span>
+            </td>
+            <td>
+                <button (click)="ver(estado.idMunicipio)" [disabled]="deshabilitar(estado.idMunicipio)" type="button"
+                    class="btn btn-primary  btn-floating mx-1">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <button (click)="editar(estado.idMunicipio)" [disabled]="deshabilitar(estado.idMunicipio)" type="button"
+                    class="btn btn-warning btn-floating mx-1" mdbRipple rippleColor="dark">
+                    <i class="fas fa-pen"></i>
+                </button>
+                <button (click)="eliminar(estado.idMunicipio)" [disabled]="deshabilitar(estado.idMunicipio)" type="button"
+                    class="btn btn-danger btn-floating mx-1">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

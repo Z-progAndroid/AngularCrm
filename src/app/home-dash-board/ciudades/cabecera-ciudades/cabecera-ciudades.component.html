@@ -1,0 +1,13 @@
+<div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center">
+        <h2>{{ titulo }}</h2>
+    </div>
+</div>
+<div class="d-flex justify-content-end">
+    <div class="floating-label w-50 my-3">
+        <select class="form-control"  (change)="change($event.target.value)">
+            <option *ngFor="let estado of estados" [value]="estado.valor">{{ estado.titulo }}</option>
+        </select>
+        <label>Paises</label>
+    </div>
+</div>

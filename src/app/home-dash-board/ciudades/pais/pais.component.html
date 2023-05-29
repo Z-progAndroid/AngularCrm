@@ -1,0 +1,70 @@
+<div class="border rounded-6 p-3 bg-white shadow box-area">
+    <form (submit)="submit()" [formGroup]="paisForm">
+        <div class="group-inputs">
+            <div class="row">
+                <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
+                    <mdb-form-control>
+                        <input mdbInput formControlName="idPais" type="text" min="0" id="metroscuadrados"
+                            class="form-control" />
+                        <label mdbLabel class="form-label" for="metroscuadrados">Id Pais (*)</label>
+                    </mdb-form-control>
+                    <span class="text-danger"
+                        *ngIf="paisForm.get('idPais').touched && paisForm.get('idPais').invalid">Id
+                        del pais es requerido</span>
+                </div>
+                <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
+                    <mdb-form-control>
+                        <input mdbInput formControlName="pais" type="text" id="anoconstruccion"
+                            class="form-control" />
+                        <label mdbLabel class="form-label" for="anoconstruccion">Pais (*)</label>
+                    </mdb-form-control>
+                    <span class="text-danger"
+                        *ngIf="paisForm.get('pais').touched && paisForm.get('pais').invalid">El
+                        pais es requerido</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 margin-form">
+                <a routerLink="/dashboard" mdbBtn type="button" id="btnSave" class="btn btn-primary btn-lg btn-block"
+                    mdbWavesEffect>Volver</a>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 margin-form">
+                <button mdbBtn type="submit" id="btnSave" [disabled]="paisForm.invalid||paisForm.disabled"
+                    class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Guardar</button>
+            </div>
+        </div>
+    </form>
+</div>
+<table class="table align-middle mb-0 bg-white  margin-form">
+    <thead class="bg-dark text-light text-center">
+        <tr>
+            <th>Id</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody class="margin-form text-center">
+        <tr *ngFor="let estado of paises">
+            <td>
+                <span class="fw-normal mb-1">{{estado.idPais}}</span>
+            </td>
+            <td>
+                <span class="fw-normal mb-1">{{estado.pais}}</span>
+            </td>
+            <td>
+                <button (click)="ver(estado.idPais)" [disabled]="deshabilitar(estado.idPais)" type="button" class="btn btn-primary  btn-floating mx-1">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <button (click)="editar(estado.idPais)" [disabled]="deshabilitar(estado.idPais)" type="button" class="btn btn-warning btn-floating mx-1"
+                    mdbRipple rippleColor="dark">
+                    <i class="fas fa-pen"></i>
+                </button>
+                <button (click)="eliminar(estado.idPais)" [disabled]="deshabilitar(estado.idPais)" type="button" class="btn btn-danger btn-floating mx-1">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

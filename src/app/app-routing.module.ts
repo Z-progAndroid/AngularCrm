@@ -13,6 +13,7 @@ import { UserDetailsComponent } from './home-dash-board/user/user-details/user-d
 import { InmuebleDetailComponent } from './home-dash-board/inmueble/inmueble-detail/inmueble-detail.component';
 import { EstadosComponent } from './home-dash-board/estados/estados.component';
 import { TiposComponent } from './home-dash-board/tipos/tipos.component';
+import { CiudadesComponent } from './home-dash-board/ciudades/ciudades.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'inmueble/crear', component: InmuebleDetailComponent },
   { path: 'estados', component: EstadosComponent },
   { path: 'tipos', component: TiposComponent },
+  { path: 'ciudad', component: CiudadesComponent},
   { path: 'cita', component: CitaComponent },
   { path: 'contrato', component: ContratoComponent },
   { path: 'seguimiento', component: SeguimientoComponent },
