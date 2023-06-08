@@ -12,57 +12,57 @@ export class MenuServiceService {
       {
         title: 'Dashboard',
         icon: 'fas fa-tachometer-alt',
-        link: '/dashboard'
+        link: '/home-dashboard/dashboard'
       },
       {
         title: 'User',
         icon: 'fas fa-user-alt',
-        link: '/user'
+        link: '/home-dashboard/user'
       },
       {
         title: 'Inmueble',
         icon: 'fas fa-building',
-        link: '/inmueble'
+        link: '/home-dashboard/inmueble'
       },
       {
         title: 'Cita',
         icon: 'fas fa-calendar-day',
-        link: '/cita'
+        link: '/home-dashboard/cita'
       },
       {
         title: 'Contrato',
         icon: 'fas fa-file-contract',
-        link: '/contrato'
+        link: '/home-dashboard/contrato'
       },
       {
         title: 'Seguimiento',
         icon: 'fas fa-chart-pie',
-        link: '/seguimiento'
+        link: '/home-dashboard/seguimiento'
       },
       {
         title: 'Tarea',
         icon: 'fas fa-tasks',
-        link: '/tarea'
+        link: '/home-dashboard/tarea'
       },
       {
         title: 'Estados',
         icon: 'fas fa-flag',
-        link: '/estados'
+        link: '/home-dashboard/estados'
       },
       {
         title: 'Tipos',
         icon: 'fas fa-star',
-        link: '/tipos'
+        link: '/home-dashboard/tipos'
       },
       {
         title: 'Paises',
         icon: 'fas fa-globe',
-        link: '/ciudad'
+        link: '/home-dashboard/ciudad'
       },
       {
         title: 'Desconectar',
         icon: 'fas fa-sign-out-alt',
-        link: '/'
+        link: '/home-dashboard'
       }
     ];
   }

@@ -16,24 +16,8 @@ import { TiposComponent } from './home-dash-board/tipos/tipos.component';
 import { CiudadesComponent } from './home-dash-board/ciudades/ciudades.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'user', component: UserComponent },
-  { path: 'user/editar/:id', component: UserDetailsComponent },
-  { path: 'user/ver/:id', component: UserDetailsComponent },
-  { path: 'user/crear', component: UserDetailsComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'inmueble', component: InmuebleComponent },
-  { path: 'inmueble/editar/:id', component: InmuebleDetailComponent },
-  { path: 'inmueble/ver/:id', component: InmuebleDetailComponent },
-  { path: 'inmueble/crear', component: InmuebleDetailComponent },
-  { path: 'estados', component: EstadosComponent },
-  { path: 'tipos', component: TiposComponent },
-  { path: 'ciudad', component: CiudadesComponent},
-  { path: 'cita', component: CitaComponent },
-  { path: 'contrato', component: ContratoComponent },
-  { path: 'seguimiento', component: SeguimientoComponent },
-  { path: 'tarea', component: TareaComponent }
+  { path: '', redirectTo: '/home-dashboard', pathMatch: 'full' },
+  { path: 'home-dashboard', loadChildren: () => import('src/app/home-dash-board/home-dash-board-routing.module').then(m => m.HomeDashBoardRoutingModule) },
 ];
 
 @NgModule({

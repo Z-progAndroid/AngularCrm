@@ -36,9 +36,6 @@ export class UserComponent implements OnInit {
     );
   }
   onSubmit() {
-    if (Utils.isFormEmpty(this.userSearchForm.value)) {
-      return;
-    }
     this.usuarioService.findByParams(this.fromToUserSearch()).subscribe(
       usuarios => {
         this.usuarios = usuarios;

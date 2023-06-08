@@ -9,9 +9,14 @@ import { Chart, ChartConfiguration, ChartItem, registerables } from 'node_module
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
-  ngOnInit(): void {
+  responsiveClass: any;
+  constructor() {
   }
-
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
+  openAside(responsiveClass: any) {
+    this.responsiveClass = responsiveClass;
+  }
 }
   

@@ -68,6 +68,7 @@ import { PaisComponent } from './home-dash-board/ciudades/pais/pais.component';
 import { ProvinciaComponent } from './home-dash-board/ciudades/provincia/provincia.component';
 import { MunicipiosComponent } from './home-dash-board/ciudades/municipios/municipios.component';
 import { BarriosComponent } from './home-dash-board/ciudades/barrios/barrios.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -106,7 +107,8 @@ import { BarriosComponent } from './home-dash-board/ciudades/barrios/barrios.com
     PaisComponent,
     ProvinciaComponent,
     MunicipiosComponent,
-    BarriosComponent
+    BarriosComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

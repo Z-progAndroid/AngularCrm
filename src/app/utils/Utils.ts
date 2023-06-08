@@ -3,6 +3,6 @@ export class Utils {
         return value === null || value === undefined|| value === "";
     }
     static isFormEmpty(formValues: any): boolean {
-        return Object.values(formValues).every(value => value === null || value === undefined|| value === '');
+        return Object.values(formValues).every(value => value === null || value === undefined || value === '');
     }
 }

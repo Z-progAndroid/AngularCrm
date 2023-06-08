@@ -32,10 +32,10 @@
                 <span class="">{{inmueble.estadoInmueble}}</span>
             </td>
             <td>
-                <a routerLink="/inmueble/ver/{{inmueble.idInmueble}}" type="button" class="btn btn-primary  btn-floating mx-1">
+                <a routerLink="/home-dashboard/inmueble/ver/{{inmueble.idInmueble}}" type="button" class="btn btn-primary  btn-floating mx-1">
                     <i class="fas fa-eye"></i>
                 </a>
-                <a routerLink="/inmueble/editar/{{inmueble.idInmueble}}" type="button" class="btn btn-warning btn-floating mx-1" mdbRipple rippleColor="dark">
+                <a routerLink="/home-dashboard/inmueble/editar/{{inmueble.idInmueble}}" type="button" class="btn btn-warning btn-floating mx-1" mdbRipple rippleColor="dark">
                     <i class="fas fa-pen"></i>
                 </a>
                 <a (click)="onDelete(inmueble.idInmueble)"type="button" class="btn btn-danger btn-floating mx-1">
