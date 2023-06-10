@@ -1,9 +1,11 @@
-import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { error } from 'console';
 import { EstadoTarea } from 'src/app/models/estado-tarea';
+import { Mensaje } from 'src/app/models/mensaje';
 import { EstadoTareaService } from 'src/app/services/estado-tarea.service';
+import { Alerts } from 'src/app/utils/Alerts';
+
 
 @Component({
   selector: 'app-estado-tarea',
@@ -16,26 +18,28 @@ export class EstadoTareaComponent implements OnInit {
   constructor(
     private fb: FormBuilder
     , private tareaEstadosService: EstadoTareaService) { }
+
   ngOnInit(): void {
     this.estadoTareaForm = this.fb.group({
       idEstadoTarea: ['', Validators.required],
       estadoTarea: ['', Validators.required]
     });
-    this.tareaEstadosService.findAll().subscribe(
-      estadosTarea => this.estadosTarea = estadosTarea
-    ), error => console.log(error);
+    this.cargarEstadosTarea();
   }
+
+
   submit() {
-    let estadoTarea: EstadoTarea = Object.assign({}, this.estadoTareaForm.value);
-    estadoTarea.fechaCreacion = new Date();
-    estadoTarea.fechaModificacion = new Date();
-    estadoTarea.modificado = 'admin';
-    this.tareaEstadosService.save(estadoTarea).subscribe(
-      (estadoTarea: EstadoTarea) => {
-        this.tareaEstadosService.findAll().subscribe(
-          estadosTarea => this.estadosTarea = estadosTarea
-        ), error => console.log(error);
-      }, error => console.log(error));
+    Alerts.warning("Advertencia", "¿Está seguro que desea guardar el estado de tarea?", "Si, guardar")
+      .then((result) => {
+        if (!result.isConfirmed) {return;}
+          let estadoTarea: EstadoTarea = Object.assign({}, this.estadoTareaForm.value);
+          estadoTarea.fechaCreacion = new Date();
+          estadoTarea.fechaModificacion = new Date();
+          estadoTarea.modificado = 'admin';
+          this.tareaEstadosService.save(estadoTarea).subscribe(() => {
+            Alerts.success("Exito", "Estado de tarea guardado correctamente").then(() => this.cargarEstadosTarea());
+          }, (error) => Alerts.error("Error", "No se pudo guardar el estado de tarea",error));
+      });
   }
   ver(id: number) {
     this.tareaEstadosService.findById(id).subscribe(
@@ -43,7 +47,7 @@ export class EstadoTareaComponent implements OnInit {
         this.estadoTareaForm.patchValue(estadoTarea);
         this.estadoTareaForm.disable();
       }
-    ), error => console.log(error);
+    ), (error) => Alerts.error("Error", "No se pudo cargar el estado de tarea",error);
 
   }
   editar(id: number) {
@@ -52,17 +56,26 @@ export class EstadoTareaComponent implements OnInit {
         this.estadoTareaForm.patchValue(estadoTarea);
         this.estadoTareaForm.enable();
       }
-    ), error => console.log(error);
+    ), (error) => Alerts.error("Error", "No se pudo cargar el estado de tarea",error);
   }
   eliminar(id: number) {
-    this.tareaEstadosService.delete(id).subscribe(
-      (mensaje: any) => {
-        this.estadosTarea = [];
-        this.tareaEstadosService.findAll().subscribe(estadosTarea => this.estadosTarea = estadosTarea)
-          , error => console.log(error);
+    Alerts.warning("Advertencia", "¿Está seguro que desea eliminar el estado de tarea?", "Si, eliminar")
+      .then((result) => {
+        if (!result.isConfirmed) {return;}
+          this.tareaEstadosService.delete(id).subscribe((mensaje: Mensaje) => {
+              Alerts.success("Exito", "Se borrado correctamente el estado de la tarea").then(() => this.cargarEstadosTarea());
+            });
+        
       });
   }
-  deshabilitar(id: number): boolean {
-    return id === 0;
-  }  
+  recargar() {
+    this.cargarEstadosTarea();
+  }
+  private cargarEstadosTarea() {
+    this.estadoTareaForm.reset();
+    this.tareaEstadosService.findAll().subscribe(estadosTarea => this.estadosTarea = estadosTarea), (error) => {
+      this.estadosTarea = [];
+      Alerts.error("Error", "No se pudo cargar la lista de estados de tarea",error);
+    };
+  }
 }

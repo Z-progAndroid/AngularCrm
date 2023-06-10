@@ -11,14 +11,16 @@ export class Alerts {
     constructor(private router: Router) {
         Alerts.router = router;
     }
-    static error(titulo: string, mensaje: string): any {
+    static error(titulo: string, mensaje: string, error: any): any {
+        console.log(error);
         return Swal.fire({
             icon: 'error',
             title: titulo,
             text: mensaje,
         })
     }
-    static errorConRedirect(titulo: string, mensaje: string, url: string): any {
+    static errorConRedirect(titulo: string, mensaje: string, url: string, error: any): any {
+        console.log(error);
         return Swal.fire({
             icon: 'error',
             title: titulo,
