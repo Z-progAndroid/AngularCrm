@@ -4,9 +4,9 @@
             <div class="row">
                 <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
                     <mdb-form-control>
-                        <input mdbInput formControlName="idEstadoCita" type="number" min="0" id="metroscuadrados"
+                        <input mdbInput formControlName="idEstadoCita" type="number" min="0" id="idEstadoCita"
                             class="form-control" />
-                        <label mdbLabel class="form-label" for="metroscuadrados">Id Estado Cita (*)</label>
+                        <label mdbLabel class="form-label" for="idEstadoCita">Id Estado Cita (*)</label>
                     </mdb-form-control>
                     <span class="text-danger"
                         *ngIf="estadoCitasForm.get('idEstadoCita').touched && estadoCitasForm.get('idEstadoCita').invalid">Id
@@ -14,9 +14,9 @@
                 </div>
                 <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
                     <mdb-form-control>
-                        <input mdbInput formControlName="estadoCita" type="text" id="anoconstruccion"
+                        <input mdbInput formControlName="estadoCita" type="text" id="estadoCita"
                             class="form-control" />
-                        <label mdbLabel class="form-label" for="anoconstruccion">Estado Cita (*)</label>
+                        <label mdbLabel class="form-label" for="estadoCita">Estado Cita (*)</label>
                     </mdb-form-control>
                     <span class="text-danger"
                         *ngIf="estadoCitasForm.get('estadoCita').touched && estadoCitasForm.get('estadoCita').invalid">El
@@ -24,13 +24,17 @@
                 </div>
             </div>
         </div>
-
+        <input type="hidden" name="fechaCreacion" formControlName="fechaCreacion">
         <div class="row">
-            <div class="col-12 col-sm-12 col-md-6 margin-form">
+            <div class="col-12 col-sm-12 col-md-4 margin-form">
                 <a routerLink="/home-dashboard/dashboard" mdbBtn type="button" id="btnSave" class="btn btn-primary btn-lg btn-block"
                     mdbWavesEffect>Volver</a>
             </div>
-            <div class="col-12 col-sm-12 col-md-6 margin-form">
+            <div class="col-12 col-sm-12 col-md-4 margin-form">
+                <button mdbBtn type="button" id="btnRefrescar"  (click)="cargarEstadosCita()" 
+                class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Refrescar</button>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 margin-form">
                 <button mdbBtn type="submit" id="btnSave" [disabled]="estadoCitasForm.invalid||estadoCitasForm.disabled"
                     class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Guardar</button>
             </div>
@@ -54,14 +58,14 @@
                 <span class="fw-normal mb-1">{{estado.estadoCita}}</span>
             </td>
             <td>
-                <button (click)="ver(estado.idEstadoCita)" [disabled]="deshabilitar(estado.idEstadoCita)" type="button" class="btn btn-primary  btn-floating mx-1">
+                <button (click)="ver(estado.idEstadoCita)" type="button" class="btn btn-primary  btn-floating mx-1">
                     <i class="fas fa-eye"></i>
                 </button>
-                <button (click)="editar(estado.idEstadoCita)" [disabled]="deshabilitar(estado.idEstadoCita)" type="button" class="btn btn-warning btn-floating mx-1"
+                <button (click)="editar(estado.idEstadoCita)" type="button" class="btn btn-warning btn-floating mx-1"
                     mdbRipple rippleColor="dark">
                     <i class="fas fa-pen"></i>
                 </button>
-                <button (click)="eliminar(estado.idEstadoCita)" [disabled]="deshabilitar(estado.idEstadoCita)" type="button" class="btn btn-danger btn-floating mx-1">
+                <button (click)="eliminar(estado.idEstadoCita)" type="button" class="btn btn-danger btn-floating mx-1">
                     <i class="fas fa-trash"></i>
                 </button>
             </td>
