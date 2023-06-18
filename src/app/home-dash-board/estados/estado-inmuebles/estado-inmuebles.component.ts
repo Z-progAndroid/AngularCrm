@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { error } from 'console';
 import { EstadoInmueble } from 'src/app/models/estado-inmueble';
-import { Inmueble } from 'src/app/models/inmueble';
 import { EstadoInmuebleService } from 'src/app/services/estado-inmueble.service';
-import { InmuebleService } from 'src/app/services/inmueble.service';
+import { Alerts } from 'src/app/utils/Alerts';
+import { Utils } from 'src/app/utils/Utils';
 
 @Component({
   selector: 'app-estado-inmuebles',
@@ -15,61 +14,81 @@ export class EstadoInmueblesComponent {
   estadoInmuebleForm: FormGroup
   estadosInmueble: EstadoInmueble[]
   constructor(
-    private fb: FormBuilder
-    , private inmuebleEstados: EstadoInmuebleService
-    , private inmuebleService: InmuebleService) { }
+    private fb: FormBuilder,
+    private inmuebleEstados: EstadoInmuebleService) { }
 
   ngOnInit(): void {
-    this.estadoInmuebleForm = this.fb.group({
-      idEstadoInmueble: ['', Validators.required],
-      estadoInmueble: ['', Validators.required],
-    })
-    this.inmuebleEstados.findAll().subscribe((data) => this.estadosInmueble = data)
-    ,(error) => console.log('error', error)
+    this.crearFromulario();
+    this.cargarEstadosInmueble();
   }
   submit() {
-    let estadoInmueble: EstadoInmueble = new EstadoInmueble(); // Crear instancia del objeto estadoInmueble
-    estadoInmueble.idEstadoInmueble = this.estadoInmuebleForm.get('idEstadoInmueble').value
-    estadoInmueble.estado = this.estadoInmuebleForm.get('estadoInmueble').value
-    estadoInmueble.fechaCreacion = new Date()
-    estadoInmueble.fechaModificacion = new Date()
-    estadoInmueble.modificado = 'admin'
-    this.inmuebleEstados.save(estadoInmueble).subscribe(
-      (data) => {
-        this.estadoInmuebleForm.reset()
-        this.inmuebleEstados.findAll().subscribe(
-          (data) => {
-            this.estadosInmueble = data
-          }, error => console.log('error', error));
-      }, error => console.log('error', error));
+    Alerts.warning('Advertencia', '¿Está seguro que desea guardar el estado?', 'Sí, guardar')
+      .then((result) => {
+        if (!result.isConfirmed) {
+          Alerts.info('Información', 'Operación cancelada por el usuario');
+          this.estadoInmuebleForm.reset();
+          return;
+        }
+        this.inmuebleEstados.save(this.estadoInmueble).subscribe((data) => {
+          Alerts.success('Éxito', 'Estado guardado correctamente');
+          this.estadoInmuebleForm.reset()
+          this.cargarEstadosInmueble();
+        }, error => Alerts.error('Error', 'No se pudo guardar el estado', error));
+      });
   }
   eliminar(id: number) {
-    this.inmuebleEstados.delete(id).subscribe(
-      (data) => {
-        this.inmuebleEstados.findAll().subscribe(
-          (data) => {
-            this.estadosInmueble = data
-          }, error => console.log('error', error));
-      }, error => console.log('error', error));
-
+    Alerts.warning('Advertencia', '¿Está seguro que desea eliminar el estado?', 'Sí, eliminar')
+      .then((result) => {
+        if (!result.isConfirmed) {
+          Alerts.info('Información', 'Operación cancelada por el usuario');
+          this.estadoInmuebleForm.reset();
+          return;
+        }
+        this.inmuebleEstados.delete(id).subscribe((data) => {
+          Alerts.success('Éxito', 'Estado eliminado correctamente');
+          this.cargarEstadosInmueble();
+        }, error => Alerts.error('Error', 'No se pudo eliminar el estado', error));
+      });
   }
   editar(id: number) {
-    this.inmuebleEstados.findById(id).subscribe(
-      (data) => {
-        this.estadoInmuebleForm.get('idEstadoInmueble').setValue(data.idEstadoInmueble)
-        this.estadoInmuebleForm.get('estadoInmueble').setValue(data.estado)
-      });
-
+    this.inmuebleEstados.findById(id).subscribe((data) => {
+      this.estadoInmuebleForm.get('idEstadoInmueble').setValue(data.idEstadoInmueble)
+      this.estadoInmuebleForm.get('estadoInmueble').setValue(data.estado)
+      this.estadoInmuebleForm.get('fechaCreacion').setValue(data.fechaCreacion)
+      this.estadoInmuebleForm.enable();
+    }, error => Alerts.error('Error', 'No se pudo editar el estado', error));
   }
   ver(id: number) {
     this.inmuebleEstados.findById(id).subscribe(
       (data) => {
         this.estadoInmuebleForm.get('idEstadoInmueble').setValue(data.idEstadoInmueble)
         this.estadoInmuebleForm.get('estadoInmueble').setValue(data.estado)
+        this.estadoInmuebleForm.get('fechaCreacion').setValue(data.fechaCreacion)
         this.estadoInmuebleForm.disable();
-      });
+      }, error => Alerts.error('Error', 'No se pudo ver el estado', error));
   }
-  deshabilitar(id: number): boolean {
-    return id === 0;
-  }  
+  cargarEstadosInmueble() {
+    this.inmuebleEstados.findAll().subscribe(
+      (data) => {
+        this.estadosInmueble = data
+      }, error => Alerts.error('Error', 'No se pudo cargar los estados', error));
+  }
+  crearFromulario() {
+    this.estadoInmuebleForm = this.fb.group({
+      idEstadoInmueble: ['', Validators.required],
+      estadoInmueble: ['', Validators.required],
+      fechaCreacion: ['']
+    })
+  }
+  private get estadoInmueble(): EstadoInmueble {
+    let estadoInmueble: EstadoInmueble = new EstadoInmueble();
+    estadoInmueble.idEstadoInmueble = this.estadoInmuebleForm.get('idEstadoInmueble').value
+    estadoInmueble.estado = this.estadoInmuebleForm.get('estadoInmueble').value
+    estadoInmueble.fechaCreacion = Utils.isNullOrUndefined(this.estadoInmuebleForm.get('fechaCreacion').value)
+      ? new Date()
+      : this.estadoInmuebleForm.get('fechaCreacion').value
+    estadoInmueble.fechaModificacion = new Date()
+    estadoInmueble.modificado = 'admin'
+    return estadoInmueble;
+  }
 }
