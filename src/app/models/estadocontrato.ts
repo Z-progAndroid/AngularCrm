@@ -1,7 +1,7 @@
 export class Estadocontrato {
-    idestadoContrato:number;
-    estado:String;
+    idestadoContrato: number;
+    estado:string;
     fechaCreacion:Date;
-    fechaModificacion:Date;
-    modificado:String;
+    fechaModificacion :Date;
+    modificado :string;
 }

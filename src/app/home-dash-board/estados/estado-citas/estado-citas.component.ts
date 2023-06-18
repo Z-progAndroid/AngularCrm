@@ -26,14 +26,20 @@ export class EstadoCitasComponent implements OnInit {
   }
 
   submit() {
-    this.estadoCitasService.save(this.estadoCita).subscribe(
-      (data: any) => {
-        Alerts.success('Éxito', 'Estado guardado correctamente');
-        this.estadoCitasForm.reset();
-        this.cargarEstadosCita();
-      },
-      (error: any) => Alerts.error('Error', 'No se pudo guardar el estado', error)
-    );
+    Alerts.warning('Advertencia', '¿Está seguro que desea guardar el estado?', 'Guardar').then((result: any) => {
+      if (!result.isConfirmed) {
+        Alerts.info('Información', 'Operación cancelada por el usuario');
+        return;
+      }
+      this.estadoCitasService.save(this.estadoCita).subscribe(
+        (data: any) => {
+          Alerts.success('Éxito', 'Estado guardado correctamente');
+          this.estadoCitasForm.reset();
+          this.cargarEstadosCita();
+        },
+        (error: any) => Alerts.error('Error', 'No se pudo guardar el estado', error)
+      );
+    });
   }
 
   ver(id: number) {
@@ -59,6 +65,7 @@ export class EstadoCitasComponent implements OnInit {
   eliminar(id: number) {
     Alerts.warning('Advertencia', '¿Está seguro que desea eliminar el estado?', 'Eliminar').then((result: any) => {
       if (!result.isConfirmed) {
+        Alerts.info('Información', 'Operación cancelada por el usuario');
         return;
       }
       this.estadoCitasService.delete(id).subscribe(
