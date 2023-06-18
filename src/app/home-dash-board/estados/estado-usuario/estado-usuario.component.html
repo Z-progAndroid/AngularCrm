@@ -24,13 +24,17 @@
                 </div>
             </div>
         </div>
-
+        <input type="hidden" name="fechaCreacion" formControlName="fechaCreacion">
         <div class="row">
-            <div class="col-12 col-sm-12 col-md-6 margin-form">
+            <div class="col-12 col-sm-12 col-md-4 margin-form">
                 <a routerLink="/home-dashboard/dashboard" mdbBtn type="button" id="btnSave" class="btn btn-primary btn-lg btn-block"
                     mdbWavesEffect>Volver</a>
             </div>
-            <div class="col-12 col-sm-12 col-md-6 margin-form">
+            <div class="col-12 col-sm-12 col-md-4 margin-form">
+                <button mdbBtn type="button" id="btnSave"  (click)="cargarEstadoUsuario()"
+                    class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Refrescar</button>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 margin-form">
                 <button mdbBtn type="submit" id="btnSave" [disabled]="estadoUsuarioForm.invalid||estadoUsuarioForm.disabled"
                     class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Guardar</button>
             </div>
@@ -54,14 +58,14 @@
                 <span class="fw-normal mb-1">{{estado.estadoUsuario}}</span>
             </td>
             <td>
-                <button (click)="ver(estado.idEstadoUsuario)" [disabled]="deshabilitar(estado.idEstadoUsuario)" type="button" class="btn btn-primary  btn-floating mx-1">
+                <button (click)="ver(estado.idEstadoUsuario)"  type="button" class="btn btn-primary  btn-floating mx-1">
                     <i class="fas fa-eye"></i>
                 </button>
-                <button (click)="editar(estado.idEstadoUsuario)" [disabled]="deshabilitar(estado.idEstadoUsuario)" type="button" class="btn btn-warning btn-floating mx-1"
+                <button (click)="editar(estado.idEstadoUsuario)"  type="button" class="btn btn-warning btn-floating mx-1"
                     mdbRipple rippleColor="dark">
                     <i class="fas fa-pen"></i>
                 </button>
-                <button (click)="eliminar(estado.idEstadoUsuario)" [disabled]="deshabilitar(estado.idEstadoUsuario)" type="button" class="btn btn-danger btn-floating mx-1">
+                <button (click)="eliminar(estado.idEstadoUsuario)"  type="button" class="btn btn-danger btn-floating mx-1">
                     <i class="fas fa-trash"></i>
                 </button>
             </td>
