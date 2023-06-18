@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Estadocontrato } from 'src/app/models/estadocontrato';
 import { EstadoContratoService } from 'src/app/services/estado-contrato.service';
 import { Alerts } from 'src/app/utils/Alerts';
+import { Utils } from 'src/app/utils/Utils';
 
 @Component({
   selector: 'app-estado-contratos',
@@ -35,6 +36,7 @@ export class EstadoContratosComponent implements OnInit {
       .then((result) => {
         if (!result.isConfirmed) {
           Alerts.info('Información', 'Operación cancelada por el usuario');
+          this.estadocontratoForm.reset();
           return;
         }
         this.estadocontratoService.save(this.estadoContrato).subscribe(
@@ -67,6 +69,7 @@ export class EstadoContratosComponent implements OnInit {
       then((result) => {
         if (!result.isConfirmed) {
           Alerts.info('Información', 'Operación cancelada por el usuario');
+          this.estadocontratoForm.reset();
           return;
         }
         this.estadocontratoService.delete(id).subscribe((data: any) => {
@@ -87,7 +90,9 @@ export class EstadoContratosComponent implements OnInit {
     let estadoContrato: Estadocontrato = new Estadocontrato();
     estadoContrato.idestadoContrato = this.estadocontratoForm.get('idEstadoContrato').value;
     estadoContrato.estado = this.estadocontratoForm.get('estadoContrato').value;
-    estadoContrato.fechaCreacion = this.estadocontratoForm.get('fechaCreacion').value;
+    estadoContrato.fechaCreacion = Utils.isNullOrUndefined(this.estadocontratoForm.get('fechaCreacion').value)
+      ? new Date()
+      : this.estadocontratoForm.get('fechaCreacion').value;
     estadoContrato.fechaModificacion = new Date();
     estadoContrato.modificado = 'N';
     return estadoContrato;

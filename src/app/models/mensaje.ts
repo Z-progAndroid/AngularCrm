@@ -1,6 +1,6 @@
 export class Mensaje {
     estado: number
     fecha: Date
-    mensaje: Date
+    mensaje: string
     description: string;
 }

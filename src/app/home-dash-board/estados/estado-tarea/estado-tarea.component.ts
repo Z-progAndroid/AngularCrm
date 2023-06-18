@@ -20,10 +20,7 @@ export class EstadoTareaComponent implements OnInit {
     , private tareaEstadosService: EstadoTareaService) { }
 
   ngOnInit(): void {
-    this.estadoTareaForm = this.fb.group({
-      idEstadoTarea: ['', Validators.required],
-      estadoTarea: ['', Validators.required]
-    });
+    this.crearFromulario();
     this.cargarEstadosTarea();
   }
 
@@ -31,14 +28,17 @@ export class EstadoTareaComponent implements OnInit {
   submit() {
     Alerts.warning("Advertencia", "¿Está seguro que desea guardar el estado de tarea?", "Si, guardar")
       .then((result) => {
-        if (!result.isConfirmed) {return;}
-          let estadoTarea: EstadoTarea = Object.assign({}, this.estadoTareaForm.value);
-          estadoTarea.fechaCreacion = new Date();
-          estadoTarea.fechaModificacion = new Date();
-          estadoTarea.modificado = 'admin';
-          this.tareaEstadosService.save(estadoTarea).subscribe(() => {
-            Alerts.success("Exito", "Estado de tarea guardado correctamente").then(() => this.cargarEstadosTarea());
-          }, (error) => Alerts.error("Error", "No se pudo guardar el estado de tarea",error));
+        if (!result.isConfirmed) {
+          Alerts.info('Información', 'Operación cancelada por el usuario');
+          this.estadoTareaForm.reset();
+          return;
+        }
+        let estadoTarea: EstadoTarea = Object.assign({}, this.estadoTareaForm.value);
+        estadoTarea.fechaModificacion = new Date();
+        estadoTarea.modificado = 'admin';
+        this.tareaEstadosService.save(estadoTarea).subscribe(() => {
+          Alerts.success("Exito", "Estado de tarea guardado correctamente").then(() => this.cargarEstadosTarea());
+        }, (error) => Alerts.error("Error", "No se pudo guardar el estado de tarea", error));
       });
   }
   ver(id: number) {
@@ -47,7 +47,7 @@ export class EstadoTareaComponent implements OnInit {
         this.estadoTareaForm.patchValue(estadoTarea);
         this.estadoTareaForm.disable();
       }
-    ), (error) => Alerts.error("Error", "No se pudo cargar el estado de tarea",error);
+    ), (error) => Alerts.error("Error", "No se pudo cargar el estado de tarea", error);
 
   }
   editar(id: number) {
@@ -56,26 +56,34 @@ export class EstadoTareaComponent implements OnInit {
         this.estadoTareaForm.patchValue(estadoTarea);
         this.estadoTareaForm.enable();
       }
-    ), (error) => Alerts.error("Error", "No se pudo cargar el estado de tarea",error);
+    ), (error) => Alerts.error("Error", "No se pudo cargar el estado de tarea", error);
   }
   eliminar(id: number) {
     Alerts.warning("Advertencia", "¿Está seguro que desea eliminar el estado de tarea?", "Si, eliminar")
       .then((result) => {
-        if (!result.isConfirmed) {return;}
-          this.tareaEstadosService.delete(id).subscribe((mensaje: Mensaje) => {
-              Alerts.success("Exito", "Se borrado correctamente el estado de la tarea").then(() => this.cargarEstadosTarea());
-            });
-        
+        if (!result.isConfirmed) {
+          Alerts.info('Información', 'Operación cancelada por el usuario');
+          this.estadoTareaForm.reset();
+          return;
+        }
+        this.tareaEstadosService.delete(id).subscribe((mensaje: Mensaje) => {
+          Alerts.success("Exito", "Se borrado correctamente el estado de la tarea").then(() => this.cargarEstadosTarea());
+        });
+
       });
   }
-  recargar() {
-    this.cargarEstadosTarea();
-  }
-  private cargarEstadosTarea() {
+  cargarEstadosTarea() {
     this.estadoTareaForm.reset();
     this.tareaEstadosService.findAll().subscribe(estadosTarea => this.estadosTarea = estadosTarea), (error) => {
       this.estadosTarea = [];
-      Alerts.error("Error", "No se pudo cargar la lista de estados de tarea",error);
+      Alerts.error("Error", "No se pudo cargar la lista de estados de tarea", error);
     };
+  }
+  crearFromulario() {
+    this.estadoTareaForm = this.fb.group({
+      idEstadoTarea: ['', Validators.required],
+      estadoTarea: ['', Validators.required],
+      fechaCreacion: ['']
+    });
   }
 }
