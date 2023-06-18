@@ -14,9 +14,9 @@
                 </div>
                 <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
                     <mdb-form-control>
-                        <input mdbInput formControlName="estadoTarea" type="text" id="anoconstruccion"
+                        <input mdbInput formControlName="estadoTarea" type="text" id="estadoTarea"
                             class="form-control" />
-                        <label mdbLabel class="form-label" for="anoconstruccion">Estado Tarea (*)</label>
+                        <label mdbLabel class="form-label" for="estadoTarea">Estado Tarea (*)</label>
                     </mdb-form-control>
                     <span class="text-danger"
                         *ngIf="estadoTareaForm.get('estadoTarea').touched && estadoTareaForm.get('estadoTarea').invalid">El
@@ -24,15 +24,15 @@
                 </div>
             </div>
         </div>
-
+        <input type="hidden" name="fechaCreacion" formControlName="fechaCreacion">
         <div class="row">
             <div class="col-12 col-sm-12 col-md-4 margin-form">
-                <a routerLink="/home-dashboard/dashboard" mdbBtn type="button" id="btnSave" class="btn btn-primary btn-lg btn-block"
-                    mdbWavesEffect>Volver</a>
+                <a routerLink="/home-dashboard/dashboard" mdbBtn type="button" id="btnSave"
+                    class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Volver</a>
             </div>
             <div class="col-12 col-sm-12 col-md-4 margin-form">
-                <button mdbBtn type="button" (click)="recargar()" id="btnSave"
-                    class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Refrescar</button>
+                <button mdbBtn type="button" (click)="cargarEstadosTarea()" id="btnSave" class="btn btn-primary btn-lg btn-block"
+                    mdbWavesEffect>Refrescar</button>
             </div>
             <div class="col-12 col-sm-12 col-md-4 margin-form">
                 <button mdbBtn type="submit" id="btnSave" [disabled]="estadoTareaForm.invalid||estadoTareaForm.disabled"
@@ -58,16 +58,14 @@
                 <span class="fw-normal mb-1">{{estado.estadoTarea}}</span>
             </td>
             <td>
-                <button (click)="ver(estado.idEstadoTarea)"
-                    type="button" class="btn btn-primary  btn-floating mx-1">
+                <button (click)="ver(estado.idEstadoTarea)" type="button" class="btn btn-primary  btn-floating mx-1">
                     <i class="fas fa-eye"></i>
                 </button>
-                <button (click)="editar(estado.idEstadoTarea)"
-                    type="button" class="btn btn-warning btn-floating mx-1" mdbRipple rippleColor="dark">
+                <button (click)="editar(estado.idEstadoTarea)" type="button" class="btn btn-warning btn-floating mx-1"
+                    mdbRipple rippleColor="dark">
                     <i class="fas fa-pen"></i>
                 </button>
-                <button (click)="eliminar(estado.idEstadoTarea)"
-                    type="button" class="btn btn-danger btn-floating mx-1">
+                <button (click)="eliminar(estado.idEstadoTarea)" type="button" class="btn btn-danger btn-floating mx-1">
                     <i class="fas fa-trash"></i>
                 </button>
             </td>
