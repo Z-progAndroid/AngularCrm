@@ -12,18 +12,18 @@ export class MunicipioService {
 
   constructor(private http: HttpClient) { }
   save(municipo: Municipo): Observable<Municipo> {
-    return this.http.post<Municipo>(`${environment.urlBase}municipio`, municipo);
+    return this.http.post<Municipo>(`http://localhost:8080/api_v1/crm/municipio`, municipo);
   }
   delete(id: number): Observable<Municipo> {
-    return this.http.delete<Municipo>(`${environment.urlBase}municipio?id=${id}`);
+    return this.http.delete<Municipo>(`http://localhost:8080/api_v1/crm/municipio?idMunicipio=${id}`);
   }
   findById(id: number): Observable<Municipo> {
-    return this.http.get<Municipo>(`${environment.urlBase}municipio?id=${id}`);
+    return this.http.get<Municipo>(`http://localhost:8080/api_v1/crm/municipio?idMunicipio=${id}`);
   }
   findAll(): Observable<Municipo[]> {
-    return this.http.get<Municipo[]>(`${environment.urlBase}municipio/all`);
+    return this.http.get<Municipo[]>(`http://localhost:8080/api_v1/crm/municipio/all`);
   }
   findAllByProvincia(idProvincia): Observable<Municipo[]> {
-    return this.http.get<Municipo[]>(`${environment.urlBase}municipio/municipiosByProvincia?idProvincia=${idProvincia}`);
+    return this.http.get<Municipo[]>(`http://localhost:8080/api_v1/crm/municipio/municipiosByProvincia?idProvincia=${idProvincia}`);
   }
 }

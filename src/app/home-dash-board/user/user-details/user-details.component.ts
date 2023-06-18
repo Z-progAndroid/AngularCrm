@@ -23,8 +23,9 @@ export class UserDetailsComponent implements OnInit {
   botonSave: boolean = false;
   prametosRuta: Params;
   test: String
-  constructor(private usuarioService: UsuarioService,private router: Router, private rutaActiva: ActivatedRoute,
+  constructor(private usuarioService: UsuarioService, private router: Router, private rutaActiva: ActivatedRoute,
     private rolService: RolService, private estadoUsuarioService: EstadoUsuarioService, private fb: FormBuilder) { }
+
   ngOnInit(): void {
     this.userForm = this.iniciarFormulario();
     forkJoin([
@@ -42,7 +43,7 @@ export class UserDetailsComponent implements OnInit {
   }
   onSubmit() {
     this.usuarioService.save(this.formToUser()).subscribe((usuario: User) => {
-      this.router.navigate(['/user']);
+      this.router.navigate(['/home-dashboard/user']);
     }), error => console.log(error);
   }
   iniciarFormulario(): FormGroup {
@@ -83,6 +84,7 @@ export class UserDetailsComponent implements OnInit {
   }
   realizarAccion(url: String) {
     let id = this.rutaActiva.snapshot.params['id'];
+    if (Utils.isNullOrUndefined(id)) return;
     this.usuarioService.findById(id).subscribe((usuario: User) => {
       this.userForm.patchValue(usuario);
       this.userForm.get('rol').setValue(usuario.idRol);

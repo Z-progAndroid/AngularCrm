@@ -45,7 +45,30 @@ import { InmuebleService } from './services/inmueble.service';
 import { RolService } from './services/rol.service';
 import { InmuebleDetailComponent } from './home-dash-board/inmueble/inmueble-detail/inmueble-detail.component';
 import { ImagenServiceService } from './services/imagen-service.service';
-import { LazyLoadModule } from 'ng-lazy-load';
+import { EstadosComponent } from './home-dash-board/estados/estados.component';
+import { EstadoContratosComponent } from './home-dash-board/estados/estado-contratos/estado-contratos.component';
+import { CabeceraEstadosComponent } from './home-dash-board/estados/cabecera-estados/cabecera-estados.component';
+import { EstadoContratoService } from './services/estado-contrato.service';
+import { EstadoInmueblesComponent } from './home-dash-board/estados/estado-inmuebles/estado-inmuebles.component';
+import { EstadoInmuebleService } from './services/estado-inmueble.service';
+import { EstadoTareaComponent } from './home-dash-board/estados/estado-tarea/estado-tarea.component';
+import { EstadoTareaService } from './services/estado-tarea.service';
+import { EstadoUsuarioComponent } from './home-dash-board/estados/estado-usuario/estado-usuario.component';
+import { EstadoCitasComponent } from './home-dash-board/estados/estado-citas/estado-citas.component';
+import { TiposComponent } from './home-dash-board/tipos/tipos.component';
+import { CabeceraTiposComponent } from './home-dash-board/tipos/cabecera-tipos/cabecera-tipos.component';
+import { TipoContratosComponent } from './home-dash-board/tipos/tipo-contratos/tipo-contratos.component';
+import { TipoInmueblesComponent } from './home-dash-board/tipos/tipo-inmuebles/tipo-inmuebles.component';
+import { TipoPagosComponent } from './home-dash-board/tipos/tipo-pagos/tipo-pagos.component';
+import { TipoSeguimientosComponent } from './home-dash-board/tipos/tipo-seguimientos/tipo-seguimientos.component';
+import { TiposCitasComponent } from './home-dash-board/tipos/tipos-citas/tipos-citas.component';
+import { CiudadesComponent } from './home-dash-board/ciudades/ciudades.component';
+import { CabeceraCiudadesComponent } from './home-dash-board/ciudades/cabecera-ciudades/cabecera-ciudades.component';
+import { PaisComponent } from './home-dash-board/ciudades/pais/pais.component';
+import { ProvinciaComponent } from './home-dash-board/ciudades/provincia/provincia.component';
+import { MunicipiosComponent } from './home-dash-board/ciudades/municipios/municipios.component';
+import { BarriosComponent } from './home-dash-board/ciudades/barrios/barrios.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +87,28 @@ import { LazyLoadModule } from 'ng-lazy-load';
     UserDetailsComponent,
     InmuebleTableComponent,
     InmuebleDetailComponent,
+    EstadosComponent,
+    EstadoContratosComponent,
+    CabeceraEstadosComponent,
+    EstadoInmueblesComponent,
+    EstadoTareaComponent,
+    EstadoUsuarioComponent,
+    EstadoCitasComponent,
+    TiposComponent,
+    CabeceraTiposComponent,
+    TipoContratosComponent,
+    TipoInmueblesComponent,
+    TipoPagosComponent,
+    TipoSeguimientosComponent,
+    TiposCitasComponent,
+    TipoSeguimientosComponent,
+    CiudadesComponent,
+    CabeceraCiudadesComponent,
+    PaisComponent,
+    ProvinciaComponent,
+    MunicipiosComponent,
+    BarriosComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -93,7 +138,11 @@ import { LazyLoadModule } from 'ng-lazy-load';
     MenuServiceService,
     RolService,
     UsuarioService,
-    ImagenServiceService],
+    ImagenServiceService,
+    EstadoContratoService,
+    EstadoInmuebleService,
+    EstadoTareaService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

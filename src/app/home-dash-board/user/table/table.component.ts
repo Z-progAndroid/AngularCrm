@@ -12,14 +12,13 @@ export class TableComponent {
   constructor(private router: Router, private usuarioService: UsuarioService,
   private location: Location) { }
   onEdit(id: number) {
-    this.router.navigate(['/user/editar', id]);
+    this.router.navigate(['/home-dashboard/user/editar', id]);
   }
   onView(id: number) {
-    this.router.navigate(['/user/ver', id]);
+    this.router.navigate(['/home-dashboard/user/ver', id]);
   }
   onDelete(id: number) {
     this.usuarioService.delete(id).subscribe((data: any) => {
-      console.log(data);
       this.location.go(this.location.path());
       window.location.reload();
     }), error => {

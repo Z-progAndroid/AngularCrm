@@ -15,10 +15,10 @@ export class BarrioService {
     return this.http.post<Barrio>(`${environment.urlBase}barrio`, barrio);
   }
   delete(id: number): Observable<Barrio> {
-    return this.http.delete<Barrio>(`${environment.urlBase}barrio?id=${id}`);
+    return this.http.delete<Barrio>(`${environment.urlBase}barrio?idBarrio=${id}`);
   }
   findById(id: number): Observable<Barrio> {
-    return this.http.get<Barrio>(`${environment.urlBase}barrio?id=${id}`);
+    return this.http.get<Barrio>(`${environment.urlBase}barrio?idBarrio=${id}`);
   }
   findAll(): Observable<Barrio[]> {
     return this.http.get<Barrio[]>(`${environment.urlBase}barrio/all`);
