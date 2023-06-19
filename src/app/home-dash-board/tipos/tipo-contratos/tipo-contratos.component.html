@@ -4,9 +4,9 @@
             <div class="row">
                 <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
                     <mdb-form-control>
-                        <input mdbInput formControlName="idTipoContrato" type="number" min="0" id="metroscuadrados"
+                        <input mdbInput formControlName="idTipoContrato" type="number" min="1" id="idTipoContrato"
                             class="form-control" />
-                        <label mdbLabel class="form-label" for="metroscuadrados">Id Tipo Contrato (*)</label>
+                        <label mdbLabel class="form-label" for="idTipoContrato">Id Tipo Contrato (*)</label>
                     </mdb-form-control>
                     <span class="text-danger"
                         *ngIf="tipoContratoForm.get('idTipoContrato').touched && tipoContratoForm.get('idTipoContrato').invalid">Id
@@ -14,8 +14,8 @@
                 </div>
                 <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
                     <mdb-form-control>
-                        <input mdbInput formControlName="tipo" type="text" id="anoconstruccion" class="form-control" />
-                        <label mdbLabel class="form-label" for="anoconstruccion">Tipo Contrato (*)</label>
+                        <input mdbInput formControlName="tipo" type="text" id="tipo" class="form-control" />
+                        <label mdbLabel class="form-label" for="tipo">Tipo Contrato (*)</label>
                     </mdb-form-control>
                     <span class="text-danger"
                         *ngIf="tipoContratoForm.get('tipo').touched && tipoContratoForm.get('tipo').invalid">El
