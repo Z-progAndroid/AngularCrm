@@ -41,7 +41,7 @@ export class TipoInmueblesComponent {
       (tipoInmueble: TipoInmueble) => {
         this.tipoInmueblesForm.patchValue(tipoInmueble);
         this.tipoInmueblesForm.enable();
-      }), error => Alerts.error('Error', 'Error al cargar el tipo de inmueble', error);
+      }, error => Alerts.error('Error', 'Error al cargar el tipo de inmueble', error));
   }
   eliminar(id: number) {
     Alerts.warning('Advertencia', '¿Está seguro de guardar el tipo de inmueble?', 'Si,guardar')
@@ -55,7 +55,7 @@ export class TipoInmueblesComponent {
             Alerts.success('Operación exitosa', 'Tipo de inmueble eliminado con éxito');
             this.tipoInmueblesForm.reset();
             this.cargarTipoInmuebles();
-          }), error => Alerts.error('Error', 'Error al eliminar el tipo de inmueble', error);
+          }, error => Alerts.error('Error', 'Error al eliminar el tipo de inmueble', error));
       });
   }
   ver(id: number) {
@@ -63,8 +63,7 @@ export class TipoInmueblesComponent {
       (tipoInmueble: TipoInmueble) => {
         this.tipoInmueblesForm.patchValue(tipoInmueble);
         this.tipoInmueblesForm.disable();
-      }
-    ), error => Alerts.error('Error', 'Error al cargar el tipo de inmueble', error);
+      }, error => Alerts.error('Error', 'Error al cargar el tipo de inmueble', error));
   }
   crearFromulario() {
     this.tipoInmueblesForm = this.fb.group({
