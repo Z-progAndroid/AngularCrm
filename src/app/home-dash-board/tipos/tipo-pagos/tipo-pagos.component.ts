@@ -22,7 +22,7 @@ export class TipoPagosComponent {
     this.cargarTipoPagos();
   }
   submit() {
-    Alerts.warning('Advertencia', '¿Está seguro de guardar el tipo de inmueble?', 'Si,guardar')
+    Alerts.warning('Advertencia', '¿Está seguro de guardar el tipo de pago ?', 'Si,guardar')
       .then((result) => {
         if (!result.isConfirmed) {
           Alerts.info('Información', 'Operación cancelada por el usuario');
@@ -33,7 +33,7 @@ export class TipoPagosComponent {
           Alerts.success('Operación exitosa', 'Tipo de pago guardado con éxito');
           this.tipoPagoForm.reset();
           this.cargarTipoPagos();
-        }, error => console.log(error));
+        }, error => Alerts.error('Error', 'Error al guardar el tipo de pago', error));
       });
   }
   editar(id: number) {
@@ -45,7 +45,7 @@ export class TipoPagosComponent {
 
   }
   eliminar(id: number) {
-    Alerts.warning('Advertencia', '¿Está seguro de eliminar el tipo de inmueble?', 'Si,guardar')
+    Alerts.warning('Advertencia', '¿Está seguro de eliminar el tipo de pago ?', 'Si,guardar')
       .then((result) => {
         if (!result.isConfirmed) {
           Alerts.info('Información', 'Operación cancelada por el usuario');
@@ -56,7 +56,7 @@ export class TipoPagosComponent {
           Alerts.success('Operación exitosa', 'Tipo de pago eliminado con éxito');
           this.tipoPagoForm.reset();
           this.cargarTipoPagos();
-        }, error => console.log(error));
+        }, error => Alerts.error('Error', 'Error al eliminar el tipo de pago', error));
       });
   }
   ver(id: number) {
@@ -64,7 +64,7 @@ export class TipoPagosComponent {
       (tipoPago: TipoPago) => {
         this.tipoPagoForm.patchValue(tipoPago);
         this.tipoPagoForm.disable();
-      }, error => console.log(error));
+      }, error => Alerts.error('Error', 'Error al cargar el tipo de pago', error));
   }
   crearFromulario() {
     this.tipoPagoForm = this.fb.group({

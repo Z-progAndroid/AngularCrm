@@ -71,7 +71,7 @@ export class TipoContratosComponent {
   cargarTiposContrato() {
     this.tipoContratoService.findAll().subscribe((tipoContrato: TipoContrato[]) => {
       this.tiposContratos = tipoContrato
-    }, error => console.log(error));
+    }, error => Alerts.error('Error', 'No se ha podido cargar los tipos de contrato', error));
   }
   private get tipoContrato() {
     let tipoContrato: TipoContrato = new TipoContrato();
