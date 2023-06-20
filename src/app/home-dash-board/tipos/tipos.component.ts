@@ -18,7 +18,7 @@ export class TiposComponent {
   constructor() { }
   ngOnInit(): void {
     this.tipoContratos = true;
-    this.titulo = 'Contratos Estados';
+    this.titulo = 'Tipo Contrato';
     this.fillEstados()
   }
   fillEstados() {
