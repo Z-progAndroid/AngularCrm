@@ -4,9 +4,9 @@
             <div class="row">
                 <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
                     <mdb-form-control>
-                        <input mdbInput formControlName="idTipoContrato" type="number" min="0" id="metroscuadrados"
+                        <input mdbInput formControlName="idTipoContrato" type="number" min="1" id="idTipoContrato"
                             class="form-control" />
-                        <label mdbLabel class="form-label" for="metroscuadrados">Id Tipo Contrato (*)</label>
+                        <label mdbLabel class="form-label" for="idTipoContrato">Id Tipo Contrato (*)</label>
                     </mdb-form-control>
                     <span class="text-danger"
                         *ngIf="tipoContratoForm.get('idTipoContrato').touched && tipoContratoForm.get('idTipoContrato').invalid">Id
@@ -14,24 +14,28 @@
                 </div>
                 <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
                     <mdb-form-control>
-                        <input mdbInput formControlName="tipo" type="text" id="anoconstruccion"
-                            class="form-control" />
-                        <label mdbLabel class="form-label" for="anoconstruccion">Tipo Contrato (*)</label>
+                        <input mdbInput formControlName="tipo" type="text" id="tipo" class="form-control" />
+                        <label mdbLabel class="form-label" for="tipo">Tipo Contrato (*)</label>
                     </mdb-form-control>
                     <span class="text-danger"
                         *ngIf="tipoContratoForm.get('tipo').touched && tipoContratoForm.get('tipo').invalid">El
-                    tipo contrato es requerido</span>
+                        tipo contrato es requerido</span>
                 </div>
             </div>
         </div>
-
+        <input type="hidden" name="fechaCreacion" formControlName="fechaCreacion" />
         <div class="row">
-            <div class="col-12 col-sm-12 col-md-6 margin-form">
-                <a routerLink="/home-dashboard/dashboard" mdbBtn type="button" id="btnSave" class="btn btn-primary btn-lg btn-block"
-                    mdbWavesEffect>Volver</a>
+            <div class="col-12 col-sm-12 col-md-4 margin-form">
+                <a routerLink="/home-dashboard/dashboard" mdbBtn type="button" id="btnSave"
+                    class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Volver</a>
             </div>
-            <div class="col-12 col-sm-12 col-md-6 margin-form">
-                <button mdbBtn type="submit" id="btnSave" [disabled]="tipoContratoForm.invalid||tipoContratoForm.disabled"
+            <div class="col-12 col-sm-12 col-md-4 margin-form">
+                <button mdbBtn type="button" id="btnSave" (click)="cargarTiposContrato()" class="btn btn-primary btn-lg btn-block"
+                    mdbWavesEffect>Refrescar</button>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 margin-form">
+                <button mdbBtn type="submit" id="btnSave"
+                    [disabled]="tipoContratoForm.invalid||tipoContratoForm.disabled"
                     class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Guardar</button>
             </div>
         </div>
@@ -46,7 +50,7 @@
         </tr>
     </thead>
     <tbody class="margin-form text-center">
-        <tr *ngFor="let estado of tipoContrato">
+        <tr *ngFor="let estado of tiposContratos">
             <td>
                 <span class="fw-normal mb-1">{{estado.idTipoContrato}}</span>
             </td>
@@ -54,14 +58,15 @@
                 <span class="fw-normal mb-1">{{estado.tipo}}</span>
             </td>
             <td>
-                <button (click)="ver(estado.idTipoContrato)" [disabled]="deshabilitar(estado.idTipoContrato)" type="button" class="btn btn-primary  btn-floating mx-1">
+                <button (click)="ver(estado.idTipoContrato)" type="button" class="btn btn-primary  btn-floating mx-1">
                     <i class="fas fa-eye"></i>
                 </button>
-                <button (click)="editar(estado.idTipoContrato)" [disabled]="deshabilitar(estado.idTipoContrato)" type="button" class="btn btn-warning btn-floating mx-1"
+                <button (click)="editar(estado.idTipoContrato)" type="button" class="btn btn-warning btn-floating mx-1"
                     mdbRipple rippleColor="dark">
                     <i class="fas fa-pen"></i>
                 </button>
-                <button (click)="eliminar(estado.idTipoContrato)" [disabled]="deshabilitar(estado.idTipoContrato)" type="button" class="btn btn-danger btn-floating mx-1">
+                <button (click)="eliminar(estado.idTipoContrato)" type="button"
+                    class="btn btn-danger btn-floating mx-1">
                     <i class="fas fa-trash"></i>
                 </button>
             </td>

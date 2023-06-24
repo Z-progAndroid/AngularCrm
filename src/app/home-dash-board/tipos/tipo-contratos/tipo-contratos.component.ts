@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TipoContrato } from 'src/app/models/tipo-contrato';
 import { TipoContratoService } from 'src/app/services/tipo-contrato.service';
+import { Alerts } from 'src/app/utils/Alerts';
+import { Utils } from 'src/app/utils/Utils';
 
 @Component({
   selector: 'app-tipo-contratos',
@@ -10,56 +12,76 @@ import { TipoContratoService } from 'src/app/services/tipo-contrato.service';
 })
 export class TipoContratosComponent {
   tipoContratoForm: FormGroup
-  tipoContrato: TipoContrato []
+  tiposContratos: TipoContrato[]
   constructor(
     private fb: FormBuilder,
     private tipoContratoService: TipoContratoService
   ) { }
   ngOnInit(): void {
-    this.tipoContratoForm = this.fb.group({
-      idTipoContrato: ['', Validators.required],
-      tipo: ['', Validators.required]
-    });
-    this.tipoContratoService.findAll().subscribe(tipoContrato => this.tipoContrato = tipoContrato)
-      , error => console.log(error);
+    this.creacionFormulario();
+    this.cargarTiposContrato();
   }
   submit() {
-    let tipoContrato: TipoContrato = Object.assign({}, this.tipoContratoForm.value);
-    tipoContrato.fechaCreacion = new Date();
-    tipoContrato.fechaModificacion = new Date();
-    tipoContrato.modificado = 'admin';
-    this.tipoContratoService.save(tipoContrato).subscribe((tipoContrato: TipoContrato) => {
-        this.tipoContratoService.findAll().subscribe(
-          tipoContrato => this.tipoContrato = tipoContrato
-        ), error => console.log(error);
-      }, error => console.log(error));
-
+    Alerts.warning('Avertencia', '¿Está seguro de guardar el tipo de contrato?', 'Aceptar').then((result) => {
+      if (!result.isConfirmed) {
+        Alerts.info('Información', 'Operación cancelada por el usuario');
+        return;
+      }
+      this.tipoContratoService.save(this.tipoContrato).subscribe((tipoContrato: TipoContrato) => {
+        Alerts.success('Operación exitosa', 'El tipo de contrato se ha guardado correctamente');
+        this.cargarTiposContrato();
+        this.tipoContratoForm.reset();
+      }, error => Alerts.error('Error', 'No se ha podido guardar el tipo de contrato', error));
+    });
   }
   editar(id: number) {
-    this.tipoContratoService.findById(id).subscribe(
-      (tipoContrato: TipoContrato) => {
-        this.tipoContratoForm.patchValue(tipoContrato);
-        this.tipoContratoForm.enable();
-      }), error => console.log(error);
+    this.tipoContratoService.findById(id).subscribe((tipoContrato: TipoContrato) => {
+      this.tipoContratoForm.patchValue(tipoContrato);
+      this.tipoContratoForm.enable();
+    }, error => Alerts.error('Error', 'No se ha podido cargar el tipo de contrato', error));
 
   }
   eliminar(id: number) {
-    this.tipoContratoService.delete(id).subscribe(
-      (mensaje: any) => {
-        this.tipoContratoService.findAll().subscribe(
-          tipoContrato => this.tipoContrato = tipoContrato
-        ), error => console.log(error);
-      }), error => console.log(error);
+    Alerts.warning('Avertencia', '¿Está seguro de eliminar el tipo de contrato?', 'Aceptar').then((result) => {
+      if (!result.isConfirmed) {
+        Alerts.info('Información', 'Operación cancelada por el usuario');
+        return;
+      }
+      this.tipoContratoService.delete(id).subscribe((mensaje: any) => {
+        Alerts.success('Operación exitosa', 'El tipo de contrato se ha eliminado correctamente');
+        this.cargarTiposContrato();
+        this.tipoContratoForm.reset();
+      }, error => Alerts.error('Error', 'No se ha podido eliminar el tipo de contrato', error));
+    });
   }
   ver(id: number) {
     this.tipoContratoService.findById(id).subscribe(
       (tipoContrato: TipoContrato) => {
         this.tipoContratoForm.patchValue(tipoContrato);
         this.tipoContratoForm.disable();
-      }
-    ), error => console.log(error);
+      }, error => Alerts.error('Error', 'No se ha podido cargar el tipo de contrato', error));
   }
-  deshabilitar(id: number): boolean {
-    return id === 0;
+  creacionFormulario() {
+    this.tipoContratoForm = this.fb.group({
+      idTipoContrato: ['', Validators.required],
+      tipo: ['', Validators.required],
+      fechaCreacion: ['']
+    });
+  }
+  cargarTiposContrato() {
+    this.tipoContratoService.findAll().subscribe((tipoContrato: TipoContrato[]) => {
+      this.tiposContratos = tipoContrato
+    }, error => Alerts.error('Error', 'No se ha podido cargar los tipos de contrato', error));
+  }
+  private get tipoContrato() {
+    let tipoContrato: TipoContrato = new TipoContrato();
+    tipoContrato.idTipoContrato = this.tipoContratoForm.get('idTipoContrato').value;
+    tipoContrato.tipo = this.tipoContratoForm.get('tipo').value;
+    tipoContrato.fechaCreacion = Utils.isNullOrUndefined(this.tipoContratoForm.get('fechaCreacion').value)
+      ? new Date()
+      : this.tipoContratoForm.get('fechaCreacion').value;
+    tipoContrato.fechaModificacion = new Date();
+    tipoContrato.modificado = 'admin';
+    return tipoContrato;
   }
 }
