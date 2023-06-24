@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CitaComponent } from './cita/cita.component';
-import { CiudadesComponent } from './ciudades/ciudades.component';
+
 import { ContratoComponent } from './contrato/contrato.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EstadosComponent } from './estados/estados.component';
@@ -13,6 +13,7 @@ import { TiposComponent } from './tipos/tipos.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { UserComponent } from './user/user.component';
 import { HomeDashBoardComponent } from './home-dash-board.component';
+import { UbicacionesComponent } from './ubicaciones/ubicaciones.component';
 
 const routes: Routes = [
   {
@@ -29,7 +30,7 @@ const routes: Routes = [
       { path: 'inmueble/crear', component: InmuebleDetailComponent },
       { path: 'estados', component: EstadosComponent },
       { path: 'tipos', component: TiposComponent },
-      { path: 'ciudad', component: CiudadesComponent },
+      { path: 'ubicacion', component: UbicacionesComponent },
       { path: 'cita', component: CitaComponent },
       { path: 'contrato', component: ContratoComponent },
       { path: 'seguimiento', component: SeguimientoComponent },

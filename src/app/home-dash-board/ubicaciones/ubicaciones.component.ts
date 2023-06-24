@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-ciudades',
-  templateUrl: './ciudades.component.html',
-  styleUrls: ['./ciudades.component.scss']
+  templateUrl: './ubicaciones.component.html',
+  styleUrls: ['./ubicaciones.component.scss']
 })
-export class CiudadesComponent {
+export class UbicacionesComponent {
   paises: boolean = false
   provincias: boolean = false
   municipios: boolean = false

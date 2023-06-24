@@ -55,9 +55,9 @@ export class MenuServiceService {
         link: '/home-dashboard/tipos'
       },
       {
-        title: 'Paises',
+        title: 'Ubicaciones',
         icon: 'fas fa-globe',
-        link: '/home-dashboard/ciudad'
+        link: '/home-dashboard/ubicacion'
       },
       {
         title: 'Desconectar',
