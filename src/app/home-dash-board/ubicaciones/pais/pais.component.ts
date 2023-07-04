@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { EstadoCitas } from 'src/app/models/estado-citas';
 import { Pais } from 'src/app/models/pais';
 
 import { PaisService } from 'src/app/services/pais.service';
+import { Alerts } from 'src/app/utils/Alerts';
+import { Utils } from 'src/app/utils/Utils';
 
 @Component({
   selector: 'app-pais',
@@ -13,53 +14,84 @@ import { PaisService } from 'src/app/services/pais.service';
 export class PaisComponent {
   paisForm: FormGroup
   paises: Pais[]
+  idPaisExistente: string='';
   constructor(
     private fb: FormBuilder,
     private paisService: PaisService
   ) { }
   ngOnInit(): void {
+    this.crearFormulario();
+    this.cargarPaises();
+  }
+  submit() {
+    Alerts.warning('Avertencia', '¿Está seguro de guardar el país?', 'Si, guardar')
+      .then((result) => {
+        if (!result.isConfirmed) {
+          Alerts.info('Información', 'Operación cancelada por usuario');
+          return
+        }
+        this.paisService.save(this.pais).subscribe(data => {
+          Alerts.success('Exito', 'País guardado con éxito');
+          this.idPaisExistente='';
+          this.paisForm.reset();
+          this.cargarPaises();
+        }, error => Alerts.error('Error', 'Error guardando el país', error));
+      })
+
+  }
+  ver(id: string) {
+    this.paisService.findById(id).subscribe(
+      (pais: Pais) => {
+        this.paisForm.patchValue(pais);
+        this.paisForm.disable();
+      }, error => Alerts.error('Error', 'Error cargando el país', error));
+  }
+  editar(id: string) {
+    this.paisService.findById(id).subscribe(
+      (pais: Pais) => {
+        this.idPaisExistente =id;
+        this.paisForm.patchValue(pais);
+        this.paisForm.enable();
+      }, error => Alerts.error('Error', 'Error cargando el país', error));
+  }
+  eliminar(id: string) {
+    Alerts.warning('Avertencia', '¿ Está seguro de borrar el país ,tenga en cuenta que se borran los registros relacionados ?', 'Si, guardar')
+      .then((result) => {
+        if (!result.isConfirmed) {
+          Alerts.info('Información', 'Operación cancelada por usuario');
+          return
+        }
+        this.paisService.delete(id).subscribe(() => {
+          Alerts.success('Exito', 'País eliminado con éxito');
+          this.idPaisExistente='';
+          this.paisForm.reset();
+          this.cargarPaises();
+        }, error => Alerts.error('Error', 'Error eliminando el país', error));
+      })
+  }
+  cargarPaises() {
+    this.paises = [];
+    this.paisService.findAll().subscribe(data => {
+      this.paises = data
+    }, error => Alerts.error('Error', 'Error cargando los países', error));
+  }
+  crearFormulario() {
     this.paisForm = this.fb.group({
       idPais: ['', Validators.required],
       pais: ['', Validators.required],
-    })
-    this.paisService.findAll().subscribe(data => {
-      this.paises = data
-    }), error => console.log(error);
+      fechaModificacion: ['']   
+    });
   }
-  submit() {
+  private get pais() {
     let pais: Pais = new Pais();
-    pais = Object.assign({}, this.paisForm.value);
+    pais.idPaisExistente = this.idPaisExistente;
+    pais.idPais = this.paisForm.get('idPais').value;
+    pais.pais = this.paisForm.get('pais').value;
     pais.fechaCreacion = new Date();
-    pais.fechaModificacion = new Date();
+    pais.fechaModificacion = Utils.isNullOrUndefined(this.paisForm.get('fechaModificacion').value)
+      ? new Date()
+      : this.paisForm.get('fechaModificacion').value;
     pais.modificado = 'admin';
-    this.paisService.save(pais).subscribe(data => {
-      this.paisForm.reset();
-      this.ngOnInit();
-    }), error => console.log(error);
-
-  }
-  ver(id: number) {
-    this.paisService.findById(id).subscribe(
-      (estadoCita: Pais) => {
-        this.paisForm.patchValue(estadoCita);
-        this.paisForm.disable();
-      }), error => console.log(error);
-  }
-  editar(id: number) {
-    this.paisService.findById(id).subscribe(
-      (estadoCita: Pais) => {
-        this.paisForm.patchValue(estadoCita);
-        this.paisForm.enable();
-      }), error => console.log(error);
-  }
-  eliminar(id: number) {
-    this.paisService.delete(id).subscribe(
-      (mensaje: any) => {
-        console.log(mensaje);
-        this.ngOnInit();
-      }), error => console.log(error);
-  }
-  deshabilitar(id: number): boolean {
-    return id === 0;
+    return pais;
   }
 }

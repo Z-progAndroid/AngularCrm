@@ -4,4 +4,5 @@ export class Pais {
     fechaCreacion: Date;
     fechaModificacion: Date;
     modificado: String;
+    idPaisExistente: String;
 }
