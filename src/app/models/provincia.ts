@@ -4,5 +4,6 @@ export class Provincia {
     idPais:String;
     fechaCreacion:Date;
     fechaModificacion:Date;
-    modificado:String;
+    modificado: String;
+    idProvinciaExistente:number;
 }
