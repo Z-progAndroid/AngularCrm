@@ -14,10 +14,10 @@ export class PaisService {
   save(pais: Pais): Observable<Pais> {
     return this.http.post<Pais>(`${environment.urlBase}pais`, pais);
   }
-  delete(id: number): Observable<Pais> {
+  delete(id: string): Observable<Pais> {
     return this.http.delete<Pais>(`${environment.urlBase}pais?idPais=${id}`);
   }
-  findById(id: number): Observable<Pais> {
+  findById(id: string): Observable<Pais> {
     return this.http.get<Pais>(`${environment.urlBase}pais?idPais=${id}`);
   }
   findAll(): Observable<Pais[]> {

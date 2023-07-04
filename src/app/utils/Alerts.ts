@@ -13,6 +13,7 @@ export class Alerts {
     }
     static error(titulo: string, mensaje: string, error: any): any {
         console.log(error);
+        mensaje = error.error.mensaje ? error.error.mensaje : mensaje;
         return Swal.fire({
             icon: 'error',
             title: titulo,
@@ -21,6 +22,7 @@ export class Alerts {
     }
     static errorConRedirect(titulo: string, mensaje: string, url: string, error: any): any {
         console.log(error);
+        mensaje = error.error.mensaje ? error.error.mensaje : mensaje;
         return Swal.fire({
             icon: 'error',
             title: titulo,

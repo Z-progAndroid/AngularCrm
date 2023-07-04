@@ -17,7 +17,7 @@ export class UbicacionesComponent {
   constructor() { }
   ngOnInit(): void {
     this.paises = true;
-    this.titulo = 'Paises Pronvincias Municipios Barrios';
+    this.titulo = 'Paises';
     this.fillEstados()
   }
   fillEstados() {
