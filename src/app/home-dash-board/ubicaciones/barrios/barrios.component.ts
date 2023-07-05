@@ -3,12 +3,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 import { Barrio } from 'src/app/models/barrio';
 import { Municipo } from 'src/app/models/municipo';
-import { Pais } from 'src/app/models/pais';
-import { Provincia } from 'src/app/models/provincia';
 import { BarrioService } from 'src/app/services/barrio.service';
 import { MunicipioService } from 'src/app/services/municipio.service';
-import { PaisService } from 'src/app/services/pais.service';
-import { ProvinciaService } from 'src/app/services/provincia.service';
+import { Alerts } from 'src/app/utils/Alerts';
+import { Utils } from 'src/app/utils/Utils';
 
 @Component({
   selector: 'app-barrios',
@@ -25,59 +23,91 @@ export class BarriosComponent {
     private barrioService: BarrioService
   ) { }
   ngOnInit(): void {
-    this.barrioForm = this.fb.group({
-      idMunicipio: ['', Validators.required],
-      idBarrio: ['', Validators.required],
-      barrio: ['', Validators.required]
-    })
-
-    forkJoin([
-      this.municipioService.findAll(),
-      this.barrioService.findAll()
-    ]).subscribe(([municipios,barrios]) => {
-      this.municipios = municipios;
-      this.barrios = barrios;
-    }), error => console.log(error);
+    this.crearFormulario();
+    this.cargarMunicipios();
   }
   submit() {
-    let pais: Barrio = new Barrio();
-    pais = Object.assign({}, this.barrioForm.value);
-    pais.fechaCreacion = new Date();
-    pais.fechaModificacion = new Date();
-    pais.modificado = 'admin';
-    this.barrioService.save(pais).subscribe(data => {
-      this.barrioForm.reset();
-      this.ngOnInit();
-    }), error => console.log(error);
+    Alerts.warning('Advertencia', '¿Estas seguro de guardar el barrio?', 'Confirmar').then((result) => {
+      if (!result.isConfirmed) {
+        Alerts.info('Informacion', 'Operacion cancelada por el usuario');
+        return;
+      }
+      this.barrioService.save(this.barrio).subscribe(data => {
+        Alerts.success('Exito', 'Barrio guardado correctamente');
+        this.barrioForm.reset();
+        this.cargarMunicipios();
+      }, error => {
+        this.barrioForm.reset();
+        Alerts.error('Error', 'No se pudo guardar el barrio', error);
+      });
+    });
 
   }
   ver(id: number) {
-    this.barrioService.findById(id).subscribe(
-      (barrio: Barrio) => {
-        console.log(barrio);
-        this.barrioForm.patchValue(barrio);
-        this.barrioForm.disable();
-      }), error => console.log(error);
+    this.barrioService.findById(id).subscribe((barrio: Barrio) => {
+      this.barrioForm.patchValue(barrio);
+      this.barrioForm.disable();
+    }, error => {
+      this.barrioForm.reset();
+      Alerts.error('Error', 'No se pudo cargar el barrio', error);
+    });
   }
   editar(id: number) {
-    console.log(id);
-    this.barrioService.findById(id).subscribe(
-      (barrio: Barrio) => {
-        console.log(barrio);
-        this.barrioForm.get('idMunicipio').setValue(barrio.idMunicipio);
-        this.barrioForm.get('idBarrio').setValue(barrio.idBarrio);
-        this.barrioForm.get('barrio').setValue(barrio.barrio);
-        this.barrioForm.enable();
-      }), error => console.log(error);
+    this.barrioService.findById(id).subscribe((barrio: Barrio) => {
+      this.barrioForm.patchValue(barrio);
+      this.barrioForm.enable();
+    }, error => {
+      this.barrioForm.reset();
+      Alerts.error('Error', 'No se pudo cargar el barrio', error);
+    });
   }
   eliminar(id: number) {
-    this.barrioService.delete(id).subscribe(
-      (mensaje: any) => {
-        console.log(mensaje);
-        this.ngOnInit();
-      }), error => console.log(error);
+    Alerts.warning('Advertencia', '¿Estas seguro de eliminar el barrio?', 'Confirmar').then((result) => {
+      if (!result.isConfirmed) {
+        Alerts.info('Informacion', 'Operacion cancelada por el usuario');
+        return;
+      }
+      this.barrioService.delete(id).subscribe((mensaje: any) => {
+        Alerts.success('Exito', 'Barrio eliminado correctamente');
+        this.cargarMunicipios();
+      }, error => {
+        this.barrioForm.reset();
+        Alerts.error('Error', 'No se pudo eliminar el barrio', error);
+      });
+    });
   }
-  deshabilitar(id: number): boolean {
-    return id === 0;
+  crearFormulario() {
+    this.barrioForm = this.fb.group({
+      idMunicipio: ['', Validators.required],
+      idBarrio: ['', Validators.required],
+      barrio: ['', Validators.required],
+      fechaModificacion: ['']
+    })
+  }
+  cargarMunicipios() {
+    this.municipios = [];
+    this.barrios = [];
+    forkJoin([
+      this.municipioService.findAll(),
+      this.barrioService.findAll()
+    ]).subscribe(([municipios, barrios]) => {
+      this.municipios = municipios;
+      this.barrios = barrios;
+    }, error => {
+      this.barrioForm.reset();
+      Alerts.error('Error', 'No se pudo cargar la municipo', error);
+    });
+  }
+  private get barrio(): Barrio {
+    let barrio: Barrio = new Barrio();
+    barrio.idMunicipio = this.barrioForm.get('idMunicipio').value;
+    barrio.idBarrio = this.barrioForm.get('idBarrio').value;
+    barrio.barrio = this.barrioForm.get('barrio').value;
+    barrio.fechaCreacion = new Date();
+    barrio.fechaModificacion = Utils.isNullOrUndefined(this.barrioForm.get('fechaModificacion').value)
+      ? new Date()
+      : this.barrioForm.get('fechaModificacion').value;
+    barrio.modificado = 'admin';
+    return barrio;
   }
 }
