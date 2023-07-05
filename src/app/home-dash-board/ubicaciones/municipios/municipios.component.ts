@@ -5,8 +5,9 @@ import { Municipo } from 'src/app/models/municipo';
 import { Pais } from 'src/app/models/pais';
 import { Provincia } from 'src/app/models/provincia';
 import { MunicipioService } from 'src/app/services/municipio.service';
-import { PaisService } from 'src/app/services/pais.service';
 import { ProvinciaService } from 'src/app/services/provincia.service';
+import { Alerts } from 'src/app/utils/Alerts';
+import { Utils } from 'src/app/utils/Utils';
 
 @Component({
   selector: 'app-municipios',
@@ -18,66 +19,101 @@ export class MunicipiosComponent {
   provincias: Provincia[]
   paises: Pais[]
   municipios: Municipo[]
+  idMunicipioExistente: number = 0;
   constructor(
     private fb: FormBuilder,
-    private paisService: PaisService,
     private provinciaService: ProvinciaService,
     private municipioService: MunicipioService
   ) { }
   ngOnInit(): void {
+    this.cargarFormulario();
+    this.cargarMunicipios();
+  }
+  submit() {
+    Alerts.warning('Advertencia', '¿Estas seguro de guardar el municipio?', 'Confirmar').then((result) => {
+      if (!result.isConfirmed) {
+        Alerts.info('Informacion', 'Operacion cancelada por el usuario');
+        return;
+      }
+      this.municipioService.save(this.municipio).subscribe(data => {
+        this.idMunicipioExistente = 0;
+        this.municipiosForm.reset();
+        this.cargarMunicipios();
+      }, error => {
+        this.municipiosForm.reset();
+        Alerts.error('Error', 'No se pudo guardar la provincia', error);
+      });
+    });
+  }
+  ver(id: number) {
+    this.municipioService.findById(id).subscribe((municipo: Municipo) => {
+      this.municipiosForm.patchValue(municipo);
+      this.municipiosForm.disable();
+    }, error => {
+      this.municipiosForm.reset();
+      Alerts.error('Error', 'No se pudo cargar la municipo', error);
+    });
+  }
+  editar(id: number) {
+    this.municipioService.findById(id).subscribe((municipio: Municipo) => {
+      this.idMunicipioExistente = id;
+      this.municipiosForm.patchValue(municipio);
+      this.municipiosForm.enable();
+    }, error => {
+      this.municipiosForm.reset();
+      Alerts.error('Error', 'No se pudo cargar la municipio', error);
+    });
+  }
+  eliminar(id: number) {
+    Alerts.warning('Advertencia', '¿Estas seguro de eliminar el municipio?', 'Confirmar').then((result) => {
+      if (!result.isConfirmed) {
+        Alerts.info('Informacion', 'Operacion cancelada por el usuario');
+        return;
+      }
+      this.municipioService.delete(id).subscribe((mensaje: any) => {
+        Alerts.success('Exito', 'Se elimino el municipio correctamente');
+        this.idMunicipioExistente = 0;
+        this.municipiosForm.reset();
+        this.cargarMunicipios();
+      }, error => {
+        this.municipiosForm.reset();
+        Alerts.error('Error', 'No se pudo eliminar la provincia', error);
+      });
+    });
+  }
+  cargarFormulario() {
     this.municipiosForm = this.fb.group({
       idProvincia: ['', Validators.required],
       idMunicipio: ['', Validators.required],
-      municipio: ['', Validators.required]
+      municipio: ['', Validators.required],
+      fechaModificacion: ['']
     })
-
+  }
+  cargarMunicipios() {
+    this.provincias = [];
+    this.municipios = [];
     forkJoin([
       this.provinciaService.findAll(),
       this.municipioService.findAll()
     ]).subscribe(([provincias, municipios]) => {
       this.provincias = provincias;
       this.municipios = municipios;
-    }), error => console.log(error);
-  }
-  submit() {
-    let pais: Municipo = new Municipo();
-    pais = Object.assign({}, this.municipiosForm.value);
-    pais.fechaCreacion = new Date();
-    pais.fechaModificacion = new Date();
-    pais.modificado = 'admin';
-    this.municipioService.save(pais).subscribe(data => {
+    }, error => {
       this.municipiosForm.reset();
-      this.ngOnInit();
-    }), error => console.log(error);
-
+      Alerts.error('Error', 'No se pudo cargar la municipo', error);
+    });
   }
-  ver(id: number) {
-    this.municipioService.findById(id).subscribe(
-      (provincia: Municipo) => {
-        console.log(provincia);
-        this.municipiosForm.patchValue(provincia);
-        this.municipiosForm.disable();
-      }), error => console.log(error);
-  }
-  editar(id: number) {
-    console.log(id);
-    this.municipioService.findById(id).subscribe(
-      (provincia: Municipo) => {
-        console.log(provincia);
-        this.municipiosForm.get('idProvincia').setValue(provincia.idProvincia);
-        this.municipiosForm.get('municipio').setValue(provincia.municipio);
-        this.municipiosForm.get('idMunicipio').setValue(provincia.idMunicipio);
-        this.municipiosForm.enable();
-      }), error => console.log(error);
-  }
-  eliminar(id: number) {
-    this.municipioService.delete(id).subscribe(
-      (mensaje: any) => {
-        console.log(mensaje);
-        this.ngOnInit();
-      }), error => console.log(error);
-  }
-  deshabilitar(id: number): boolean {
-    return id === 0;
+  private get municipio(): Municipo {
+    let municipio: Municipo = new Municipo();
+    municipio.idMunicipioExistente= this.idMunicipioExistente;
+    municipio.idMunicipio = this.municipiosForm.get('idMunicipio').value;
+    municipio.municipio = this.municipiosForm.get('municipio').value;
+    municipio.idProvincia = this.municipiosForm.get('idProvincia').value;
+    municipio.fechaCreacion = new Date();
+    municipio.fechaModificacion = Utils.isNullOrUndefined(this.municipiosForm.get('fechaModificacion').value)
+      ? new Date()
+      : this.municipiosForm.get('fechaModificacion').value;
+    municipio.modificado = 'admin';
+    return municipio;
   }
 }

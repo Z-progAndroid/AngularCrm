@@ -5,18 +5,20 @@
                 <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
                     <div class="floating-label">
                         <select class="form-control" formControlName="idProvincia">
-                            <option *ngFor="let pais of provincias" [value]="pais.idProvincia">{{pais.provincia}}</option>
+                            <option *ngFor="let pais of provincias" [value]="pais.idProvincia">{{pais.provincia}}
+                            </option>
                         </select>
                         <label>Provincia(*)</label>
                     </div>
-                    <span class="text-danger" *ngIf="municipiosForm.get('idProvincia').invalid && municipiosForm.get('idProvincia').touched">
+                    <span class="text-danger"
+                        *ngIf="municipiosForm.get('idProvincia').invalid && municipiosForm.get('idProvincia').touched">
                         El campo es requerido</span>
                 </div>
                 <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
                     <mdb-form-control>
-                        <input mdbInput formControlName="idMunicipio" type="number" min="0" id="metroscuadrados"
+                        <input mdbInput formControlName="idMunicipio" type="number" min="1" id="idMunicipio"
                             class="form-control" />
-                        <label mdbLabel class="form-label" for="metroscuadrados">Codigo Municipio (*)</label>
+                        <label mdbLabel class="form-label" for="idMunicipio">Codigo Municipio (*)</label>
                     </mdb-form-control>
                     <span class="text-danger"
                         *ngIf="municipiosForm.get('idMunicipio').invalid && municipiosForm.get('idMunicipio').touched">
@@ -24,8 +26,8 @@
                 </div>
                 <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
                     <mdb-form-control>
-                        <input mdbInput formControlName="municipio" type="text" id="anoconstruccion" class="form-control" />
-                        <label mdbLabel class="form-label" for="anoconstruccion">Municipio (*)</label>
+                        <input mdbInput formControlName="municipio" type="text" id="municipio" class="form-control" />
+                        <label mdbLabel class="form-label" for="municipio">Municipio (*)</label>
                     </mdb-form-control>
                     <span class="text-danger"
                         *ngIf="municipiosForm.get('municipio').invalid && municipiosForm.get('municipio').touched">
@@ -33,13 +35,17 @@
                 </div>
             </div>
         </div>
-
+        <input type="hidden" name="fechaModificacion" formControlName="fechaModificacion" />
         <div class="row">
-            <div class="col-12 col-sm-12 col-md-6 margin-form">
-                <a routerLink="/home-dashboard/dashboard" mdbBtn type="button" id="btnSave" class="btn btn-primary btn-lg btn-block"
-                    mdbWavesEffect>Volver</a>
+            <div class="col-12 col-sm-12 col-md-4 margin-form">
+                <a routerLink="/home-dashboard/dashboard" mdbBtn type="button" id="btnSave"
+                    class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Volver</a>
             </div>
-            <div class="col-12 col-sm-12 col-md-6 margin-form">
+            <div class="col-12 col-sm-12 col-md-4 margin-form">
+                <button mdbBtn type="button" id="btnSave" (click)="cargarMunicipios()" class="btn btn-primary btn-lg btn-block"
+                    mdbWavesEffect>Refrescar</button>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 margin-form">
                 <button mdbBtn type="submit" id="btnSave" [disabled]="municipiosForm.invalid||municipiosForm.disabled"
                     class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Guardar</button>
             </div>
@@ -67,16 +73,14 @@
                 <span class="fw-normal mb-1">{{estado.municipio}}</span>
             </td>
             <td>
-                <button (click)="ver(estado.idMunicipio)" [disabled]="deshabilitar(estado.idMunicipio)" type="button"
-                    class="btn btn-primary  btn-floating mx-1">
+                <button (click)="ver(estado.idMunicipio)" type="button" class="btn btn-primary  btn-floating mx-1">
                     <i class="fas fa-eye"></i>
                 </button>
-                <button (click)="editar(estado.idMunicipio)" [disabled]="deshabilitar(estado.idMunicipio)" type="button"
-                    class="btn btn-warning btn-floating mx-1" mdbRipple rippleColor="dark">
+                <button (click)="editar(estado.idMunicipio)" type="button" class="btn btn-warning btn-floating mx-1"
+                    mdbRipple rippleColor="dark">
                     <i class="fas fa-pen"></i>
                 </button>
-                <button (click)="eliminar(estado.idMunicipio)" [disabled]="deshabilitar(estado.idMunicipio)" type="button"
-                    class="btn btn-danger btn-floating mx-1">
+                <button (click)="eliminar(estado.idMunicipio)" type="button" class="btn btn-danger btn-floating mx-1">
                     <i class="fas fa-trash"></i>
                 </button>
             </td>
