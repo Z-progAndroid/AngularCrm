@@ -4,5 +4,6 @@ export class Municipo {
     idProvincia:number;
     fechaCreacion:Date;
     fechaModificacion:Date;
-    modificado:String;
+    modificado: String;
+    idMunicipioExistente: number;
 }

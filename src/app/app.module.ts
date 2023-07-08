@@ -62,13 +62,13 @@ import { TipoInmueblesComponent } from './home-dash-board/tipos/tipo-inmuebles/t
 import { TipoPagosComponent } from './home-dash-board/tipos/tipo-pagos/tipo-pagos.component';
 import { TipoSeguimientosComponent } from './home-dash-board/tipos/tipo-seguimientos/tipo-seguimientos.component';
 import { TiposCitasComponent } from './home-dash-board/tipos/tipos-citas/tipos-citas.component';
-import { CiudadesComponent } from './home-dash-board/ciudades/ciudades.component';
-import { CabeceraCiudadesComponent } from './home-dash-board/ciudades/cabecera-ciudades/cabecera-ciudades.component';
-import { PaisComponent } from './home-dash-board/ciudades/pais/pais.component';
-import { ProvinciaComponent } from './home-dash-board/ciudades/provincia/provincia.component';
-import { MunicipiosComponent } from './home-dash-board/ciudades/municipios/municipios.component';
-import { BarriosComponent } from './home-dash-board/ciudades/barrios/barrios.component';
 import { HomeComponent } from './home/home.component';
+import { UbicacionesComponent } from './home-dash-board/ubicaciones/ubicaciones.component';
+import { BarriosComponent } from './home-dash-board/ubicaciones/barrios/barrios.component';
+import { CabeceraCiudadesComponent } from './home-dash-board/ubicaciones/cabecera-ciudades/cabecera-ciudades.component';
+import { MunicipiosComponent } from './home-dash-board/ubicaciones/municipios/municipios.component';
+import { PaisComponent } from './home-dash-board/ubicaciones/pais/pais.component';
+import { ProvinciaComponent } from './home-dash-board/ubicaciones/provincia/provincia.component';
 
 @NgModule({
   declarations: [
@@ -102,7 +102,7 @@ import { HomeComponent } from './home/home.component';
     TipoSeguimientosComponent,
     TiposCitasComponent,
     TipoSeguimientosComponent,
-    CiudadesComponent,
+    UbicacionesComponent,
     CabeceraCiudadesComponent,
     PaisComponent,
     ProvinciaComponent,

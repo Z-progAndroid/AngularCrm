@@ -14,9 +14,9 @@
                 </div>
                 <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
                     <mdb-form-control>
-                        <input mdbInput formControlName="idBarrio" type="number" min="0" id="metroscuadrados"
+                        <input mdbInput formControlName="idBarrio" type="number" min="1" id="idBarrio"
                             class="form-control" />
-                        <label mdbLabel class="form-label" for="metroscuadrados">Codigo Barrio (*)</label>
+                        <label mdbLabel class="form-label" for="idBarrio">Codigo Barrio (*)</label>
                     </mdb-form-control>
                     <span class="text-danger"
                         *ngIf="barrioForm.get('idBarrio').invalid && barrioForm.get('idBarrio').touched">
@@ -24,8 +24,8 @@
                 </div>
                 <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
                     <mdb-form-control>
-                        <input mdbInput formControlName="barrio" type="text" id="anoconstruccion" class="form-control" />
-                        <label mdbLabel class="form-label" for="anoconstruccion">Barrio (*)</label>
+                        <input mdbInput formControlName="barrio" type="text" id="barrio" class="form-control" />
+                        <label mdbLabel class="form-label" for="barrio">Barrio (*)</label>
                     </mdb-form-control>
                     <span class="text-danger"
                         *ngIf="barrioForm.get('barrio').invalid && barrioForm.get('barrio').touched">
@@ -33,13 +33,17 @@
                 </div>
             </div>
         </div>
-
+        <input type="hidden" name="fechaModificacion" formControlName="fechaModificacion" />
         <div class="row">
-            <div class="col-12 col-sm-12 col-md-6 margin-form">
-                <a routerLink="/home-dashboard/dashboard" mdbBtn type="button" id="btnSave" class="btn btn-primary btn-lg btn-block"
+            <div class="col-12 col-sm-12 col-md-4 margin-form">
+                <a routerLink="/home-dashboard/dashboard" mdbBtn type="button" id="btnVolver" class="btn btn-primary btn-lg btn-block"
                     mdbWavesEffect>Volver</a>
             </div>
-            <div class="col-12 col-sm-12 col-md-6 margin-form">
+            <div class="col-12 col-sm-12 col-md-4 margin-form">
+                <button mdbBtn type="button" id="btnRefrescar" (click)="submit()"
+                    class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Refrescar</button>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 margin-form">
                 <button mdbBtn type="submit" id="btnSave" [disabled]="barrioForm.invalid||barrioForm.disabled"
                     class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Guardar</button>
             </div>
@@ -67,15 +71,15 @@
                 <span class="fw-normal mb-1">{{estado.barrio}}</span>
             </td>
             <td>
-                <button (click)="ver(estado.idBarrio)" [disabled]="deshabilitar(estado.idBarrio)" type="button"
+                <button (click)="ver(estado.idBarrio)"  type="button"
                     class="btn btn-primary  btn-floating mx-1">
                     <i class="fas fa-eye"></i>
                 </button>
-                <button (click)="editar(estado.idBarrio)" [disabled]="deshabilitar(estado.idBarrio)" type="button"
+                <button (click)="editar(estado.idBarrio)"  type="button"
                     class="btn btn-warning btn-floating mx-1" mdbRipple rippleColor="dark">
                     <i class="fas fa-pen"></i>
                 </button>
-                <button (click)="eliminar(estado.idBarrio)" [disabled]="deshabilitar(estado.idBarrio)" type="button"
+                <button (click)="eliminar(estado.idBarrio)"  type="button"
                     class="btn btn-danger btn-floating mx-1">
                     <i class="fas fa-trash"></i>
                 </button>
