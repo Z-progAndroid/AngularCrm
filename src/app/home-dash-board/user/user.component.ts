@@ -8,40 +8,30 @@ import { EstadoUsuarioService } from 'src/app/services/estado-usuario.service';
 import { RolService } from 'src/app/services/rol.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Utils } from 'src/app/utils/Utils';
-import { error } from 'console';
+import { Alerts } from 'src/app/utils/Alerts';
+import { BaseComponent } from 'src/app/utils/BaseComponent';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UserComponent extends BaseComponent implements OnInit {
   usuarios: User[] = [];
   roles: Rol[] = [];
   estados: EstadoUsuario[] = [];
   userSearchForm: FormGroup;
-  constructor(private usuarioService: UsuarioService, private fb: FormBuilder, private rolService: RolService, private estadoUsuarioService: EstadoUsuarioService) { }
+  constructor(private usuarioService: UsuarioService, private fb: FormBuilder, private rolService: RolService, private estadoUsuarioService: EstadoUsuarioService) {
+    super();
+  }
   ngOnInit(): void {
     this.userSearchForm = this.iniciarFormulario();
-    forkJoin([
-      this.rolService.findAll(),
-      this.estadoUsuarioService.findAll(),
-      this.usuarioService.findAll()
-    ]).subscribe(
-      ([roles, estados, usuarios]: [Rol[], EstadoUsuario[], User[]]) => {
-        this.roles = roles;
-        this.estados = estados;
-        this.usuarios = usuarios;
-      },
-      error => console.log(error)
-    );
+    this.cargarUsuarios();
   }
   onSubmit() {
-    this.usuarioService.findByParams(this.fromToUserSearch()).subscribe(
-      usuarios => {
-        this.usuarios = usuarios;
-      }
-    ),error => console.log(error);
-
+    this.usuarios = [];
+    this.usuarioService.findByParams(this.fromToUserSearch()).subscribe(usuarios => {
+      this.usuarios = usuarios;
+    }, error => Alerts.error("Error", "Error al buscar los usuarios por los paramentros de busqueda", error));
   }
   iniciarFormulario(): FormGroup {
     return this.fb.group({
@@ -51,9 +41,13 @@ export class UserComponent implements OnInit {
       telefono: [''],
       dni: [''],
       direccion: [''],
-      rol: [''],
-      estado: ['']
+      rol: [0],
+      estado: [0]
     });
+  }
+  limpiarFiltros() {
+    this.userSearchForm = this.iniciarFormulario();
+    this.cargarUsuarios();
   }
   fromToUserSearch(): User {
     let userSearch: User = new User();
@@ -66,5 +60,20 @@ export class UserComponent implements OnInit {
     userSearch.idRol = Utils.isNullOrUndefined(this.userSearchForm.get('rol').value) ? null : this.userSearchForm.get('rol').value;
     userSearch.idEstadoUsuario = Utils.isNullOrUndefined(this.userSearchForm.get('estado').value) ? null : this.userSearchForm.get('estado').value;
     return userSearch;
+  }
+  cargarUsuarios() {
+    this.usuarios = [];
+    forkJoin([
+      this.rolService.findAll(),
+      this.estadoUsuarioService.findAll(),
+      this.usuarioService.findAll()
+    ]).subscribe(
+      ([roles, estados, usuarios]: [Rol[], EstadoUsuario[], User[]]) => {
+        this.roles = roles;
+        this.estados = estados;
+        this.usuarios = usuarios;
+      }, error => {
+        Alerts.error("Error", "Error al cargar los usuarios", error);
+      });
   }
 }

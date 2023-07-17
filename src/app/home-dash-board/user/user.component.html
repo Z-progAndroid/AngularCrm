@@ -49,26 +49,31 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-around flex-md-row flex-sm-column flex-column gap-2">
-                    <div class="floating-label margin-form" style="width: 100%">
-                        <select class="form-control" formControlName="rol">
-                            <option selected>Seleciona una opción</option>
-                            <option *ngFor="let rol of roles" value="{{rol.idRol}}">{{rol.rol}}</option>
-                        </select>
-                        <label for="floatingSelectRoles">Roles</label>
+                    <div class="floating-label ng-select-js" style="width: 100%;">
+                        <ng-select [clearable]="false" formControlName="rol" class="form-control floating-label-select"
+                            [searchable]="true">
+                            <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                            <ng-option *ngFor="let rol of roles" value="{{rol.idRol}}">{{rol.rol}}</ng-option>
+                        </ng-select>
+                        <label class="floating-label-label">Roles</label>
                     </div>
-                    <div class="floating-label   margin-form" style="width: 100%">
-                        <select class="form-control" formControlName="estado">
-                            <option selected>Seleciona una opción</option>
-                            <option *ngFor="let estado of estados" value="{{estado.idEstadoUsuario}}">
-                                {{estado.estadoUsuario}}</option>
-                        </select>
-                        <label>Estados</label>
+                    <div class="floating-label ng-select-js" style="width: 100%;">
+                        <ng-select [clearable]="false" formControlName="estado" class="form-control floating-label-select"
+                            [searchable]="true">
+                            <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                            <ng-option *ngFor="let estado of estados" value="{{estado.idEstadoUsuario}}">
+                                {{estado.estadoUsuario}}</ng-option>
+                        </ng-select>
+                        <label class="floating-label-label">Estados</label>
                     </div>
                 </div>
             </div>
             <div class="d-flex justify-content-center">
-                <button mdbBtn type="submit" color="primary" class="btn btn-primary btn-lg">
+                <button mdbBtn type="submit" color="primary" class="btn btn-primary btn-lg mx-2">
                     <i class="fas fa-search mx-2"></i>Buscar
+                </button>
+                <button mdbBtn type="button" color="primary" class="btn btn-primary btn-lg" (click)="limpiarFiltros()">
+                    <i class="fas fa-arrows-rotate mx-2"></i>Limpiar Filtros
                 </button>
             </div>
         </form>
