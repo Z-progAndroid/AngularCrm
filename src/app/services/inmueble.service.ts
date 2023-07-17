@@ -30,4 +30,12 @@ export class InmuebleService {
   findAll(): Observable<Inmueble[]> {
     return this.http.get<Inmueble[]>(`${environment.urlBase}inmueble/all`);
   }
+  saveImage(formData: FormData, idInmueble: string, idImagen: string): Observable<Mensaje> {
+    formData.append("idInmueble", idInmueble);
+    formData.append("idImagen", idImagen);
+    return this.http.post<Mensaje>(`${environment.urlBase}inmueble/uploadImage`, formData);
+  }
+  deleteImage(idInmueble: string, idImagen: string): Observable<Mensaje> {
+    return this.http.delete<Mensaje>(`${environment.urlBase}inmueble/deleteImage?idInmueble=${idInmueble}&idImagen=${idImagen}`);
+  }
 }

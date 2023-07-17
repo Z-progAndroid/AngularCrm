@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Params, Router, UrlSegment } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { Barrio } from 'src/app/models/barrio';
 import { EstadoInmueble } from 'src/app/models/estado-inmueble';
-import { Imagen } from 'src/app/models/imagen';
 import { Inmueble } from 'src/app/models/inmueble';
 import { Municipo } from 'src/app/models/municipo';
 import { Pais } from 'src/app/models/pais';
@@ -13,13 +13,14 @@ import { TipoInmueble } from 'src/app/models/tipo-inmueble';
 import { User } from 'src/app/models/user';
 import { BarrioService } from 'src/app/services/barrio.service';
 import { EstadoInmuebleService } from 'src/app/services/estado-inmueble.service';
-import { ImagenServiceService } from 'src/app/services/imagen-service.service';
 import { InmuebleService } from 'src/app/services/inmueble.service';
 import { MunicipioService } from 'src/app/services/municipio.service';
 import { PaisService } from 'src/app/services/pais.service';
 import { ProvinciaService } from 'src/app/services/provincia.service';
 import { TipoInmuebleService } from 'src/app/services/tipo-inmueble.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { Alerts } from 'src/app/utils/Alerts';
+import { BaseComponent } from 'src/app/utils/BaseComponent';
 import { CustomValidators } from 'src/app/utils/CustomValidators';
 import { Utils } from 'src/app/utils/Utils';
 @Component({
@@ -27,11 +28,12 @@ import { Utils } from 'src/app/utils/Utils';
   templateUrl: './inmueble-detail.component.html',
   styleUrls: ['./inmueble-detail.component.scss']
 })
-export class InmuebleDetailComponent implements OnInit {
+export class InmuebleDetailComponent extends BaseComponent implements AfterViewInit {
   inmuebleForm: FormGroup;
   botonSave: boolean = false;
   prametosRuta: Params;
-  imagenes: Imagen[] = [];
+  imagenes: SafeUrl[] = [];
+  imagenesUnit8Array: Uint8Array[] = [];
   barrios: Barrio[] = [];
   estadosInmueble: EstadoInmueble[] = [];
   municipios: Municipo[] = [];
@@ -39,7 +41,11 @@ export class InmuebleDetailComponent implements OnInit {
   provincias: Provincia[] = [];
   tiposInmueble: TipoInmueble[] = [];
   usuarios: User[] = [];
-
+  hayImg1: boolean = false;
+  hayImg2: boolean = false;
+  hayImg3: boolean = false;
+  hayImg4: boolean = false;
+  http: any;
   constructor(
     private inmuebleService: InmuebleService,
     private barrioservice: BarrioService,
@@ -48,47 +54,51 @@ export class InmuebleDetailComponent implements OnInit {
     private paisService: PaisService,
     private provinciaService: ProvinciaService,
     private tipoInmuebleService: TipoInmuebleService,
-    private usuaruioService: UsuarioService,
+    private usuarioService: UsuarioService,
     private rutaActiva: ActivatedRoute,
     private fb: FormBuilder,
     private router: Router,
-    private imagenService: ImagenServiceService
+    private sanitizer: DomSanitizer
   ) {
+    super();
     this.inmuebleForm = this.iniciarFormulario();
   }
-  ngOnInit(): void {
-    forkJoin([
+  ngAfterViewInit(): void {
+    forkJoin(
+      this.barrioservice.findAll(),
       this.estadoInmuebleService.findAll(),
+      this.municipioService.findAll(),
       this.paisService.findAll(),
+      this.provinciaService.findAll(),
       this.tipoInmuebleService.findAll(),
-      this.usuaruioService.findAllUserAdminORAgente()
-    ]).subscribe(
-      ([estadosInmueble, paises, tiposInmueble, usuarios]) => {
-        this.estadosInmueble = estadosInmueble;
-        this.paises = paises;
-        this.tiposInmueble = tiposInmueble;
+      this.usuarioService.findAllUserAdminORAgente())
+      .subscribe(([barrios, estadoInmuebles, municipios, paises, provincias, tipoInmuebles, usuarios]) => {
+        this.barrios = barrios;
+        this.estadosInmueble = estadoInmuebles;
+        this.municipios = municipios;
+        this.paises = paises
+        this.provincias = provincias
+        this.tiposInmueble = tipoInmuebles
         this.usuarios = usuarios;
-      }, error => console.log(error));
+      }, error => Alerts.error('Error', 'Error al cargar los datos', error));
     let url = this.rutaActiva.snapshot.url.map((segment: UrlSegment) => segment.path).join('/');
-    this.realizarAccion(url);
+    if (url.includes('inmueble/crear')) { return; }
+    this.cargarImueble();
   }
 
   onSubmit() {
     this.inmuebleService.save(this.fromToInmueble()).subscribe((inmueble: Inmueble) => {
-        this.uploadImagnes(inmueble.idInmueble.toString());
-      }, error => console.log(error));
+      this.uploadImagenes(inmueble.idInmueble.toString());
+    }, error => Alerts.error('Error', 'Error al guardar el inmueble', error));
   }
   changePais(pais: string) {
     this.provincias = [];
     if (pais === 'Seleciona una opción' || pais === '') {
       return;
     }
-    this.provinciaService.findAllByIdPais(pais).subscribe(
-      (provincias: Provincia[]) => {
-        this.provincias = provincias;
-      },
-      error => console.log(error)
-    );
+    this.provinciaService.findAllByIdPais(pais).subscribe((provincias: Provincia[]) => {
+      this.provincias = provincias;
+    }, error => Alerts.error('Error', 'Error al cargar las provincias', error));
   }
 
   changeProvincia(idProvincia: String) {
@@ -96,24 +106,18 @@ export class InmuebleDetailComponent implements OnInit {
     if (idProvincia === 'Seleciona una opción' || idProvincia === '') {
       return;
     }
-    this.municipioService.findAllByProvincia(idProvincia).subscribe(
-      (municipios: Municipo[]) => {
-        this.municipios = municipios;
-      },
-      error => console.log(error)
-    );
+    this.municipioService.findAllByProvincia(idProvincia).subscribe((municipios: Municipo[]) => {
+      this.municipios = municipios;
+    }, error => Alerts.error('Error', 'Error al cargar los municipios', error));
   }
   changeMunicipio(idMunicipio: String) {
     this.barrios = [];
     if (idMunicipio === 'Seleciona una opción' || idMunicipio === '') {
       return;
     }
-    this.barrioservice.findAllByMunicipio(idMunicipio).subscribe(
-      (barrios: Barrio[]) => {
-        this.barrios = barrios;
-      },
-      error => console.log(error)
-    );
+    this.barrioservice.findAllByMunicipio(idMunicipio).subscribe((barrios: Barrio[]) => {
+      this.barrios = barrios;
+    }, error => Alerts.error('Error', 'Error al cargar los barrios', error));
   }
 
 
@@ -127,25 +131,21 @@ export class InmuebleDetailComponent implements OnInit {
       anoconstruccion: ['', [Validators.required, CustomValidators.yearValidator()]],
       direccion: ['', Validators.required],
       codigoPostal: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
-      idTipoInmueble: ['', [Validators.required, CustomValidators.validarSeleccionOpcionPorDefectoValidator()]],
-      idEstadoInmueble: ['', [Validators.required, CustomValidators.validarSeleccionOpcionPorDefectoValidator()]],
-      idUsuario: ['', [Validators.required, CustomValidators.validarSeleccionOpcionPorDefectoValidator()]],
+      idTipoInmueble: [0, [Validators.required, CustomValidators.validarSeleccionOpcionPorDefectoValidator()]],
+      idEstadoInmueble: [0, [Validators.required, CustomValidators.validarSeleccionOpcionPorDefectoValidator()]],
+      idUsuario: [0, [Validators.required, CustomValidators.validarSeleccionOpcionPorDefectoValidator()]],
       idPais: ['', [Validators.required, CustomValidators.validarSeleccionOpcionPorDefectoValidator()]],
-      idProvincia: ['', [Validators.required, CustomValidators.validarSeleccionOpcionPorDefectoValidator()]],
-      idMunicipio: ['', [Validators.required, CustomValidators.validarSeleccionOpcionPorDefectoValidator()]],
-      idBarrio: ['', [Validators.required, CustomValidators.validarSeleccionOpcionPorDefectoValidator()]],
+      idProvincia: [0, [Validators.required, CustomValidators.validarSeleccionOpcionPorDefectoValidator()]],
+      idMunicipio: [0, [Validators.required, CustomValidators.validarSeleccionOpcionPorDefectoValidator()]],
+      idBarrio: [0, [Validators.required, CustomValidators.validarSeleccionOpcionPorDefectoValidator()]],
       descripcion: [''],
-      img1: [''],
+      img1: ['', Validators.required],
       img2: [''],
       img3: [''],
       img4: [''],
       idInmueble: [''],
       fechaCreacion: [''],
       fechaModificacion: [''],
-      img1text: [''],
-      img2text: [''],
-      img3text: [''],
-      img4text: [''],
       modificado: ['']
     });
   }
@@ -168,40 +168,16 @@ export class InmuebleDetailComponent implements OnInit {
     inmueble.idBarrio = this.inmuebleForm.get('idBarrio').value;
     inmueble.descripcion = this.inmuebleForm.get('descripcion').value;
     inmueble.idInmueble = this.inmuebleForm.get('idInmueble').value;
-    inmueble.imagen1 = this.inmuebleForm.get('img1text').value;
-    inmueble.imagen2 = this.inmuebleForm.get('img2text').value;
-    inmueble.imagen3 = this.inmuebleForm.get('img3text').value;
-    inmueble.imagen4 = this.inmuebleForm.get('img4text').value;
     inmueble.fechaCreacion = Utils.isNullOrUndefined(this.inmuebleForm.get('fechaCreacion').value) ? new Date() : this.inmuebleForm.get('fechaCreacion').value;
-    inmueble.fechaModificacion = Utils.isNullOrUndefined(this.inmuebleForm.get('fechaModificacion').value) ? new Date() : this.inmuebleForm.get('fechaModificacion').value;
-    inmueble.modificado = this.inmuebleForm.get('modificado').value === '' ? 'N' : this.inmuebleForm.get('modificado').value;
-    inmueble = this.setImgagenes(inmueble);
+    inmueble.fechaModificacion = new Date();
+    inmueble.modificado = "admin";
+    inmueble.imagen1 = Utils.isNullOrUndefined(this.imagenesUnit8Array[0]) ? null : this.imagenesUnit8Array[0];
+    inmueble.imagen2 = Utils.isNullOrUndefined(this.imagenesUnit8Array[1]) ? null : this.imagenesUnit8Array[1];
+    inmueble.imagen3 = Utils.isNullOrUndefined(this.imagenesUnit8Array[2]) ? null : this.imagenesUnit8Array[2];
+    inmueble.imagen4 = Utils.isNullOrUndefined(this.imagenesUnit8Array[3]) ? null : this.imagenesUnit8Array[3];
     return inmueble;
   }
-  setImgagenes(inmueble: Inmueble): Inmueble {
-    const img1: HTMLInputElement = document.getElementById('img1') as HTMLInputElement;
-    const img2: HTMLInputElement = document.getElementById('img2') as HTMLInputElement;
-    const img3: HTMLInputElement = document.getElementById('img3') as HTMLInputElement;
-    const img4: HTMLInputElement = document.getElementById('img4') as HTMLInputElement;
-    const file1 = img1.files[0];
-    const file2 = img2.files[0];
-    const file3 = img3.files[0];
-    const file4 = img4.files[0];
-    if (!Utils.isNullOrUndefined(file1)) {
-      inmueble.imagen1 = file1.name;
-    }
-    if (!Utils.isNullOrUndefined(file2)) {
-      inmueble.imagen2 = file2.name;
-    }
-    if (!Utils.isNullOrUndefined(file3)) {
-      inmueble.imagen3 = file3.name;
-    }
-    if (!Utils.isNullOrUndefined(file4)) {
-      inmueble.imagen4 = file4.name;
-    }
-    return inmueble;
-  }
-  uploadImagnes(idInmueble: string) {
+  uploadImagenes(idInmueble: string) {
     const img1: HTMLInputElement = document.getElementById('img1') as HTMLInputElement;
     const img2: HTMLInputElement = document.getElementById('img2') as HTMLInputElement;
     const img3: HTMLInputElement = document.getElementById('img3') as HTMLInputElement;
@@ -211,89 +187,58 @@ export class InmuebleDetailComponent implements OnInit {
     let formDataimg3 = new FormData();
     let formDataimg4 = new FormData();
 
-    if (!Utils.isNullOrUndefined(img1.files[0])) {
+    if (!Utils.isNullOrUndefined(img1) && !Utils.isNullOrUndefined(img1.files[0])) {
       formDataimg1.append('file', img1.files[0]);
-      this.imagenService.saveImage(formDataimg1, idInmueble)
-        .subscribe((data) => { console.log(data); });
+      this.inmuebleService.saveImage(formDataimg1, idInmueble, "1").subscribe((data) => {
+      }, error => Alerts.error('Error', 'Error al guardar la portada', error));
     }
-    if (!Utils.isNullOrUndefined(img2.files[0])) {
+    if (!Utils.isNullOrUndefined(img2) && !Utils.isNullOrUndefined(img2.files[0])) {
       formDataimg2.append('file', img2.files[0]);
-      this.imagenService.saveImage(formDataimg2, idInmueble)
-        .subscribe((data) => { console.log(data); });
+      this.inmuebleService.saveImage(formDataimg2, idInmueble, "2").subscribe((data) => {
+      }, error => Alerts.error('Error', 'Error al guardar la segunda imagen', error));
     }
-    if (!Utils.isNullOrUndefined(img3.files[0])) {
+    if (!Utils.isNullOrUndefined(img3) && !Utils.isNullOrUndefined(img3.files[0])) {
       formDataimg3.append('file', img3.files[0]);
-      this.imagenService.saveImage(formDataimg3, idInmueble)
-        .subscribe((data) => { console.log(data); });
+      this.inmuebleService.saveImage(formDataimg3, idInmueble, "3").subscribe((data) => {
+      }, error => Alerts.error('Error', 'Error al guardar la tercera imagen', error));
     }
-    if (!Utils.isNullOrUndefined(img4.files[0])) {
+    if (!Utils.isNullOrUndefined(img4) && !Utils.isNullOrUndefined(img4.files[0])) {
       formDataimg4.append('file', img4.files[0]);
-      this.imagenService.saveImage(formDataimg4, idInmueble)
-        .subscribe((data) => { console.log(data); });
-    }
-    this.router.navigate(['/inmueble']);
-  }
-  realizarAccion(url: String) {
-    if (url.includes('crear')) {
-      return;
-    }
-    this.barrios = []
-    this.estadosInmueble = []
-    this.municipios = []
-    this.provincias = []
-    this.tiposInmueble = []
-    this.usuarios = []
-    forkJoin(
-      this.barrioservice.findAll(),
-      this.estadoInmuebleService.findAll(),
-      this.municipioService.findAll(),
-      this.paisService.findAll(),
-      this.provinciaService.findAll(),
-      this.tipoInmuebleService.findAll(),
-      this.usuaruioService.findAllUserAdminORAgente())
-      .subscribe(([barrios, estadoInmuebles, municipios, paises, provincias, tipoInmuebles, usuarios]) => {
-        this.barrios = barrios;
-        this.estadosInmueble = estadoInmuebles;
-        this.municipios = municipios;
-        this.paises = paises
-        this.provincias = provincias
-        this.tiposInmueble = tipoInmuebles
-        this.usuarios = usuarios;
-      });
-    this.cargarImueble();
-    if (url.includes('ver')) {
-      this.inmuebleForm.disable();
-      this.botonSave = true;
-      this.inmuebleForm.get('img1').disable();
-      this.inmuebleForm.get('img2').disable();
-      this.inmuebleForm.get('img3').disable();
-      this.inmuebleForm.get('img4').disable();
+      this.inmuebleService.saveImage(formDataimg4, idInmueble, "4").subscribe((data) => {
+      }, error => Alerts.error('Error', 'Error al guardar la cuarta imagen', error));
     }
 
-  }
-  deshabilitar() {
     let url = this.rutaActiva.snapshot.url.map((segment: UrlSegment) => segment.path).join('/');
-    if (url.includes('ver')) {
-      return;
+    if (url.includes('crear')) {
+      Alerts.success('Inmueble', 'Inmueble guardado correctamente');
+      this.router.navigate(['/home-dashboard/inmueble']);
     }
-    Utils.isNullOrUndefined(this.inmuebleForm.get('img1text').value) ?
-      this.inmuebleForm.get('img1').enable() : this.inmuebleForm.get('img1').disable();
-    Utils.isNullOrUndefined(this.inmuebleForm.get('img2text').value) ?
-      this.inmuebleForm.get('img2').enable() : this.inmuebleForm.get('img2').disable();
-    Utils.isNullOrUndefined(this.inmuebleForm.get('img3text').value) ?
-      this.inmuebleForm.get('img3').enable() : this.inmuebleForm.get('img3').disable();
-    Utils.isNullOrUndefined(this.inmuebleForm.get('img4text').value) ?
-      this.inmuebleForm.get('img4').enable() : this.inmuebleForm.get('img4').disable();
-  }
-  deleteImagen(idImagen: number) {
-    let nombreImagen = this.inmuebleForm.get('img' + idImagen + 'text').value;
-    this.inmuebleForm.get('img' + idImagen + 'text').setValue(null);
-    let idInmueble = this.rutaActiva.snapshot.params['id'];
-    this.imagenService.deleteImagen(nombreImagen, idInmueble).subscribe((data) => {
+    Alerts.success('Inmueble', 'Inmueble actualizado correctamente');
+    setTimeout(() => {
       this.cargarImueble();
-    }), (error) => {
-      console.log(error);
+    }, 300);
+  }
+  deleteImagen(idImagen: number, idInmueble: number) {
+    console.log("idImagen ", idImagen)
+    console.log("idInmueble ", idInmueble)
+    this.imagenesUnit8Array[idImagen - 1] = null;
+    const idImagenMap = {
+      1: 'hayImg1',
+      2: 'hayImg2',
+      3: 'hayImg3',
+      4: 'hayImg4'
     };
+    if (idImagen == 1) {
+      this.inmuebleForm.get('img1').setValidators([Validators.required]);
+      this.inmuebleForm.get('img1').updateValueAndValidity();
+    }
+    if (idImagen in idImagenMap) {
+      this[idImagenMap[idImagen]] = false;
+    }
+    this.inmuebleService.deleteImage(idInmueble.toString(), idImagen.toString()).subscribe((data) => {
+      Alerts.success('Imagen', 'Imagen eliminada correctamente');
+      this.cargarImueble();
+    });
   }
   cargarImueble() {
     this.imagenes = []
@@ -317,46 +262,47 @@ export class InmuebleDetailComponent implements OnInit {
       this.inmuebleForm.get('descripcion').setValue(inmueble.descripcion)
       this.inmuebleForm.get('idInmueble').setValue(inmueble.idInmueble)
       this.inmuebleForm.get('fechaCreacion').setValue(inmueble.fechaCreacion)
-      this.inmuebleForm.get('fechaModificacion').setValue(inmueble.fechaModificacion)
       this.inmuebleForm.get('modificado').setValue(inmueble.modificado)
-      this.inmuebleForm.get('img1text').setValue(inmueble.imagen1)
-      this.inmuebleForm.get('img2text').setValue(inmueble.imagen2)
-      this.inmuebleForm.get('img3text').setValue(inmueble.imagen3)
-      this.inmuebleForm.get('img4text').setValue(inmueble.imagen4)
       if (!Utils.isNullOrUndefined(inmueble.imagen1)) {
-        this.imagenService.getImage(inmueble.imagen1, inmueble.idInmueble.toString()).subscribe((data) => {
-          let imagen = new Imagen();
-          imagen.idImagen = 1;
-          imagen.contenido = URL.createObjectURL(data.body);
-          this.imagenes.push(imagen);
-        });
+        this.hayImg1 = true;
+        this.imagenesUnit8Array[0] = inmueble.imagen1;
+        this.imagenes[0] = this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + inmueble.imagen1);
+        this.inmuebleForm.get('img1').setValidators([]);
+        this.inmuebleForm.get('img1').updateValueAndValidity();
       }
       if (!Utils.isNullOrUndefined(inmueble.imagen2)) {
-        this.imagenService.getImage(inmueble.imagen2, inmueble.idInmueble.toString()).subscribe((data) => {
-          let imagen = new Imagen();
-          imagen.idImagen = 2;
-          imagen.contenido = URL.createObjectURL(data.body);
-          this.imagenes.push(imagen);
-
-        });
+        this.hayImg2 = true;
+        this.imagenesUnit8Array[1] = inmueble.imagen2;
+        this.imagenes[1] = this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + inmueble.imagen2);
       }
       if (!Utils.isNullOrUndefined(inmueble.imagen3)) {
-        this.imagenService.getImage(inmueble.imagen3, inmueble.idInmueble.toString()).subscribe((data) => {
-          let imagen = new Imagen();
-          imagen.idImagen = 3;
-          imagen.contenido = URL.createObjectURL(data.body);
-          this.imagenes.push(imagen);
-        });
+        this.hayImg3 = true;
+        this.imagenesUnit8Array[2] = inmueble.imagen3;
+        this.imagenes[2] = this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + inmueble.imagen3);
       }
       if (!Utils.isNullOrUndefined(inmueble.imagen4)) {
-        this.imagenService.getImage(inmueble.imagen4, inmueble.idInmueble.toString()).subscribe((data) => {
-          let imagen = new Imagen();
-          imagen.idImagen = 4;
-          imagen.contenido = URL.createObjectURL(data.body);
-          this.imagenes.push(imagen);
-        });
-      }
+        this.hayImg4 = true;
+        this.imagenesUnit8Array[3] = inmueble.imagen4;
+        this.imagenes[3] = this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + inmueble.imagen4);
 
+      }
     });
+  }
+  validateImage(input: HTMLInputElement) {
+    const file = input.files[0];
+    const fromControlName = input.getAttribute('formControlName');
+    const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+    const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+    if (!file) { return; }
+    if (file.size > maxSizeInBytes) {
+      this.inmuebleForm.get(fromControlName).setErrors({ imageValidator: { message: 'El archivo excede el tamaño máximo permitido de 5MB.' } });
+      return;
+    }
+    const fileExtension = file.name.split('.').pop();
+    if (!allowedExtensions.includes(fileExtension.toLowerCase())) {
+      this.inmuebleForm.get(fromControlName).setErrors({ imageValidator: { message: 'El archivo debe ser una imagen en formato jpg, jpeg, png o gif.' } });
+      return;
+    }
+    this.inmuebleForm.get(fromControlName).setErrors(null);
   }
 }

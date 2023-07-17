@@ -1,4 +1,4 @@
-import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
 
 export class CustomValidators {
     static validarSeleccionOpcionPorDefectoValidator(): ValidatorFn {
@@ -10,6 +10,7 @@ export class CustomValidators {
             return null;
         };
     }
+
     static yearValidator(): ValidatorFn {
         return (control: AbstractControl): { [key: string]: any } | null => {
             const year = control.value;
@@ -28,6 +29,5 @@ export class CustomValidators {
             // El año es válido
             return null;
         };
-
     }
 }

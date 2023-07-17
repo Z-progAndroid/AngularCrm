@@ -12,13 +12,15 @@
     .group-inputs {
         padding: 0.7rem;
     }
+
     .imagen-inmueble {
         position: relative;
-        button{
+        width: 90;
+        button {
             position: absolute;
-            top: 10%;
-            left: 90%;
-            transform: translate(-50%, -50%);
+            top: 1.5rem;
+            right: 3rem;
+            transform: translate(50%, -50%);
             font-size: 5rem;
         }
     }
