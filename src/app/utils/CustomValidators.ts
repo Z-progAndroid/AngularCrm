@@ -4,7 +4,7 @@ export class CustomValidators {
     static validarSeleccionOpcionPorDefectoValidator(): ValidatorFn {
         return (control: AbstractControl): { [key: string]: any } | null => {
             const selectedOption = control.value;
-            if (selectedOption === 'Seleciona una opción') {
+            if (selectedOption === 'Seleciona una opción'||selectedOption === 0) {
                 return { seleccionOpcionPorDefecto: true };
             }
             return null;

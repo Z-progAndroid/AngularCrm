@@ -104,7 +104,7 @@
                 </div>
                 <div class="d-flex justify-content-around flex-md-row flex-sm-column flex-column gap-2 margin-form">
                     <div class="floating-label ng-select-js" style="width: 100%;">
-                        <ng-select formControlName="idTipoInmueble" class="form-control floating-label-select"
+                        <ng-select [clearable]="false" formControlName="idTipoInmueble" class="form-control floating-label-select"
                             [searchable]="true">
                             <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
                             <ng-option *ngFor="let tipoInmueble of tiposInmueble" [value]="tipoInmueble.id">
@@ -119,7 +119,7 @@
                             Por favor, selecciona una opción válida.</span>
                     </div>
                     <div class="floating-label ng-select-js" style="width: 100%;">
-                        <ng-select formControlName="idEstadoInmueble" class="form-control floating-label-select"
+                        <ng-select [clearable]="false" formControlName="idEstadoInmueble" class="form-control floating-label-select"
                             [searchable]="true">
                             <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
                             <ng-option *ngFor="let estadoInmueble of estadosInmueble"
@@ -134,7 +134,7 @@
                             Por favor, selecciona una opción válida.</span>
                     </div>
                     <div class="floating-label ng-select-js" style="width: 100%;">
-                        <ng-select formControlName="idUsuario" class="form-control floating-label-select"
+                        <ng-select [clearable]="false" formControlName="idUsuario" class="form-control floating-label-select"
                             [searchable]="true">
                             <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
                             <ng-option *ngFor="let usuario of usuarios" [value]="usuario.idUsuario">
@@ -152,7 +152,7 @@
             </div>
             <div class="d-flex justify-content-around flex-md-row flex-sm-column flex-column gap-2 margin-form">
                 <div class="floating-label ng-select-js" style="width: 100%;">
-                    <ng-select formControlName="idPais" class="form-control floating-label-select" [searchable]="true"
+                    <ng-select [clearable]="false" formControlName="idPais" class="form-control floating-label-select" [searchable]="true"
                         (change)="changePais(inmuebleForm.get('idPais').value)">
                         <ng-option [value]="''">SELECCIONA UNA OPCIÓN</ng-option>
                         <ng-option *ngFor="let pais of paises" [value]="pais.idPais">{{pais.pais}}</ng-option>
@@ -166,7 +166,7 @@
                         Por favor, selecciona una opción válida.</span>
                 </div>
                 <div class="floating-label ng-select-js" style="width: 100%;">
-                    <ng-select formControlName="idProvincia" class="form-control floating-label-select"
+                    <ng-select [clearable]="false" formControlName="idProvincia" class="form-control floating-label-select"
                         [searchable]="true" (change)="changeProvincia(inmuebleForm.get('idProvincia').value)">
                         <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
                         <ng-option *ngFor="let provincia of provincias" [value]="provincia.idProvincia">
@@ -181,7 +181,7 @@
                         Por favor, selecciona una opción válida.</span>
                 </div>
                 <div class="floating-label ng-select-js" style="width: 100%;">
-                    <ng-select formControlName="idMunicipio" class="form-control floating-label-select"
+                    <ng-select [clearable]="false" formControlName="idMunicipio" class="form-control floating-label-select"
                         [searchable]="true" (change)="changeMunicipio(inmuebleForm.get('idMunicipio').value)">
                         <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
                         <ng-option *ngFor="let municipio of municipios" [value]="municipio.idMunicipio">
@@ -196,7 +196,7 @@
                         Por favor, selecciona una opción válida.</span>
                 </div>
                 <div class="floating-label ng-select-js" style="width: 100%;">
-                    <ng-select formControlName="idBarrio" class="form-control floating-label-select" [searchable]="true"
+                    <ng-select [clearable]="false" formControlName="idBarrio" class="form-control floating-label-select" [searchable]="true"
                         (change)="changeMunicipio(inmuebleForm.get('idMunicipio').value)">
                         <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
                         <ng-option *ngFor="let barrio of barrios"

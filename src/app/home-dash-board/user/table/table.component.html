@@ -12,25 +12,24 @@
     <tbody class="text-center">
         <tr *ngFor="let user of usuarios">
             <td>
-                <span class="fw-bold mb-1">{{user.nombre}}</span>
+                <span class="mb-1">{{user.nombre}}</span>
             </td>
             <td>
-                <span class="fw-bold mb-1 mx-1">{{user.apellido}}</span>
+                <span class="mb-1">{{user.apellido}}</span>
             </td>
             <td>
-                <span class="fw-bold mb-1 mx-1">{{user.email}}</span>
+                <span class="mb-1 ">{{user.email}}</span>
             <td>
-                <span class="fw-normal mb-1">{{user.rol}}</span>
+                <span class="mb-1">{{user.rol}}</span>
             </td>
             <td>
-                <h5><span class="badge badge-success rounded-pill d-inline">{{user.estadoUsuario}}</span></h5>
+                <span class="mb-1">{{user.estadoUsuario}}</span>
             </td>
             <td>
                 <a (click)="onView(user.idUsuario)" type="button" class="btn btn-primary  btn-floating mx-1">
                     <i class="fas fa-eye"></i>
                 </a>
-                <a (click)="onEdit(user.idUsuario)" type="button" class="btn btn-warning btn-floating mx-1" mdbRipple
-                    rippleColor="dark">
+                <a (click)="onEdit(user.idUsuario)" type="button" class="btn btn-warning btn-floating mx-1">
                     <i class="fas fa-pen"></i>
                 </a>
                 <a (click)="onDelete(user.idUsuario)" type="button" class="btn btn-danger btn-floating mx-1">
