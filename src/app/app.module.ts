@@ -44,7 +44,6 @@ import { EstadoUsuarioService } from './services/estado-usuario.service';
 import { InmuebleService } from './services/inmueble.service';
 import { RolService } from './services/rol.service';
 import { InmuebleDetailComponent } from './home-dash-board/inmueble/inmueble-detail/inmueble-detail.component';
-import { ImagenServiceService } from './services/imagen-service.service';
 import { EstadosComponent } from './home-dash-board/estados/estados.component';
 import { EstadoContratosComponent } from './home-dash-board/estados/estado-contratos/estado-contratos.component';
 import { CabeceraEstadosComponent } from './home-dash-board/estados/cabecera-estados/cabecera-estados.component';
@@ -69,6 +68,7 @@ import { CabeceraCiudadesComponent } from './home-dash-board/ubicaciones/cabecer
 import { MunicipiosComponent } from './home-dash-board/ubicaciones/municipios/municipios.component';
 import { PaisComponent } from './home-dash-board/ubicaciones/pais/pais.component';
 import { ProvinciaComponent } from './home-dash-board/ubicaciones/provincia/provincia.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -130,7 +130,8 @@ import { ProvinciaComponent } from './home-dash-board/ubicaciones/provincia/prov
     MdbValidationModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgSelectModule
   ],
   providers: [ChartService,
     EstadoUsuarioService,
@@ -138,7 +139,6 @@ import { ProvinciaComponent } from './home-dash-board/ubicaciones/provincia/prov
     MenuServiceService,
     RolService,
     UsuarioService,
-    ImagenServiceService,
     EstadoContratoService,
     EstadoInmuebleService,
     EstadoTareaService

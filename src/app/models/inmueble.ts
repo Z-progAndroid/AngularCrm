@@ -27,8 +27,8 @@ export class Inmueble {
     pais: String;
     provincia: String;
     tipoInmueble: String;
-    imagen1: string;
-    imagen2: string;
-    imagen3: string;
-    imagen4: string;
+    imagen1:Uint8Array;
+    imagen2:Uint8Array;
+    imagen3:Uint8Array;
+    imagen4:Uint8Array;
 }

@@ -67,10 +67,13 @@
                                 formControlName="anoconstruccion" />
                             <label mdbLabel class="form-label" for="anoconstruccion">Año Construcción (*)</label>
                         </mdb-form-control>
-                        <span class="text-danger" *ngIf="inmuebleForm.get('anoconstruccion').errors?.invalidYear">El año
+                        <span class="text-danger"
+                            *ngIf="inmuebleForm.get('anoconstruccion').touched && inmuebleForm.get('anoconstruccion').errors?.invalidYear">El
+                            año
                             debe ser un número válido.</span>
                         <span class="text-danger"
-                            *ngIf="inmuebleForm.get('anoconstruccion').errors?.invalidYearRange">El año debe estar entre
+                            *ngIf="inmuebleForm.get('anoconstruccion').touched && inmuebleForm.get('anoconstruccion').errors?.invalidYearRange">El
+                            año debe estar entre
                             1800 y el año actual.</span>
                     </div>
                 </div>
@@ -100,13 +103,14 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-around flex-md-row flex-sm-column flex-column gap-2 margin-form">
-                    <div class="floating-label w-100">
-                        <select class="form-control" formControlName="idTipoInmueble">
-                            <option selected>Seleciona una opción</option>
-                            <option *ngFor="let tipoInmueble of tiposInmueble" [value]="tipoInmueble.id">
-                                {{tipoInmueble.tipo}}</option>
-                        </select>
-                        <label for="floatingSelectRoles">Tipo Inmueble(*)</label>
+                    <div class="floating-label ng-select-js" style="width: 100%;">
+                        <ng-select formControlName="idTipoInmueble" class="form-control floating-label-select"
+                            [searchable]="true">
+                            <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                            <ng-option *ngFor="let tipoInmueble of tiposInmueble" [value]="tipoInmueble.id">
+                                {{tipoInmueble.tipo}}</ng-option>
+                        </ng-select>
+                        <label class="floating-label-label">Tipo Inmueble(*)</label>
                         <span class="text-danger"
                             *ngIf="inmuebleForm.get('idTipoInmueble').invalid && inmuebleForm.get('idTipoInmueble').touched">El
                             tipo de inmueble es obligatorio <br></span>
@@ -114,13 +118,14 @@
                             *ngIf="inmuebleForm.get('idTipoInmueble').errors && inmuebleForm.get('idTipoInmueble').errors.seleccionarOpcion">
                             Por favor, selecciona una opción válida.</span>
                     </div>
-                    <div class="floating-label w-100">
-                        <select class="form-control" formControlName="idEstadoInmueble">
-                            <option selected>Seleciona una opción</option>
-                            <option *ngFor="let estadoInmueble of estadosInmueble"
-                                [value]="estadoInmueble.idEstadoInmueble">{{estadoInmueble.estado}}</option>
-                        </select>
-                        <label>Estado Inmueble (*)</label>
+                    <div class="floating-label ng-select-js" style="width: 100%;">
+                        <ng-select formControlName="idEstadoInmueble" class="form-control floating-label-select"
+                            [searchable]="true">
+                            <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                            <ng-option *ngFor="let estadoInmueble of estadosInmueble"
+                                [value]="estadoInmueble.idEstadoInmueble">{{estadoInmueble.estado}}</ng-option>
+                        </ng-select>
+                        <label class="floating-label-label">Estado Inmueble (*)</label>
                         <span class="text-danger"
                             *ngIf="inmuebleForm.get('idEstadoInmueble').invalid && inmuebleForm.get('idEstadoInmueble').touched">El
                             estado del inmueble es obligatorio <br></span>
@@ -128,14 +133,14 @@
                             *ngIf="inmuebleForm.get('idEstadoInmueble').errors && inmuebleForm.get('idEstadoInmueble').errors.seleccionarOpcion">
                             Por favor, selecciona una opción válida.</span>
                     </div>
-                    <div class="floating-label w-100">
-                        <select class="form-control" formControlName="idUsuario">
-                            <option></option>
-                            <option>Seleciona una opción</option>
-                            <option *ngFor="let usuario of usuarios" [value]="usuario.idUsuario">
-                                {{usuario.nombre}} {{usuario.apellido}}</option>
-                        </select>
-                        <label>Agente (*)</label>
+                    <div class="floating-label ng-select-js" style="width: 100%;">
+                        <ng-select formControlName="idUsuario" class="form-control floating-label-select"
+                            [searchable]="true">
+                            <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                            <ng-option *ngFor="let usuario of usuarios" [value]="usuario.idUsuario">
+                                {{usuario.nombre}} {{usuario.apellido}}</ng-option>
+                        </ng-select>
+                        <label class="floating-label-label">Agente (*)</label>
                         <span class="text-danger"
                             *ngIf="inmuebleForm.get('idUsuario').invalid && inmuebleForm.get('idUsuario').touched">El
                             agente es obligatorio <br></span>
@@ -146,13 +151,13 @@
                 </div>
             </div>
             <div class="d-flex justify-content-around flex-md-row flex-sm-column flex-column gap-2 margin-form">
-                <div class="floating-label w-100">
-                    <select class="form-control" formControlName="idPais"
+                <div class="floating-label ng-select-js" style="width: 100%;">
+                    <ng-select formControlName="idPais" class="form-control floating-label-select" [searchable]="true"
                         (change)="changePais(inmuebleForm.get('idPais').value)">
-                        <option selected>Seleciona una opción</option>
-                        <option *ngFor="let pais of paises" [value]="pais.idPais">{{pais.pais}}</option>
-                    </select>
-                    <label for="floatingSelectRoles">Pais (*)</label>
+                        <ng-option [value]="''">SELECCIONA UNA OPCIÓN</ng-option>
+                        <ng-option *ngFor="let pais of paises" [value]="pais.idPais">{{pais.pais}}</ng-option>
+                    </ng-select>
+                    <label class="floating-label-label">Pais (*)</label>
                     <span class="text-danger"
                         *ngIf="inmuebleForm.get('idPais').invalid && inmuebleForm.get('idPais').touched">El pais es
                         obligatorio <br></span>
@@ -160,14 +165,14 @@
                         *ngIf="inmuebleForm.get('idPais').errors && inmuebleForm.get('idPais').errors.seleccionarOpcion">
                         Por favor, selecciona una opción válida.</span>
                 </div>
-                <div class="floating-label w-100">
-                    <select class="form-control" formControlName="idProvincia"
-                        (change)="changeProvincia(inmuebleForm.get('idProvincia').value)">
-                        <option selected>Seleciona una opción</option>
-                        <option *ngFor="let provincia of provincias" [value]="provincia.idProvincia">
-                            {{provincia.provincia}}</option>
-                    </select>
-                    <label>Provincia (*)</label>
+                <div class="floating-label ng-select-js" style="width: 100%;">
+                    <ng-select formControlName="idProvincia" class="form-control floating-label-select"
+                        [searchable]="true" (change)="changeProvincia(inmuebleForm.get('idProvincia').value)">
+                        <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                        <ng-option *ngFor="let provincia of provincias" [value]="provincia.idProvincia">
+                            {{provincia.provincia}}</ng-option>
+                    </ng-select>
+                    <label class="floating-label-label">Provincia (*)</label>
                     <span class="text-danger"
                         *ngIf="inmuebleForm.get('idProvincia').invalid && inmuebleForm.get('idProvincia').touched">La
                         provincia es obligatoria <br></span>
@@ -175,14 +180,14 @@
                         *ngIf="inmuebleForm.get('idProvincia').errors && inmuebleForm.get('idProvincia').errors.seleccionarOpcion">
                         Por favor, selecciona una opción válida.</span>
                 </div>
-                <div class="floating-label w-100">
-                    <select class="form-control" formControlName="idMunicipio"
-                        (change)="changeMunicipio(inmuebleForm.get('idMunicipio').value)">
-                        <option selected>Seleciona una opción</option>
-                        <option *ngFor="let municipio of municipios" [value]="municipio.idMunicipio">
-                            {{municipio.municipio}}</option>
-                    </select>
-                    <label>Municipio (*)</label>
+                <div class="floating-label ng-select-js" style="width: 100%;">
+                    <ng-select formControlName="idMunicipio" class="form-control floating-label-select"
+                        [searchable]="true" (change)="changeMunicipio(inmuebleForm.get('idMunicipio').value)">
+                        <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                        <ng-option *ngFor="let municipio of municipios" [value]="municipio.idMunicipio">
+                            {{municipio.municipio}}</ng-option>
+                    </ng-select>
+                    <label class="floating-label-label">Municipio (*)</label>
                     <span class="text-danger"
                         *ngIf="inmuebleForm.get('idMunicipio').invalid && inmuebleForm.get('idMunicipio').touched">El
                         municipio es obligatorio <br></span>
@@ -190,12 +195,14 @@
                         *ngIf="inmuebleForm.get('idMunicipio').touched&&inmuebleForm.get('idMunicipio').errors && inmuebleForm.get('idMunicipio').errors.seleccionarOpcion">
                         Por favor, selecciona una opción válida.</span>
                 </div>
-                <div class="floating-label w-100">
-                    <select class="form-control" formControlName="idBarrio">
-                        <option selected>Seleciona una opción</option>
-                        <option *ngFor="let barrio of barrios" [value]="barrio.idBarrio">{{barrio.barrio}}</option>
-                    </select>
-                    <label>Barrio (*)</label>
+                <div class="floating-label ng-select-js" style="width: 100%;">
+                    <ng-select formControlName="idBarrio" class="form-control floating-label-select" [searchable]="true"
+                        (change)="changeMunicipio(inmuebleForm.get('idMunicipio').value)">
+                        <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                        <ng-option *ngFor="let barrio of barrios"
+                            [value]="barrio.idBarrio">{{barrio.barrio}}</ng-option>
+                    </ng-select>
+                    <label class="floating-label-label">Barrio (*)</label>
                     <span class="text-danger"
                         *ngIf="inmuebleForm.get('idBarrio').invalid && inmuebleForm.get('idBarrio').touched">El barrio
                         es obligatorio <br></span>
@@ -214,54 +221,104 @@
                 </div>
             </div>
             <div class="row">
-                <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
-                    <label class="form-label" for="img1">Portada (*)</label>
-                    <input [disabled]="deshabilitar()" type="file" class="form-control" id="img1"
-                        formControlName="img1" />
-                    <span class="text-danger"
-                        *ngIf="inmuebleForm.get('img1').invalid && inmuebleForm.get('img1').touched">La imagen de
-                        portada es obligatoria</span>
-                </div>
-                <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
-                    <label class="form-label" for="img2">Imagen 2</label>
-                    <input [disabled]="deshabilitar()" type="file" class="form-control" id="img2"
-                        formControlName="img2" />
-                </div>
+                <ng-container>
+                    <ng-container *ngIf="!hayImg1">
+                        <div class="text-center margin-form col-12 col-sm-12 col-md-6 margin-form">
+                            <label class="form-label" for="img1">Portada (*)</label>
+                            <input type="file" accept="image/png,image/jpeg" (change)="validateImage($event.target)"
+                                class="form-control" id="img1" formControlName="img1" />
+                            <span class="text-danger" *ngIf="inmuebleForm.get('img1').invalid && inmuebleForm.get('img1').touched">
+                                La imagen de portada es obligatoria
+                            </span>
+                            <span class="text-danger" *ngIf="inmuebleForm.get('img1').invalid && inmuebleForm.get('img1').errors?.imageValidator">
+                                La imagen debe ser de tipo jpg, jpeg, png o gif
+                            </span>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="hayImg1">
+                        <div class="imagen-inmueble margin-form col-12 col-sm-12 col-md-6 margin-form d-flex justify-content-center">
+                            <img [src]="imagenes[0]" class="d-block w-100" alt="portada" />
+                            <button type="button" class="btn btn-danger btn-floating"
+                                (click)="deleteImagen(1, this.inmuebleForm.get('idInmueble').value)">
+                                <h6><i class="fas fa-trash"></i></h6>
+                            </button>
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <ng-container>
+                    <ng-container *ngIf="!hayImg2">
+                        <div class="text-center margin-form col-12 col-sm-12 col-md-6 margin-form">
+                            <label class="form-label" for="img2">Imagen 2 (*)</label>
+                            <input type="file" accept="image/png,image/jpeg" (change)="validateImage($event.target)"
+                                class="form-control" id="img2" formControlName="img2" />
+                            <span class="text-danger"
+                                *ngIf="inmuebleForm.get('img2').invalid && inmuebleForm.get('img2').errors?.imageValidator">
+                                La imagen debe ser de tipo jpg, jpeg, png o gif
+                            </span>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="hayImg2">
+                        <div class="imagen-inmueble margin-form col-12 col-sm-12 col-md-6 margin-form d-flex justify-content-center">
+                            <img [src]="imagenes[1]" class="d-block w-100" alt="Imagen 2" />
+                            <button type="button" class="btn btn-danger btn-floating"
+                                (click)="deleteImagen(2, this.inmuebleForm.get('idInmueble').value)">
+                                <h6><i class="fas fa-trash"></i></h6>
+                            </button>
+                        </div>
+                    </ng-container>
+                </ng-container>
             </div>
             <div class="row">
-                <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
-                    <label class="form-label" for="img3">Imagen 3</label>
-                    <input [disabled]="deshabilitar()" type="file" class="form-control" id="img3"
-                        formControlName="img3" />
-                </div>
-                <div class="text-center margin-form col-12 col-sm-12 col-md margin-form">
-                    <label class="form-label" for="img4">Imagen 4</label>
-                    <input [disabled]="deshabilitar()" type="file" class="form-control" id="img4"
-                        formControlName="img4" />
-                </div>
+                <ng-container *ngIf="!hayImg3">
+                    <div class="text-center margin-form col-12 col-sm-12 col-md-6 margin-form">
+                        <label class="form-label" for="img3">Imagen 3 (*)</label>
+                        <input type="file" accept="image/png,image/jpeg" (change)="validateImage($event.target)"
+                            class="form-control" id="img3" formControlName="img3" />
+                        <span class="text-danger"
+                            *ngIf="inmuebleForm.get('img3').invalid && inmuebleForm.get('img3').errors?.imageValidator">
+                            La imagen debe ser de tipo jpg, jpeg, png o gif
+                        </span>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="hayImg3">
+                    <div class="imagen-inmueble margin-form col-12 col-sm-12 col-md-6 margin-form d-flex justify-content-center">
+                        <img [src]="imagenes[2]" class="d-block w-100" alt="Imagen  3" />
+                        <button type="button" class="btn btn-danger btn-floating"
+                            (click)="deleteImagen(3, this.inmuebleForm.get('idInmueble').value)">
+                            <h6><i class="fas fa-trash"></i></h6>
+                        </button>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="!hayImg4">
+                    <div class="text-center margin-form col-12 col-sm-12 col-md-6 margin-form">
+                        <label class="form-label" for="img4">Imagen 4 (*)</label>
+                        <input type="file" accept="image/png,image/jpeg" (change)="validateImage($event.target)"
+                            class="form-control" id="img4" formControlName="img4" />
+                        <span class="text-danger"
+                            *ngIf="inmuebleForm.get('img4').invalid && inmuebleForm.get('img4').errors?.imageValidator">
+                            La imagen debe ser de tipo jpg, jpeg, png o gif
+                        </span>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="hayImg4">
+                    <div class="imagen-inmueble margin-form col-12 col-sm-12 col-md-6 margin-form d-flex justify-content-center">
+                        <img [src]="imagenes[3]" class="d-block w-100" alt="Imagen  4" />
+                        <button type="button" class="btn btn-danger btn-floating"
+                            (click)="deleteImagen(4, this.inmuebleForm.get('idInmueble').value)">
+                            <h6><i class="fas fa-trash"></i></h6>
+                        </button>
+                    </div>
+                </ng-container>
             </div>
-            <input type="hidden" formControlName="img1text" />
-            <input type="hidden" formControlName="img2text" />
-            <input type="hidden" formControlName="img3text" />
-            <input type="hidden" formControlName="img4text" />
             <input type="hidden" formControlName="idInmueble" />
             <input type="hidden" formControlName="fechaCreacion" />
-            <input type="hidden" formControlName="fechaModificacion" />
-            <input type="hidden" formControlName="modificado" />
-            <div class="row" *ngIf="imagenes.length > 0">
-                <div *ngFor="let imagen of imagenes"
-                    class="imagen-inmueble margin-form col-12 col-sm-12 col-md margin-form">
-                    <img src="{{imagen.contenido}}" class="d-block w-100" alt="..." />
-                    <button type="button" [disabled]="botonSave" class="btn btn-danger btn-floating"
-                        (click)="deleteImagen(imagen.idImagen)">
-                        <h6><i class="fas fa-trash"></i></h6>
-                    </button>
-                </div>
-            </div>
+            <input type="hidden" formControlName="fechaCreacion" />
+            <input type="hidden" formControlName="idInmueble" />
+            <input type="hidden" formControlName="fechaCreacion" />
             <div class="row margin-form">
                 <div class="col-12 col-sm-12 col-md-6">
-                    <a routerLink="/home-dashboard/inmueble" mdbBtn type="button" id="btnVolver" class="btn btn-primary btn-lg btn-block"
-                        mdbWavesEffect>Volver</a>
+                    <a routerLink="/home-dashboard/inmueble" mdbBtn type="button" id="btnVolver"
+                        class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Volver</a>
                 </div>
                 <div class="col-12 col-sm-12 col-md-6">
                     <button mdbBtn type="submit" [disabled]="inmuebleForm.invalid || botonSave" id="btnSave"

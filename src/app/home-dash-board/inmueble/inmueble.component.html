@@ -11,19 +11,22 @@
                 <div class="row">
                     <div class="text-center col-12 col-sm-12 col-md pe-md-2 margin-form">
                         <mdb-form-control>
-                            <input mdbInput formControlName="idInmueble" type="text" id="idInmueble" class="form-control" />
+                            <input mdbInput formControlName="idInmueble" type="text" id="idInmueble"
+                                class="form-control" />
                             <label mdbLabel class="form-label" for="idInmueble">Inmueble Id</label>
                         </mdb-form-control>
                     </div>
                     <div class="text-center col-12 col-sm-12 col-md pe-md-2 margin-form">
                         <mdb-form-control>
-                            <input mdbInput formControlName="descripcion" type="text" id="descripcion" class="form-control" />
+                            <input mdbInput formControlName="descripcion" type="text" id="descripcion"
+                                class="form-control" />
                             <label mdbLabel class="form-label" for="descripcion">Descripcion</label>
                         </mdb-form-control>
                     </div>
                     <div class="text-center col-12 col-sm-12 col-md pe-md-2 margin-form">
                         <mdb-form-control>
-                            <input mdbInput formControlName="direccion" type="text" id="direccion" class="form-control" />
+                            <input mdbInput formControlName="direccion" type="text" id="direccion"
+                                class="form-control" />
                             <label mdbLabel class="form-label" for="direccion">Direccion</label>
                         </mdb-form-control>
                     </div>
@@ -31,19 +34,22 @@
                 <div class="row">
                     <div class="text-center col-12 col-sm-12 col-md pe-md-2 margin-form">
                         <mdb-form-control>
-                            <input mdbInput formControlName="codigoPostal" type="number" min="0" id="codigoPostal" class="form-control" />
+                            <input mdbInput formControlName="codigoPostal" type="number" min="0" id="codigoPostal"
+                                class="form-control" />
                             <label mdbLabel class="form-label" for="codigoPostal">Código Postal</label>
                         </mdb-form-control>
                     </div>
                     <div class="text-center col-12 col-sm-12 col-md pe-md-2 margin-form">
                         <mdb-form-control>
-                            <input mdbInput formControlName="precioventa" type="number" min="0" id="precio_venta" class="form-control" />
+                            <input mdbInput formControlName="precioventa" type="number" min="0" id="precio_venta"
+                                class="form-control" />
                             <label mdbLabel class="form-label" for="precio_venta">Precio Venta</label>
                         </mdb-form-control>
                     </div>
                     <div class="text-center col-12 col-sm-12 col-md pe-md-2 margin-form">
                         <mdb-form-control>
-                            <input mdbInput formControlName="precioalquiler" type="number" min="0" id="precio_alquiler" class="form-control" />
+                            <input mdbInput formControlName="precioalquiler" type="number" min="0" id="precio_alquiler"
+                                class="form-control" />
                             <label mdbLabel class="form-label" for="precio_alquiler">Precio Alquiler</label>
                         </mdb-form-control>
                     </div>
@@ -51,97 +57,110 @@
                 <div class="row">
                     <div class="text-center col-12 col-sm-12 col-md pe-md-2 margin-form">
                         <mdb-form-control>
-                            <input mdbInput formControlName="numHabitaciones" type="number" min="0" id="numHabitaciones" class="form-control" />
+                            <input mdbInput formControlName="numHabitaciones" type="number" min="0" id="numHabitaciones"
+                                class="form-control" />
                             <label mdbLabel class="form-label" for="numHabitaciones">Numero Habitaciones</label>
                         </mdb-form-control>
                     </div>
                     <div class="text-center col-12 col-sm-12 col-md pe-md-2 margin-form">
                         <mdb-form-control>
-                            <input mdbInput formControlName="numBanos" type="number" min="0" id="numBanos" class="form-control" />
+                            <input mdbInput formControlName="numBanos" type="number" min="0" id="numBanos"
+                                class="form-control" />
                             <label mdbLabel class="form-label" for="numBanos">Numero Baños</label>
                         </mdb-form-control>
                     </div>
-                   
                 </div>
                 <div class="row">
                     <div class="text-center col-12 col-sm-12 col-md pe-md-2 margin-form">
                         <mdb-form-control>
-                            <input mdbInput formControlName="anoconstruccion" type="number" min="0" id="ano_construccion" class="form-control" />
+                            <input mdbInput formControlName="anoconstruccion" type="number" min="0"
+                                id="ano_construccion" class="form-control" />
                             <label mdbLabel class="form-label" for="ano_construccion">Año Construccion</label>
                         </mdb-form-control>
                     </div>
                     <div class="text-center col-12 col-sm-12 col-md pe-md-2 margin-form">
                         <mdb-form-control>
-                            <input mdbInput formControlName="metroscuadrados" type="number" min="0" id="metros_cuadrados" class="form-control" />
+                            <input mdbInput formControlName="metroscuadrados" type="number" min="0"
+                                id="metros_cuadrados" class="form-control" />
                             <label mdbLabel class="form-label" for="metros_cuadrados">Metros Cuadrados</label>
                         </mdb-form-control>
                     </div>
                 </div>
                 <div class="d-flex justify-content-around flex-md-row flex-sm-column flex-column gap-2">
-                    <div class="floating-label   margin-form" style="width: 100%">
-                        <select formControlName="ipPais" class="form-control">
-                            <option selected>Seleciona una opción</option>
-                            <option *ngFor="let pais of paises" [value]="pais.idPais">{{pais.pais}}</option>
-                        </select>
-                        <label>Pais</label>
+                    <div class="floating-label ng-select-js" style="width: 100%;">
+                        <ng-select formControlName="ipPais" class="form-control floating-label-select"
+                            [searchable]="true">
+                            <ng-option [value]="''">SELECCIONA UNA OPCIÓN</ng-option>
+                            <ng-option *ngFor="let pais of paises" [value]="pais.idPais">{{pais.pais}}</ng-option>
+                        </ng-select>
+                        <label class="floating-label-label">Pais</label>
                     </div>
-                    <div class="floating-label   margin-form" style="width: 100%">
-                        <select formControlName="provincia" class="form-control">
-                            <option selected>Seleciona una opción</option>
-                            <option *ngFor="let provincia of provincias" [value]="provincia.idProvincia">
-                                {{provincia.provincia}}</option>
-                        </select>
-                        <label>Provincia</label>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-around flex-md-row flex-sm-column flex-column gap-2">
-                    <div class="floating-label   margin-form" style="width: 100%">
-                        <select formControlName="municipio" class="form-control">
-                            <option selected>Seleciona una opción</option>
-                            <option *ngFor="let municipio of municipios" [value]="municipio.idMunicipio">
-                                {{municipio.municipio}}</option>
-                        </select>
-                        <label>Municipio</label>
-                    </div>
-                    <div class="floating-label   margin-form" style="width: 100%">
-                        <select formControlName="barrio" class="form-control">
-                            <option selected>Seleciona una opción</option>
-                            <option *ngFor="let barrio of barrios" [value]="barrio.idBarrio">{{barrio.barrio}}</option>
-                        </select>
-                        <label>Barrio</label>
+                    <div class="floating-label ng-select-js" style="width: 100%;">
+                        <ng-select formControlName="provincia" class="form-control floating-label-select"
+                            [searchable]="true">
+                            <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                            <ng-option *ngFor="let provincia of provincias" [value]="provincia.idProvincia">
+                                {{provincia.provincia}}</ng-option>
+                        </ng-select>
+                        <label class="floating-label-label">Provincia</label>
                     </div>
                 </div>
                 <div class="d-flex justify-content-around flex-md-row flex-sm-column flex-column gap-2">
-                    <div class="floating-label   margin-form" style="width: 100%">
-                        <select formControlName="tipoinmueble" class="form-control">
-                            <option selected>Seleciona una opción</option>
-                            <option *ngFor="let tipoInmueble of tiposInmueble" [value]="tipoInmueble.id">
-                                {{tipoInmueble.tipo}}</option>
-                        </select>
-                        <label>Tipo Inmueble</label>
+                    <div class="floating-label ng-select-js" style="width: 100%;">
+                        <ng-select formControlName="municipio" class="form-control floating-label-select"
+                            [searchable]="true">
+                            <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                            <ng-option *ngFor="let municipio of municipios" [value]="municipio.idMunicipio">
+                                {{municipio.municipio}}</ng-option>
+                        </ng-select>
+                        <label class="floating-label-label">Municipio</label>
                     </div>
-                    <div class="floating-label   margin-form" style="width: 100%">
-                        <select formControlName="estadoInmueble" class="form-control">
-                            <option selected>Seleciona una opción</option>
-                            <option *ngFor="let estadoInmueble of estadosInmueble"
-                            [value]="estadoInmueble.idEstadoInmueble">{{estadoInmueble.estado}}</option>
-                        </select>
-                        <label>Estado Inmueble</label>
+                    <div class="floating-label ng-select-js" style="width: 100%;">
+                        <ng-select formControlName="barrio" class="form-control floating-label-select"
+                            [searchable]="true">
+                            <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                            <ng-option *ngFor="let barrio of barrios" [value]="barrio.idBarrio">{{barrio.barrio}}</ng-option>
+                        </ng-select>
+                        <label class="floating-label-label">Barrio</label>
                     </div>
-                    <div class="floating-label   margin-form" style="width: 100%">
-                        <select formControlName="idUsuario" class="form-control">
-                            <option selected>Seleciona una opción</option>
-                            <option *ngFor="let usuario of usuarios" [value]="usuario.idUsuario">
-                                {{usuario.nombre}} {{usuario.apellido}}</option>
-                        </select>
-                        <label>Usuario</label>
+                </div>
+                <div class="d-flex justify-content-around flex-md-row flex-sm-column flex-column gap-2">
+                    <div class="floating-label ng-select-js" style="width: 100%;">
+                        <ng-select formControlName="tipoinmueble" class="form-control floating-label-select"
+                            [searchable]="true">
+                            <ng-option [value]="0" selected>SELECCIONA UNA OPCIÓN</ng-option>
+                            <ng-option *ngFor="let tipoInmueble of tiposInmueble" [value]="tipoInmueble.id">
+                                {{ tipoInmueble.tipo }}
+                            </ng-option>
+                        </ng-select>
+                        <label class="floating-label-label">Tipo Inmueble</label>
+                    </div>
+                    <div class="floating-label ng-select-js" style="width: 100%;">
+                        <ng-select formControlName="estadoInmueble" class="form-control floating-label-select"
+                            [searchable]="true">
+                            <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                            <ng-option *ngFor="let estadoInmueble of estadosInmueble"
+                            [value]="estadoInmueble.idEstadoInmueble">{{estadoInmueble.estado}}</ng-option>
+                        </ng-select>
+                        <label class="floating-label-label">Estado Inmueble</label>
+                    </div>
+                    <div class="floating-label ng-select-js" style="width: 100%;">
+                        <ng-select formControlName="idUsuario" class="form-control floating-label-select"
+                            [searchable]="true">
+                            <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                            <ng-option *ngFor="let usuario of usuarios" [value]="usuario.idUsuario">{{usuario.nombre}} {{usuario.apellido}}</ng-option>
+                        </ng-select>
+                        <label class="floating-label-label">Usuario</label>
                     </div>
                 </div>
             </form>
         </div>
         <div class="d-flex justify-content-center">
-            <button mdbBtn type="button" color="primary" class="btn btn-primary btn-lg" (click)="busqueda()">
+            <button mdbBtn type="button" color="primary" class="btn btn-primary btn-lg mx-2" (click)="busqueda()">
                 <i class="fas fa-search mx-2"></i>Buscar
+            </button>
+            <button mdbBtn type="button" color="primary" class="btn btn-primary btn-lg" (click)="limpiarFiltros()">
+                <i class="fas fa-arrows-rotate mx-2"></i>Limpiar Filtros
             </button>
         </div>
     </div>
