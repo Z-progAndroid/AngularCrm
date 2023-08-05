@@ -1,0 +1,16 @@
+.was-validated .form-control:invalid,
+.form-control.is-invalid {
+    border-color: none;
+    padding-right: none;
+    background-image: none;
+    background-repeat: no-repeat;
+    padding: .375rem 0.55rem;
+    background-size: calc(0.8em + 0.375rem) calc(0.8em + 0.375rem);
+}
+
+
+.was-validated .form-control:invalid:focus,
+.form-control.is-invalid:focus {
+    border-color: none; 
+    box-shadow: none 
+}
