@@ -6,11 +6,8 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class Alerts {
-    static router: Router;
-
-    constructor(private router: Router) {
-        Alerts.router = router;
-    }
+    static router: any;
+    constructor(private router: Router) {}
     static error(titulo: string, mensaje: string, error: any): any {
         console.log(error);
         mensaje = error?.error?.mensaje ? error.error.mensaje : mensaje;
@@ -18,17 +15,6 @@ export class Alerts {
             icon: 'error',
             title: titulo,
             text: mensaje,
-        })
-    }
-    static errorConRedirect(titulo: string, mensaje: string, url: string, error: any): any {
-        console.log(error);
-        mensaje = error?.error?.mensaje ? error.error.mensaje : mensaje;
-        return Swal.fire({
-            icon: 'error',
-            title: titulo,
-            text: mensaje,
-        }).then((result) => {
-            this.router.navigate([url]);
         })
     }
     static success(titulo: string, mensaje: string): any {

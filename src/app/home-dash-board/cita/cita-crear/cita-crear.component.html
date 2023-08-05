@@ -1,0 +1,163 @@
+<div class="wrapper">
+    <div class="group-inputs">
+        <form (submit)="submit()" [formGroup]="citaFrom">
+            <div class="row">
+                <div class="text-center margin-form col-12 col-sm-12 col-md-12 margin-form">
+                    <mdb-form-control>
+                        <input mdbInput formControlName="titulo" type="text" id="titulo" class="form-control" />
+                        <label mdbLabel class="form-label" for="titulo">Titulo (*)</label>
+                    </mdb-form-control>
+                </div>
+            </div>
+            <div class="text-center text-danger"
+                *ngIf="citaFrom.get('titulo').invalid && (citaFrom.get('titulo').touched|| citaFrom.get('titulo').dirty)">
+                El titulo es requerido
+            </div>
+            <div class="row d-flex align-items-center margin-form">
+                <div class="col-12 col-md-9 col-lg-10">
+                    <mdb-form-control>
+                        <input mdbInput type="text" id="fechaInicio" name="fechaInicio" formControlName="fechaInicio"
+                        [daysDisabled]="[6,0]" [minDate]="minDate" placeholder="fecha inicio (*)"
+                        class="form-control" bsDatepicker>
+                        <label mdbLabel class="form-label" for="titulo">Fecha Inicio (*)</label>
+                    </mdb-form-control>
+                </div>
+                <div class="col-12 col-md-3 col-lg-2 ">
+                    <timepicker id="fechaInicioTime" name="fechaInicioTime"
+                        class="w-100 d-flex align-items-center justify-content-center"
+                        formControlName="fechaInicioTime" [showSpinners]="false" [showMeridian]="false">
+                    </timepicker>
+                </div>
+            </div>
+            <div class="text-center text-danger"
+                *ngIf="citaFrom.get('fechaInicio').invalid && (citaFrom.get('fechaInicio').touched|| citaFrom.get('fechaInicio').dirty)">
+                La fecha de inicio es requerida
+            </div>
+            <div class="text-center text-danger" *ngIf="citaFrom.get('fechaInicioTime').invalid && (citaFrom.get('fechaInicioTime').touched|| citaFrom.get('fechaInicioTime').dirty)
+                && citaFrom.get('fechaInicioTime').errors?.tiempoInvalido">
+                Debe seleccionar una hora valida
+            </div>
+            <div class="text-center text-danger" *ngIf="citaFrom.get('fechaInicioTime').errors?.required">
+                La hora de inicio es requerida
+            </div>
+            <div class="row d-flex align-items-center">
+                <div class="col-12 col-md-9 col-lg-10">
+                    <mdb-form-control>
+                    <input mdbInput type="text" id="fechaFin" name="fechaFin" formControlName="fechaFin" [daysDisabled]="[6,0]"
+                        [minDate]="minDate" placeholder="fecha fin (*)" class="form-control margin-form" bsDatepicker>
+                    <label mdbLabel class="form-label" for="fechaFin">Fecha Fin (*)</label>
+                    </mdb-form-control>
+                </div>
+                <div class="col-12 col-md-3 col-lg-2  margin-form">
+                    <timepicker id="fechaFinTime" name="fechaFinTime" formControlName="fechaFinTime"
+                        [showSpinners]="false" [showMeridian]="false"
+                        class="w-100 d-flex align-items-center justify-content-center"></timepicker>
+                </div>
+            </div>
+            <div class="text-center text-danger"
+                *ngIf="citaFrom.get('fechaFin').invalid && citaFrom.get('fechaFin').touched">
+                La fecha de fin es requerida
+            </div>
+            <div class="text-center text-danger" *ngIf="citaFrom.get('fechaFinTime').invalid && (citaFrom.get('fechaFinTime').touched|| citaFrom.get('fechaFinTime').dirty)
+            && citaFrom.get('fechaFinTime').errors?.tiempoInvalido">
+                Debe seleccionar una hora valida
+            </div>
+            <div class="text-center text-danger" *ngIf="citaFrom.get('fechaFinTime').errors?.required">
+                La hora de fin es requerida
+            </div>
+            <div class="text-center text-danger" *ngIf="citaFrom.get('fechaFin').invalid && (citaFrom.get('fechaFin').touched|| citaFrom.get('fechaFin').dirty)
+            && citaFrom.get('fechaFin').errors?.fechaFinMayor">
+                La fecha fin no puede ser menor a la fecha inicio
+            </div>
+            <div class="row">
+                <div class="text-center margin-form col-12 col-sm-12 col-md-12 margin-form ">
+                    <mdb-form-control>
+                        <textarea mdbInput class="form-control no-resize" id="descripcion" formControlName="descripcion"
+                            rows="4"></textarea>
+                        <label mdbLabel class="form-label" for="descripcion">Descripcion</label>
+                    </mdb-form-control>
+                </div>
+            </div>
+            <div class="row d-flex align-items-center my-1">
+                <div class="col-12 col-md-6">
+                    <div class="floating-label ng-select-js margin-form" style="width: 100%; ">
+                        <ng-select [clearable]="false" formControlName="idTipoCita"
+                            class="form-control floating-label-select" [searchable]="true">
+                            <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                            <ng-option *ngFor="let tipoCita of tiposCitas" [value]="tipoCita.idTipoCita">
+                                {{tipoCita.tipoCita}}
+                            </ng-option>
+                        </ng-select>
+                        <label class="floating-label-label">Tipo cita (*)</label>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="floating-label ng-select-js margin-form" style="width: 100%;">
+                        <ng-select [clearable]="false" formControlName="idEstadoCita"
+                            class="form-control floating-label-select" [searchable]="true">
+                            <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                            <ng-option *ngFor="let estadoCita of estadosCita" [value]="estadoCita.idEstadoCita">
+                                {{estadoCita.estadoCita}}
+                            </ng-option>
+                        </ng-select>
+                        <label class="floating-label-label">Estado Cita (*)</label>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center text-danger"
+                *ngIf="citaFrom.get('idTipoCita').invalid && citaFrom.get('idTipoCita').touched">
+                El tipo de cita es requerido
+            </div>
+            <div class="text-center text-danger"
+                *ngIf="citaFrom.get('idEstadoCita').invalid && citaFrom.get('idEstadoCita').touched">
+                El estado de cita es requerido
+            </div>
+            <div class="row d-flex align-items-center">
+                <div class="col-12 col-md-6">
+                    <div class="floating-label ng-select-js margin-form" style="width: 100%;">
+                        <ng-select [clearable]="false" formControlName="idInmueble"
+                            class="form-control floating-label-select" [searchable]="true">
+                            <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                            <ng-option *ngFor="let inmueble of inmuebles" [value]="inmueble.idInmueble">
+                                {{inmueble.direccion}}
+                            </ng-option>
+                        </ng-select>
+                        <label class="floating-label-label">Inmueble (*)</label>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="floating-label ng-select-js margin-form" style="width: 100%;">
+                        <ng-select [clearable]="false" formControlName="idUsuarioCliente"
+                            class="form-control floating-label-select" [searchable]="true">
+                            <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                            <ng-option *ngFor="let cliente of clientes" [value]="cliente.idUsuario">
+                                {{cliente.nombre}} - {{cliente.apellido}}
+                            </ng-option>
+                        </ng-select>
+                        <label class="floating-label-label">Cliente (*)</label>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center text-danger"
+                *ngIf="citaFrom.get('idInmueble').invalid && citaFrom.get('idInmueble').touched">
+                El inmueble es requerido
+            </div>
+            <div class="text-center text-danger"
+                *ngIf="citaFrom.get('idUsuarioCliente').invalid && citaFrom.get('idUsuarioCliente').touched">
+                El cliente es requerido
+            </div>
+            <input type="hidden" name="idCita" formControlName="idCita">
+            <input type="hidden" name="fechaCreacion" formControlName="fechaCreacion">
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-6">
+                    <button type="button" routerLink="/home-dashboard/cita" 
+                    class="btn btn-primary btn-block margin-form">Volver</button>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6">
+                    <button type="submit" [disabled]="citaFrom.invalid||citaFrom.disabled"
+                    class="btn btn-primary btn-block margin-form">Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

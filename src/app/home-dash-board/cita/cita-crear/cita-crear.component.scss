@@ -1,0 +1,16 @@
+.wrapper {
+    margin: 0 auto;
+    max-width: 1700px;
+    padding: 30px;
+
+    .margin-form {
+        margin-top: 1rem;
+    }
+
+    .group-inputs {
+        padding: 0.7rem;
+    }
+    .no-resize{
+        resize: none;
+    }
+}

@@ -69,6 +69,9 @@ import { MunicipiosComponent } from './home-dash-board/ubicaciones/municipios/mu
 import { PaisComponent } from './home-dash-board/ubicaciones/pais/pais.component';
 import { ProvinciaComponent } from './home-dash-board/ubicaciones/provincia/provincia.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import{TimepickerModule} from 'ngx-bootstrap/timepicker';
+import { CitaCrearComponent } from './home-dash-board/cita/cita-crear/cita-crear.component';
 
 @NgModule({
   declarations: [
@@ -108,7 +111,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ProvinciaComponent,
     MunicipiosComponent,
     BarriosComponent,
-    HomeComponent
+    HomeComponent,
+    CitaCrearComponent,
   ],
   imports: [
     BrowserModule,
@@ -131,7 +135,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgSelectModule
+    NgSelectModule,
+    BsDatepickerModule.forRoot(),
+    TimepickerModule.forRoot()
   ],
   providers: [ChartService,
     EstadoUsuarioService,
@@ -141,7 +147,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     UsuarioService,
     EstadoContratoService,
     EstadoInmuebleService,
-    EstadoTareaService
+    EstadoTareaService,
   ],
   bootstrap: [AppComponent]
 })

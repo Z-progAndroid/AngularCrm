@@ -14,6 +14,7 @@ import { UserDetailsComponent } from './user/user-details/user-details.component
 import { UserComponent } from './user/user.component';
 import { HomeDashBoardComponent } from './home-dash-board.component';
 import { UbicacionesComponent } from './ubicaciones/ubicaciones.component';
+import { CitaCrearComponent } from './cita/cita-crear/cita-crear.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,8 @@ const routes: Routes = [
       { path: 'tipos', component: TiposComponent },
       { path: 'ubicacion', component: UbicacionesComponent },
       { path: 'cita', component: CitaComponent },
+      { path: 'cita/crear', component: CitaCrearComponent },
+      { path: 'cita/editar/:id', component: CitaCrearComponent },
       { path: 'contrato', component: ContratoComponent },
       { path: 'seguimiento', component: SeguimientoComponent },
       { path: 'tarea', component: TareaComponent }

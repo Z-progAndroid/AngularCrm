@@ -26,4 +26,7 @@ export class UsuarioService {
   findAllUserAdminORAgente() : Observable<User[]>{
     return this.http.get<User[]>(`${environment.urlBase}usuario/all/admin-or-agent`);
   }
+  findAllClientes(): Observable<User[]>{
+    return this.http.get<User[]>(`${environment.urlBase}usuario/all/usuarios`);
+  }
 }
