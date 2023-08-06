@@ -17,12 +17,12 @@ import { Alerts } from 'src/app/utils/Alerts';
 })
 export class CitaComponent extends BaseComponent implements OnInit {
   legend = [
-    { nombre: 'VISTA PROPIEDAD', color: '#66b2b2' },
-    { nombre: 'EVALUACIÓN DE PROPIEDAD', color: '#6699cc' },
-    { nombre: 'FIRMA DE CONTRATOS', color: '#6699ff' },
-    { nombre: 'NEGOCIACIÓN', color: '#b3d9ff' },
-    { nombre: 'ASESORAMIENTO', color: '#99ccff' },
-    { nombre: 'PENDIENTE', color: '#99CC00' },
+    { nombre: 'VISTA PROPIEDAD', color: 'background-color:#66b2b2;' },
+    { nombre: 'EVALUACIÓN DE PROPIEDAD', color: 'background-color:#6699cc;' },
+    { nombre: 'FIRMA DE CONTRATOS', color: 'background-color:#6699ff;' },
+    { nombre: 'NEGOCIACIÓN', color: 'background-color:#b3d9ff;' },
+    { nombre: 'ASESORAMIENTO', color: 'background-color:#99ccff;' },
+    { nombre: 'PENDIENTE', color: 'background-color:#99CC00;' },
     
   ];
   constructor(
