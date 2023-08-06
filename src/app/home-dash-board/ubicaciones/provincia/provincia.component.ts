@@ -46,7 +46,6 @@ export class ProvinciaComponent {
   ver(id: number) {
     this.provinciaService.findById(id).subscribe(
       (provincia: Provincia) => {
-        console.log(provincia);
         this.provinciasForm.patchValue(provincia);
         this.provinciasForm.disable();
       }, error => {
