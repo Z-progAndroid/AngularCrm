@@ -1,6 +1,15 @@
-<a routerLink="/home-dashboard/cita/crear" mdbBtn color="primary" class="btn btn-primary btn-lg m-5 p-5">
-    +<i class="fas fa-building mx-2"></i>cita nueva
-</a>
-<a routerLink="/home-dashboard/cita/editar/1" mdbBtn color="primary" class="btn btn-primary btn-lg m-5 p-5">
-    +<i class="fas fa-building mx-2"></i>editar
-</a>
+<div class="wrapper">
+    <div class="group-inputs">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-9">
+                <span class="tipo-cita-item" *ngFor="let item of legend">{{item.nombre}} <div class="tipo-cita-color"
+                        style="background-color:{{item.color}} ;"></div></span>
+
+                <full-calendar [options]="calendarGridOptions"></full-calendar>
+            </div>
+            <div class="col-12 col-md-12 col-lg-3">
+                <full-calendar [options]="calendarListOptions"></full-calendar>
+            </div>
+        </div>
+    </div>
+</div>

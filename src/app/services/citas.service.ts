@@ -31,4 +31,7 @@ export class CitasService implements CrudService<Cita>{
 
         return this.http.get<Mensaje>(`${environment.urlBase}cita/checkAvailability`, { params });
     }
+    findAllPendienteYActivas(): Observable<Cita[]> {
+        return this.http.get<Cita[]>(`${environment.urlBase}cita/pendientesYActivas`);
+    }
 }

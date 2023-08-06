@@ -200,16 +200,28 @@ export class CitaCrearComponent extends BaseComponent implements OnInit {
       fechaIncioConsultada.getFullYear() === this.cita.fechaIncio.getFullYear() &&
       fechaIncioConsultada.getMonth() === this.cita.fechaIncio.getMonth() &&
       fechaIncioConsultada.getDate() === this.cita.fechaIncio.getDate() &&
-      fechaIncioConsultada.getHours() === this.cita.fechaIncio.getHours()-2 &&
+      fechaIncioConsultada.getHours() === this.cita.fechaIncio.getHours() - 2 &&
       fechaIncioConsultada.getMinutes() === this.cita.fechaIncio.getMinutes() &&
       fechaFinConsultada.getFullYear() === this.cita.fechaFin.getFullYear() &&
       fechaFinConsultada.getMonth() === this.cita.fechaFin.getMonth() &&
       fechaFinConsultada.getDate() === this.cita.fechaFin.getDate() &&
-      fechaFinConsultada.getHours() === this.cita.fechaFin.getHours()-2 &&
+      fechaFinConsultada.getHours() === this.cita.fechaFin.getHours() - 2 &&
       fechaFinConsultada.getMinutes() === this.cita.fechaFin.getMinutes()
-    ) {return false;}
+    ) { return false; }
     return true;
   }
 
+  borrarCita() {
+    Alerts.warning('Advertencia', '¿Está seguro que desea eliminar la cita, se eliminara permanentemente?', 'Si, eliminar').then(result => {
+      if (!result.value) {
+        Alerts.info('Información', 'Operación cancelada por el usuario');
+        return;
+      }
+      this.citaService.delete(this.cita.idCita).subscribe((cita: Mensaje) => {
+        Alerts.success('Exito', 'Cita eliminada correctamente');
+        this.router.navigate(['/home-dashboard/cita']);
+      }, error => Alerts.error('Error', 'Error al eliminar la cita', error));
+    });
+  }
 }
 
