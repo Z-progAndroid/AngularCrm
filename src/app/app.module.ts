@@ -72,6 +72,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import{TimepickerModule} from 'ngx-bootstrap/timepicker';
 import { CitaCrearComponent } from './home-dash-board/cita/cita-crear/cita-crear.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 @NgModule({
   declarations: [
@@ -136,6 +137,7 @@ import { CitaCrearComponent } from './home-dash-board/cita/cita-crear/cita-crear
     HttpClientModule,
     ReactiveFormsModule,
     NgSelectModule,
+    FullCalendarModule ,
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot()
   ],
