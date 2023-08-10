@@ -27,7 +27,6 @@ defineLocale('es', esLocale);
 })
 export class CitaCrearComponent extends BaseComponent implements OnInit {
   citaFrom: FormGroup;
-  isEdit = false;
   minDate = Utils.minDateMondayOrToday();
   tiposCitas: TipoCita[] = [];
   estadosCita: EstadoCitas[] = [];
@@ -224,4 +223,5 @@ export class CitaCrearComponent extends BaseComponent implements OnInit {
     });
   }
 }
+
 

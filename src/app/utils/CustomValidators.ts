@@ -4,7 +4,7 @@ export class CustomValidators {
     static validarSeleccionOpcionPorDefectoValidator(): ValidatorFn {
         return (control: AbstractControl): { [key: string]: any } | null => {
             const selectedOption = control.value;
-            if (selectedOption === 'Seleciona una opción'||selectedOption === 0) {
+            if (selectedOption === 'Seleciona una opción' || selectedOption === 0) {
                 return { seleccionOpcionPorDefecto: true };
             }
             return null;
@@ -27,6 +27,16 @@ export class CustomValidators {
             }
 
             // El año es válido
+            return null;
+        };
+    }
+    static dateRangeValidator(): ValidatorFn {
+        return (control: AbstractControl): { [key: string]: any } | null => {
+            const startDate = control.get('fechaInicio').value;
+            const endDate = control.get('fechaFin').value;
+            if (startDate && endDate && startDate > endDate) {
+                return { dateRange: true };
+            }
             return null;
         };
     }

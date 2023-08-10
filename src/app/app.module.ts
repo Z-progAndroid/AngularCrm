@@ -73,6 +73,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import{TimepickerModule} from 'ngx-bootstrap/timepicker';
 import { CitaCrearComponent } from './home-dash-board/cita/cita-crear/cita-crear.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { TareaEditarComponent } from './home-dash-board/tarea/tarea-editar/tarea-editar.component';
+import { TareaService } from './services/tarea.service';
 
 @NgModule({
   declarations: [
@@ -114,6 +116,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     BarriosComponent,
     HomeComponent,
     CitaCrearComponent,
+    TareaEditarComponent
   ],
   imports: [
     BrowserModule,
@@ -150,6 +153,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     EstadoContratoService,
     EstadoInmuebleService,
     EstadoTareaService,
+    TareaService,
   ],
   bootstrap: [AppComponent]
 })
