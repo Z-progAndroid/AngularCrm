@@ -1,32 +1,47 @@
 <div class="wrapper">
     <div class="border rounded-6 p-3 bg-white shadow box-area">
         <div class="group-inputs">
-            <form (submit)="busqueda()" [formGroup]="buscadorFrom">
+            <form (submit)="guardar()" [formGroup]="tareaFrom">
                 <div class="row">
                     <div class="text-center col-12 col-sm-12 col-md pe-md-2 margin-form">
                         <mdb-form-control>
                             <input mdbInput formControlName="titulo" type="text" id="titulo" class="form-control" />
-                            <label mdbLabel class="form-label" for="titulo">Titulo</label>
+                            <label mdbLabel class="form-label" for="titulo">Titulo (*)</label>
                         </mdb-form-control>
                     </div>
+                </div>
+                <div class="text-center text-danger"
+                    *ngIf="tareaFrom.get('titulo').invalid && tareaFrom.get('titulo').touched">
+                    El titulo es requerido
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-6">
                         <mdb-form-control>
                             <input mdbInput type="text" id="fechaInicio" name="fechaInicio"
                                 formControlName="fechaInicio" [daysDisabled]="[6,0]" [minDate]="minDate"
-                                placeholder="fecha fin (*)" class="form-control margin-form" bsDatepicker>
+                                autocomplete="off" class="form-control margin-form" bsDatepicker>
                             <label mdbLabel class="form-label" for="fechaInicio">Fecha Inicio (*)</label>
                         </mdb-form-control>
                     </div>
                     <div class="col-12 col-md-6 col-lg-6">
                         <mdb-form-control>
                             <input mdbInput type="text" id="fechaFin" name="fechaFin" formControlName="fechaFin"
-                                [daysDisabled]="[6,0]" [minDate]="minDate" placeholder="fecha fin (*)"
+                                [daysDisabled]="[6,0]" [minDate]="minDate" autocomplete="off"
                                 class="form-control margin-form" bsDatepicker>
                             <label mdbLabel class="form-label" for="fechaFin">Fecha Fin (*)</label>
                         </mdb-form-control>
                     </div>
+                </div>
+                <div class="text-center text-danger"
+                    *ngIf="tareaFrom.get('fechaInicio').invalid && tareaFrom.get('fechaInicio').touched">
+                    La fecha de inicio es requerida
+                </div>
+                <div class="text-center text-danger"
+                    *ngIf="tareaFrom.get('fechaFin').invalid && tareaFrom.get('fechaFin').touched">
+                    La fecha de fin es requerida
+                </div>
+                <div *ngIf="tareaFrom.hasError('dateRange')" class="text-center text-danger">
+                    La fecha de fin debe ser mayor a la fecha de inicio
                 </div>
                 <div class="row">
                     <div class="text-center margin-form col-12 col-sm-12 col-md-12 margin-form ">
@@ -63,63 +78,25 @@
                         </div>
                     </div>
                 </div>
+                <div class="text-center text-danger"
+                    *ngIf="tareaFrom.get('idEstadoTarea').invalid && tareaFrom.get('idEstadoTarea').touched">
+                    El estado de la tarea es requerido
+                </div>
+                <div class="text-center text-danger"
+                    *ngIf="tareaFrom.get('idUsuario').invalid && tareaFrom.get('idUsuario').touched">
+                    El usuario es requerido
+                </div>
+                <div class="d-flex justify-content-center margin-form">
+                    <a mdbBtn type="button" color="primary" routerLink="/home-dashboard/tarea"
+                        class="btn btn-primary btn-lg mx-2">Volver</a>
+                    <button mdbBtn type="submit" color="primary" class="btn btn-primary btn-lg mx-2"
+                        [disabled]="tareaFrom.invalid">
+                        Guardar
+                    </button>
+                </div>
+                <input type="hidden" formControlName="fechaCreacion">
+                <input type="hidden" formControlName="idTarea">
             </form>
         </div>
-        <div class="d-flex justify-content-center">
-            <button mdbBtn type="button" color="primary" class="btn btn-primary btn-lg mx-2" (click)="busqueda()">
-                <i class="fas fa-search mx-2"></i>Buscar
-            </button>
-            <button mdbBtn type="button" color="primary" class="btn btn-primary btn-lg" (click)="limpiarFiltros()">
-                <i class="fas fa-arrows-rotate mx-2"></i>Limpiar Filtros
-            </button>
-        </div>
     </div>
-    <div class="d-flex justify-content-end mx-5 my-3">
-        <a routerLink="/home-dashboard/tarea/crear" mdbBtn color="primary" class="btn btn-primary btn-lg">
-            +<i class="fas fa-tasks mx-2"></i>Nueva Tarea
-        </a>
-    </div>
-    <table class="table align-middle mb-0 bg-white">
-        <thead class="bg-dark text-light text-center">
-            <tr>
-                <th>Titulo</th>
-                <th>Descripcion</th>
-                <th>Fecha Inicio</th>
-                <th>Fecha Fin</th>
-                <th>Estado </th>
-                <th>Usuario</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody class="text-center">
-            <tr *ngFor="let tarea of tareas">
-                <td>
-                    <span class="fw-normal mb-1">{{tarea.titulo}}</span>
-                </td>
-                <td>
-                    <span class="fw-normal mb-1">{{tarea.descripcion}}</span>
-                </td>
-                <td>
-                    <span class="fw-normal mb-1">{{tarea.fechaInicio | date:'dd/MM/yyyy'}}</span>
-                </td>
-                <td>
-                    <span class="fw-normal mb-1">{{tarea.fechaFin | date:'dd/MM/yyyy'}}</span>
-                </td>
-                <td>
-                    <span class="fw-normal mb-1">{{tarea.estadoTarea}}</span>
-                </td>
-                <td>
-                    <span class="fw-normal mb-1">{{tarea.nombre}}- {{tarea.apellido}}</span>
-                </td>
-                <td>
-                    <a routerLink="/home-dashboard/tarea/editar/{{tarea.idTarea}}" type="button" class="btn btn-warning btn-floating mx-1" mdbRipple rippleColor="dark">
-                        <i class="fas fa-pen"></i>
-                    </a>
-                    <a (click)="onDelete(tarea.idTarea)"type="button" class="btn btn-danger btn-floating mx-1">
-                        <i class="fas fa-trash"></i>
-                    </a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </div>

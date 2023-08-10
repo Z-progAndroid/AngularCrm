@@ -219,8 +219,6 @@ export class InmuebleDetailComponent extends BaseComponent implements AfterViewI
     }, 300);
   }
   deleteImagen(idImagen: number, idInmueble: number) {
-    console.log("idImagen ", idImagen)
-    console.log("idInmueble ", idInmueble)
     this.imagenesUnit8Array[idImagen - 1] = null;
     const idImagenMap = {
       1: 'hayImg1',

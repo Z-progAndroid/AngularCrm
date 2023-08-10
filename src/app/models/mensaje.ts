@@ -3,4 +3,5 @@ export class Mensaje {
     fecha: Date
     mensaje: string
     description: string;
+    error:boolean
 }
