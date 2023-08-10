@@ -15,10 +15,11 @@ import { EstadoCitas } from 'src/app/models/estado-citas';
 import { Inmueble } from 'src/app/models/inmueble';
 import { User } from 'src/app/models/user';
 import { Alerts } from 'src/app/utils/Alerts';
-import { Cita } from 'src/app/models/cita';
-import { CitasService } from 'src/app/services/citas.service';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { Mensaje } from 'src/app/models/mensaje';
+import { Cita } from 'src/app/models/cita';
+import { CitasService } from 'src/app/services/citas.service';
 defineLocale('es', esLocale);
 @Component({
   selector: 'app-cita-crear',

@@ -7,13 +7,13 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { EstadosComponent } from './estados/estados.component';
 import { InmuebleDetailComponent } from './inmueble/inmueble-detail/inmueble-detail.component';
 import { InmuebleComponent } from './inmueble/inmueble.component';
-import { SeguimientoComponent, SeguimientoComponent } from './seguimiento/seguimiento.component';
+import { SeguimientoComponent } from './seguimiento/seguimiento.component';
 import { TareaComponent } from './tarea/tarea.component';
 import { TiposComponent } from './tipos/tipos.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { UserComponent } from './user/user.component';
 import { HomeDashBoardComponent } from './home-dash-board.component';
-import { UbicacionesComponent, UbicacionesComponent } from './ubicaciones/ubicaciones.component';
+import { UbicacionesComponent } from './ubicaciones/ubicaciones.component';
 import { CitaCrearComponent } from './cita/cita-crear/cita-crear.component';
 import { TareaEditarComponent } from './tarea/tarea-editar/tarea-editar.component';
 
