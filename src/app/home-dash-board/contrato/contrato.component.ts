@@ -134,40 +134,29 @@ export class ContratoComponent extends BaseComponent implements OnInit {
     contrato.cliente = this.buscadorFrom.get('idCliente').value
     return contrato;
   }
-  onDelete(idContrato: number) {
-    Alerts.warning('Eliminar contrato', '¿Está seguro de eliminar el contrato?,se eliminara definitivamente', 'Sí, eliminar')
-      .then((result) => {
-        if (!result.isConfirmed) {
-          Alerts.info('Información', 'Operación cancelada por el usuario');
-          return;
-        }
-        this.contratoService.delete(idContrato).subscribe(() => {
-          Alerts.success('Eliminado', 'Contrato eliminado correctamente');
-          this.cargarContratos();
-        }, error => Alerts.error('Error', 'Error al eliminar contrato', error));
-      });
-  }
   delete($event) {
-    console.log("delete", $event)
+    Alerts.warning('Eliminar contrato', '¿Está seguro de eliminar el contrato?,se eliminara definitivamente', 'Sí, eliminar')
+    .then((result) => {
+      if (!result.isConfirmed) {
+        Alerts.info('Información', 'Operación cancelada por el usuario');
+        return;
+      }
+  
+      this.contratoService.delete($event.idContrato).subscribe(() => {
+        Alerts.success('Eliminado', 'Contrato eliminado correctamente');
+        this.cargarContratos();
+      }, error => Alerts.error('Error', 'Error al eliminar contrato', error));
+    });
   }
   export($event) {
     console.log("export eeeee", $event)
     this.contratoService.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe((data) => {
-      const url = window.URL.createObjectURL(new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'contratos.xlsx';
-      a.click();
-      window.URL.revokeObjectURL(url);
+      this.descargarFichero(data , 'contratos.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     }, error => Alerts.error('Error', 'Error al exportar contratos', error));
   }
   downloadPdf($event) {
     this.contratoService.generarContratoPdf($event.idContrato).subscribe((data) => {
-      let link = document.createElement('a');
-      link.href = window.URL.createObjectURL(new Blob([data], { type: 'application/pdf' }));
-      link.download = 'contrato.pdf';
-      link.click();
-      window.URL.revokeObjectURL(link.href)
+      this.descargarFichero(data , 'contrato.pdf', 'application/pdf');
     }, error => Alerts.error('Error', 'Error al obtener contrato', error));
   }
   edit($event) {

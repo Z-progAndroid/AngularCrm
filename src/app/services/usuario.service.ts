@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
 import { environment } from 'src/environments/environment';
+import { DatosExportacion } from '../models/DatosExportacion';
 @Injectable({
   providedIn: 'root'
 })
@@ -29,4 +30,13 @@ export class UsuarioService {
   findAllClientes(): Observable<User[]>{
     return this.http.get<User[]>(`${environment.urlBase}usuario/all/usuarios`);
   }
+  exportarExcel(cabeceras: string[], usuarios: User[]): Observable<Blob> {
+    const datosExportacion = new DatosExportacion();
+    datosExportacion.cabeceras = cabeceras;
+    datosExportacion.usuarios = usuarios;
+    const headers = new HttpHeaders().set('Content-Type', 'application/json')
+        .set('Accept', 'application/octet-stream');
+
+    return this.http.post(`${environment.urlBase}usuario/download-excel`, datosExportacion, { headers, responseType: 'blob' });
+}
 }

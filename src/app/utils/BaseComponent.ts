@@ -31,4 +31,14 @@ export class BaseComponent implements AfterViewInit {
             });
         });
     }
+    descargarFichero(data: any, filename: string, type: string) {
+        const url = window.URL.createObjectURL(new Blob([data], { type: type }));
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    }
+
+
 }

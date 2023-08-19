@@ -41,14 +41,9 @@ export class UserDetailsComponent extends BaseComponent implements OnInit {
   }
   onSubmit() {
     let url = this.rutaActiva.snapshot.url.map((segment: UrlSegment) => segment.path).join('/');
-    this.usuarioService.save(this.formToUser()).subscribe((usuario: User) => {
-      if (url.includes('crear')) {
+    this.usuarioService.save(this.formToUser()).subscribe((usuario: User) => { 
         Alerts.success('Exito', 'Usuario guardado con exito');
         this.router.navigate(['/home-dashboard/user']);
-        return;
-      }
-      Alerts.success('Exito', 'Usuario actualizado con exito');
-      this.cargarDatosUsuario();
     }, error => Alerts.error('Error', 'Error al guardar el usuario', error));
   }
   iniciarFormulario(): FormGroup {
