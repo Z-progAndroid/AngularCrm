@@ -16,6 +16,7 @@ import { HomeDashBoardComponent } from './home-dash-board.component';
 import { UbicacionesComponent } from './ubicaciones/ubicaciones.component';
 import { CitaCrearComponent } from './cita/cita-crear/cita-crear.component';
 import { TareaEditarComponent } from './tarea/tarea-editar/tarea-editar.component';
+import { ContratoEditarComponent } from './contrato/contrato-editar/contrato-editar.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,8 @@ const routes: Routes = [
       { path: 'cita/crear', component: CitaCrearComponent },
       { path: 'cita/editar/:id', component: CitaCrearComponent },
       { path: 'contrato', component: ContratoComponent },
+      { path: 'contrato/crear', component: ContratoEditarComponent },
+      { path: 'contrato/editar/:id', component: ContratoEditarComponent},
       { path: 'seguimiento', component: SeguimientoComponent },
       { path: 'tarea', component: TareaComponent },
       { path: 'tarea/crear', component: TareaEditarComponent },
