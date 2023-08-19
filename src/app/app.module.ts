@@ -32,7 +32,6 @@ import { CitaComponent } from './home-dash-board/cita/cita.component';
 import { ContratoComponent } from './home-dash-board/contrato/contrato.component';
 import { SeguimientoComponent } from './home-dash-board/seguimiento/seguimiento.component';
 import { TareaComponent } from './home-dash-board/tarea/tarea.component';
-import { TableComponent } from './home-dash-board/user/table/table.component';
 import { HttpClientModule } from '@angular/common/http';
 import { UserDetailsComponent } from './home-dash-board/user/user-details/user-details.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -111,7 +110,6 @@ import { MenuServiceService } from './services/menu-service.service';
     ContratoComponent,
     SeguimientoComponent,
     TareaComponent,
-    TableComponent,
     UserDetailsComponent,
     InmuebleTableComponent,
     InmuebleDetailComponent,
