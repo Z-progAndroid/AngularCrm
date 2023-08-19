@@ -35,11 +35,6 @@ export class MenuServiceService {
         link: '/home-dashboard/contrato'
       },
       {
-        title: 'Seguimiento',
-        icon: 'fas fa-chart-pie',
-        link: '/home-dashboard/seguimiento'
-      },
-      {
         title: 'Tarea',
         icon: 'fas fa-tasks',
         link: '/home-dashboard/tarea'
