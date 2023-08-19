@@ -26,7 +26,6 @@ export class TiposComponent {
       { titulo: 'Tipo Contrato', valor: "TC" },
       { titulo: 'Tipo Inmuebles', valor: "TI" },
       { titulo: 'Tipo Pago', valor: "TP" },
-      { titulo: 'Tipo Seguimientos', valor: "TS" },
       { titulo: 'Tipo Citas', valor: "TCI" }
     ]
   }
