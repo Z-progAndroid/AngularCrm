@@ -1,14 +1,18 @@
 <div class="wrapper">
     <div class="border rounded-6 p-3 bg-white shadow box-area">
         <div class="group-inputs">
-            <form (submit)="busqueda()" [formGroup]="buscadorFrom">
+            <form (submit)="submit()" [formGroup]="contratoFrom">
                 <div class="row">
                     <div class="text-center col-12 col-sm-12 col-md pe-md-2 margin-form">
                         <mdb-form-control>
                             <input mdbInput formControlName="titulo" type="text" id="titulo" class="form-control" />
-                            <label mdbLabel class="form-label" for="titulo">Titulo</label>
+                            <label mdbLabel class="form-label" for="titulo">Titulo (*)</label>
                         </mdb-form-control>
                     </div>
+                </div>
+                <div class="text-center text-danger"
+                    *ngIf="contratoFrom.get('titulo').invalid && contratoFrom.get('titulo').touched">
+                    El titulo es requerido
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-6">
@@ -27,12 +31,54 @@
                         </mdb-form-control>
                     </div>
                 </div>
+                <div class="text-center text-danger"
+                    *ngIf="contratoFrom.get('fechaInicio').invalid && contratoFrom.get('fechaInicio').touched">
+                    La fecha de inicio es requerida
+                </div>
+                <div class="text-center text-danger"
+                    *ngIf="contratoFrom.get('fechaFin').invalid && contratoFrom.get('fechaFin').touched">
+                    La fecha de fin es requerida
+                </div>
+                <div *ngIf="contratoFrom.hasError('dateRange')" class="text-center text-danger">
+                    La fecha de fin debe ser mayor a la fecha de inicio
+                </div>
+                <div class="row">
+                    <div class="text-center col-12 col-sm-12 col-md pe-md-2 margin-form">
+                        <mdb-form-control>
+                            <input mdbInput formControlName="valor" type="number" min="0" id="valor"
+                                class="form-control" />
+                            <label mdbLabel class="form-label" for="valor">Valor/aquiler (*)</label>
+                        </mdb-form-control>
+                    </div>
+                </div>
+                <div class="text-center text-danger"
+                    *ngIf="contratoFrom.get('valor').invalid && contratoFrom.get('valor').touched">
+                    El valor es requerido
+                </div>
                 <div class="row">
                     <div class="text-center margin-form col-12 col-sm-12 col-md-12 margin-form ">
                         <mdb-form-control>
                             <textarea mdbInput class="form-control no-resize" id="descripcion"
                                 formControlName="descripcion" rows="4"></textarea>
                             <label mdbLabel class="form-label" for="descripcion">Descripcion</label>
+                        </mdb-form-control>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="text-center margin-form col-12 col-sm-12 col-md-12 margin-form ">
+                        <mdb-form-control>
+                            <textarea mdbInput class="form-control no-resize" id="terminos" formControlName="terminos"
+                                rows="4"></textarea>
+                            <label mdbLabel class="form-label" for="terminos">Terminos y condiciones</label>
+                        </mdb-form-control>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="text-center margin-form col-12 col-sm-12 col-md-12 margin-form ">
+                        <mdb-form-control>
+                            <textarea mdbInput class="form-control no-resize" id="observaciones"
+                                formControlName="observaciones" rows="4"></textarea>
+                            <label mdbLabel class="form-label" for="observaciones">Observaciones</label>
                         </mdb-form-control>
                     </div>
                 </div>
@@ -47,7 +93,7 @@
                                     {{tipoContrato.tipo}}
                                 </ng-option>
                             </ng-select>
-                            <label class="floating-label-label">Tipo Contrato</label>
+                            <label class="floating-label-label">Tipo Contrato (*)</label>
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
@@ -59,9 +105,17 @@
                                     {{tipoPago.tipo}}
                                 </ng-option>
                             </ng-select>
-                            <label class="floating-label-label">Tipo Pago</label>
+                            <label class="floating-label-label">Tipo Pago (*)</label>
                         </div>
                     </div>
+                </div>
+                <div class="text-center text-danger"
+                    *ngIf="contratoFrom.get('idTipoContrato').invalid && contratoFrom.get('idTipoContrato').touched">
+                    El tipo de contrato es requerido
+                </div>
+                <div class="text-center text-danger"
+                    *ngIf="contratoFrom.get('idTipoPago').invalid && contratoFrom.get('idTipoPago').touched">
+                    El tipo de pago es requerido
                 </div>
                 <div class="row d-flex align-items-center my-1">
                     <div class="col-12 col-md-4">
@@ -74,7 +128,7 @@
                                     {{estadoContrato.estado}}
                                 </ng-option>
                             </ng-select>
-                            <label class="floating-label-label">Estado Contrato</label>
+                            <label class="floating-label-label">Estado Contrato (*)</label>
                         </div>
                     </div>
                     <div class="col-12 col-md-4">
@@ -86,7 +140,7 @@
                                     {{inmueble.direccion}}
                                 </ng-option>
                             </ng-select>
-                            <label class="floating-label-label">Inmueble</label>
+                            <label class="floating-label-label">Inmueble (*)</label>
                         </div>
                     </div>
                     <div class="col-12 col-md-4">
@@ -98,37 +152,33 @@
                                     {{usuario.nombre}}-{{usuario.apellido}}
                                 </ng-option>
                             </ng-select>
-                            <label class="floating-label-label">Cliente</label>
+                            <label class="floating-label-label">Cliente (*)</label>
                         </div>
                     </div>
                 </div>
+                <div class="text-center text-danger"
+                    *ngIf="contratoFrom.get('idEstadoContrato').invalid && contratoFrom.get('idEstadoContrato').touched">
+                    El estado del contrato es requerido
+                </div>
+                <div class="text-center text-danger"
+                    *ngIf="contratoFrom.get('idInmueble').invalid && contratoFrom.get('idInmueble').touched">
+                    El inmueble es requerido
+                </div>
+                <div class="text-center text-danger"
+                    *ngIf="contratoFrom.get('idCliente').invalid && contratoFrom.get('idCliente').touched">
+                    El cliente es requerido
+                </div>
+                <div class="d-flex justify-content-center margin-form">
+                    <a mdbBtn type="button" color="primary" routerLink="/home-dashboard/contrato"
+                        class="btn btn-primary btn-lg mx-2">Volver</a>
+                    <button mdbBtn type="submit" color="primary" class="btn btn-primary btn-lg mx-2"
+                        [disabled]="contratoFrom.invalid">
+                        Guardar
+                    </button>
+                </div>
+                <input type="hidden" formControlName="fechaCreacion">
+                <input type="hidden" formControlName="idContrato">
             </form>
         </div>
-        <div class="d-flex justify-content-center">
-            <button mdbBtn type="button" color="primary" class="btn btn-primary btn-lg mx-2" (click)="busqueda()">
-                <i class="fas fa-search mx-2"></i>Buscar
-            </button>
-            <button mdbBtn type="button" color="primary" class="btn btn-primary btn-lg" (click)="limpiarFiltros()">
-                <i class="fas fa-arrows-rotate mx-2"></i>Limpiar Filtros
-            </button>
-        </div>
     </div>
-    <div class="d-flex justify-content-end mx-5 my-3">
-        <a routerLink="/home-dashboard/contrato/crear" mdbBtn color="primary" class="btn btn-primary btn-lg">
-            +<i class="fa-file-contract fas mx-2"></i>Nuevo contrato
-        </a>
-    </div>
-    <app-comon-table 
-                [tableData]="contratos"
-                [tableColumns]="tableColumns"
-                [isFilterable]="true"
-                [isPageable]="true"
-                [paginationSizes]="[2,4,6]"
-                [defaultPageSize]="4"
-                [isPdfs]="true"
-                [rowActionIcon]="'true'"
-                (downloadPdf)="downloadPdf($event)"
-                (delete)="delete($event)"
-                (export)="export($event)"
-                (edit)="edit($event)"></app-comon-table>
 </div>

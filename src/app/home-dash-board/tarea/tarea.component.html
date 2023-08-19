@@ -15,15 +15,15 @@
                         <mdb-form-control>
                             <input mdbInput type="text" id="fechaInicio" name="fechaInicio"
                                 formControlName="fechaInicio" [daysDisabled]="[6,0]" [minDate]="minDate"
-                                placeholder="fecha fin (*)" class="form-control margin-form" bsDatepicker>
+                                class="form-control margin-form" bsDatepicker>
                             <label mdbLabel class="form-label" for="fechaInicio">Fecha Inicio (*)</label>
                         </mdb-form-control>
                     </div>
                     <div class="col-12 col-md-6 col-lg-6">
                         <mdb-form-control>
                             <input mdbInput type="text" id="fechaFin" name="fechaFin" formControlName="fechaFin"
-                                [daysDisabled]="[6,0]" [minDate]="minDate" placeholder="fecha fin (*)"
-                                class="form-control margin-form" bsDatepicker>
+                                [daysDisabled]="[6,0]" [minDate]="minDate" class="form-control margin-form"
+                                bsDatepicker>
                             <label mdbLabel class="form-label" for="fechaFin">Fecha Fin (*)</label>
                         </mdb-form-control>
                     </div>
@@ -112,10 +112,11 @@
                     <span class="fw-normal mb-1">{{tarea.nombre}}- {{tarea.apellido}}</span>
                 </td>
                 <td>
-                    <a routerLink="/home-dashboard/tarea/editar/{{tarea.idTarea}}" type="button" class="btn btn-warning btn-floating mx-1" mdbRipple rippleColor="dark">
+                    <a routerLink="/home-dashboard/tarea/editar/{{tarea.idTarea}}" type="button"
+                        class="btn btn-warning btn-floating mx-1" mdbRipple rippleColor="dark">
                         <i class="fas fa-pen"></i>
                     </a>
-                    <a (click)="onDelete(tarea.idTarea)"type="button" class="btn btn-danger btn-floating mx-1">
+                    <a (click)="onDelete(tarea.idTarea)" type="button" class="btn btn-danger btn-floating mx-1">
                         <i class="fas fa-trash"></i>
                     </a>
                 </td>
