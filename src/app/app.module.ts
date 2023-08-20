@@ -35,7 +35,6 @@ import { TareaComponent } from './home-dash-board/tarea/tarea.component';
 import { HttpClientModule } from '@angular/common/http';
 import { UserDetailsComponent } from './home-dash-board/user/user-details/user-details.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { InmuebleTableComponent } from './home-dash-board/inmueble/inmueble-table/inmueble-table.component';
 import { InmuebleDetailComponent } from './home-dash-board/inmueble/inmueble-detail/inmueble-detail.component';
 import { EstadosComponent } from './home-dash-board/estados/estados.component';
 import { EstadoContratosComponent } from './home-dash-board/estados/estado-contratos/estado-contratos.component';
@@ -111,7 +110,6 @@ import { MenuServiceService } from './services/menu-service.service';
     SeguimientoComponent,
     TareaComponent,
     UserDetailsComponent,
-    InmuebleTableComponent,
     InmuebleDetailComponent,
     EstadosComponent,
     EstadoContratosComponent,
