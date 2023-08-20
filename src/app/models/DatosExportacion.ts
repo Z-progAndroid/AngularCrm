@@ -6,6 +6,7 @@ import { EstadoUsuario } from "./estado-usuario";
 import { Estadocontrato } from "./estadocontrato";
 import { Inmueble } from "./inmueble";
 import { Pais } from "./pais";
+import { Provincia } from "./provincia";
 import { Tarea } from "./tarea";
 import { TipoCita } from "./tipo-cita";
 import { TipoContrato } from "./tipo-contrato";
@@ -29,4 +30,5 @@ export class DatosExportacion {
     tiposPago: TipoPago[];
     tipoCita: TipoCita[];
     paises: Pais[];
+    provincias: Provincia[];
 }
