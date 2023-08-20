@@ -4,7 +4,7 @@ import { Inmueble } from '../models/inmueble';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Mensaje } from '../models/mensaje';
-import { DatosExportacion } from '../models/DatosExportacion';
+import { DatosExportacion } from '../models/datosExportacion';
 
 @Injectable({
   providedIn: 'root'

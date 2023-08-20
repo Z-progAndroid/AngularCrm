@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { TableColumn } from 'src/app/interfaces/table-column';
 import { EstadoTarea } from 'src/app/models/estado-tarea';
 import { Tarea } from 'src/app/models/tarea';
 import { User } from 'src/app/models/user';
@@ -24,8 +26,17 @@ export class TareaComponent implements OnInit {
     private fb: FormBuilder,
     private estadoTareaService: EstadoTareaService,
     private usuarioService: UsuarioService,
-    private tareaService: TareaService
+    private tareaService: TareaService,
+    private router: Router
   ) { }
+  tableColumns: TableColumn[] = [
+    { name: 'Titulo', dataKey: 'titulo' },
+    { name: 'Descripcion', dataKey: 'descripcion' },
+    { name: 'Fecha Inicio', dataKey: 'fechaInicio' },
+    { name: 'Fecha Fin', dataKey: 'fechaFin' },
+    { name: 'Estado', dataKey: 'estadoTarea' },
+    { name: 'Usuario', dataKey: 'nombre' }
+  ];
   ngOnInit(): void {
     this.crearFormulario();
     this.cargarCombos();
@@ -72,17 +83,26 @@ export class TareaComponent implements OnInit {
       this.tareas = tarea;
     }, error => Alerts.error('Error', 'Error al cargar laa tareas', error));
   }
-  onDelete(idTarea: number) {
+  delete($event) {
     Alerts.warning('Eliminar', '¿Está seguro de eliminar la tarea?', 'Si, confirmar').then((result) => {
       if (!result.isConfirmed) {
         Alerts.info('Info', 'Operación cancelada por el usuario');
         return;
       }
-      this.tareaService.delete(idTarea).subscribe((response: any) => {
+      this.tareaService.delete($event.idTarea).subscribe((response: any) => {
         Alerts.success('Exito', 'Tarea eliminada correctamente');
         this.cargarTareas();
       }, error => Alerts.error('Error', 'Error al eliminar la tarea', error));
     });
   }
-
+  export($event) {
+    this.tareaService.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe((data) => {
+      Utils.descargarFichero(data, 'inmuebles.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    }, (error) => {
+      Alerts.error('Error', 'Error al exportar las tareas', error);
+    });
+  }
+  edit($event) {
+    this.router.navigate(['/home-dashboard/tarea/editar/' + $event.idTarea]);
+  }
 }

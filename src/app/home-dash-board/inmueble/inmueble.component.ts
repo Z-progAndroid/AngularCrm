@@ -23,6 +23,7 @@ import { BaseComponent } from 'src/app/utils/BaseComponent';
 import { TableColumn } from 'src/app/interfaces/table-column';
 import { Mensaje } from 'src/app/models/mensaje';
 import { Router } from '@angular/router';
+import { Utils } from 'src/app/utils/Utils';
 @Component({
   selector: 'app-inmueble',
   templateUrl: './inmueble.component.html',
@@ -174,7 +175,7 @@ export class InmuebleComponent extends BaseComponent implements OnInit {
   }
   export($event) {
     this.inmuebleService.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe((data) => {
-      this.descargarFichero(data, 'inmuebles.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      Utils.descargarFichero(data, 'inmuebles.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     }, (error) => {
       Alerts.error('Error', 'Error al exportar los inmuebles', error);
     });

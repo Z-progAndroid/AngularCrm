@@ -18,6 +18,7 @@ import { defineLocale, esLocale } from 'ngx-bootstrap/chronos';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { TableColumn } from 'src/app/interfaces/table-column';
 import { Router } from '@angular/router';
+import { Utils } from 'src/app/utils/Utils';
 defineLocale('es', esLocale);
 
 @Component({
@@ -151,12 +152,12 @@ export class ContratoComponent extends BaseComponent implements OnInit {
   export($event) {
     console.log("export eeeee", $event)
     this.contratoService.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe((data) => {
-      this.descargarFichero(data , 'contratos.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      Utils.descargarFichero(data , 'contratos.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     }, error => Alerts.error('Error', 'Error al exportar contratos', error));
   }
   downloadPdf($event) {
     this.contratoService.generarContratoPdf($event.idContrato).subscribe((data) => {
-      this.descargarFichero(data , 'contrato.pdf', 'application/pdf');
+      Utils.descargarFichero(data , 'contrato.pdf', 'application/pdf');
     }, error => Alerts.error('Error', 'Error al obtener contrato', error));
   }
   edit($event) {

@@ -96,8 +96,8 @@ export class UserComponent extends BaseComponent implements OnInit {
   }
   export($event) {
     console.log($event);
-    this.usuarioService.exportarExcel(this.tableColumns.map(x=>x.name),$event).subscribe(data => {
-    this.descargarFichero(data, "usuarios.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    this.usuarioService.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe(data => {
+      Utils.descargarFichero(data, "usuarios.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
     }, error => {
       Alerts.error("Error", "Error al exportar los usuarios", error);
     });

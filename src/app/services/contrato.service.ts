@@ -7,7 +7,7 @@ import { Barrio } from '../models/barrio';
 import { CrudService } from '../interfaces/CrudService';
 import { Mensaje } from '../models/mensaje';
 import { Contrato } from '../models/contrato';
-import { DatosExportacion } from '../models/DatosExportacion';
+import { DatosExportacion } from '../models/datosExportacion';
 
 @Injectable({
     providedIn: 'root'
