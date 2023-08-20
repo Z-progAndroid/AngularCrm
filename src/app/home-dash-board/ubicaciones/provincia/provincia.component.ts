@@ -58,15 +58,17 @@ export class ProvinciaComponent {
     })
   }
   cargarProvincias() {
-    forkJoin([
-      this.paisService.findAll(),
-      this.provinciaService.findAll()
-    ]).subscribe(([paises, provincias]) => {
-      this.paises = paises;
-      this.provincias = provincias;
+    this.provincias = [];
+    this.provinciaService.findAll().subscribe(data => {
+      this.provincias = data;
     }, error => {
-      this.provinciasForm.reset();
       Alerts.error('Error', 'No se pudo cargar las provincias', error);
+    });
+    this.paises = [];
+    this.paisService.findAll().subscribe(data => {
+      this.paises = data;
+    }, error => {
+      Alerts.error('Error', 'No se pudo cargar los paises', error);
     });
   }
   private get getProvincia(): Provincia {
@@ -91,6 +93,8 @@ export class ProvinciaComponent {
       this.provinciaService.delete($event.idProvincia).subscribe((mensaje: any) => {
         Alerts.success('Exito', 'Provincia eliminada con éxito');
         this.idProvinciaExistente = 0;
+        this.cargarProvincias();
+        this.provinciasForm.reset();
       }, error => {
         this.provinciasForm.reset();
         Alerts.error('Error', 'No se pudo eliminar la provincia', error);

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Params, Router, UrlSegment } from '@angular/router';
@@ -28,7 +28,7 @@ import { Utils } from 'src/app/utils/Utils';
   templateUrl: './inmueble-detail.component.html',
   styleUrls: ['./inmueble-detail.component.scss']
 })
-export class InmuebleDetailComponent extends BaseComponent implements AfterViewInit {
+export class InmuebleDetailComponent extends BaseComponent implements OnInit {
   inmuebleForm: FormGroup;
   botonSave: boolean = false;
   prametosRuta: Params;
@@ -63,27 +63,34 @@ export class InmuebleDetailComponent extends BaseComponent implements AfterViewI
     super();
     this.inmuebleForm = this.iniciarFormulario();
   }
-  ngAfterViewInit(): void {
-    forkJoin(
-      this.barrioservice.findAll(),
-      this.estadoInmuebleService.findAll(),
-      this.municipioService.findAll(),
-      this.paisService.findAll(),
-      this.provinciaService.findAll(),
-      this.tipoInmuebleService.findAll(),
-      this.usuarioService.findAllUserAdminORAgente())
-      .subscribe(([barrios, estadoInmuebles, municipios, paises, provincias, tipoInmuebles, usuarios]) => {
-        this.barrios = barrios;
-        this.estadosInmueble = estadoInmuebles;
-        this.municipios = municipios;
-        this.paises = paises
-        this.provincias = provincias
-        this.tiposInmueble = tipoInmuebles
-        this.usuarios = usuarios;
-      }, error => Alerts.error('Error', 'Error al cargar los datos', error));
+  ngOnInit(): void {
+    this.cargarDatos();
     let url = this.rutaActiva.snapshot.url.map((segment: UrlSegment) => segment.path).join('/');
     if (url.includes('inmueble/crear')) { return; }
     this.cargarImueble();
+  }
+  cargarDatos() {
+    this.barrioservice.findAll().subscribe((barrios: Barrio[]) => {
+      this.barrios = barrios;
+    }, error => Alerts.error('Error', 'Error al cargar los barrios', error));
+    this.estadoInmuebleService.findAll().subscribe((estadoInmuebles: EstadoInmueble[]) => {
+      this.estadosInmueble = estadoInmuebles;
+    }, error => Alerts.error('Error', 'Error al cargar los estados de inmueble', error));
+    this.municipioService.findAll().subscribe((municipios: Municipo[]) => {
+      this.municipios = municipios;
+    }, error => Alerts.error('Error', 'Error al cargar los municipios', error));
+    this.paisService.findAll().subscribe((paises: Pais[]) => {
+      this.paises = paises;
+    }, error => Alerts.error('Error', 'Error al cargar los paises', error));
+    this.provinciaService.findAll().subscribe((provincias: Provincia[]) => {
+      this.provincias = provincias;
+    }, error => Alerts.error('Error', 'Error al cargar las provincias', error));
+    this.tipoInmuebleService.findAll().subscribe((tipoInmuebles: TipoInmueble[]) => {
+      this.tiposInmueble = tipoInmuebles;
+    }, error => Alerts.error('Error', 'Error al cargar los tipos de inmueble', error));
+    this.usuarioService.findAllUserAdminORAgente().subscribe((usuarios: User[]) => {
+      this.usuarios = usuarios;
+    }, error => Alerts.error('Error', 'Error al cargar los usuarios', error));
   }
 
   onSubmit() {
@@ -212,6 +219,7 @@ export class InmuebleDetailComponent extends BaseComponent implements AfterViewI
     if (url.includes('crear')) {
       Alerts.success('Inmueble', 'Inmueble guardado correctamente');
       this.router.navigate(['/home-dashboard/inmueble']);
+      return;
     }
     Alerts.success('Inmueble', 'Inmueble actualizado correctamente');
     setTimeout(() => {

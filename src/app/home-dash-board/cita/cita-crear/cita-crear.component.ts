@@ -34,6 +34,7 @@ export class CitaCrearComponent extends BaseComponent implements OnInit {
   inmuebles: Inmueble[] = [];
   clientes: User[] = [];
   citaConsultada: Cita;
+  isEdit = false;
   constructor(
     private fb: FormBuilder,
     private localeService: BsLocaleService,
@@ -57,6 +58,7 @@ export class CitaCrearComponent extends BaseComponent implements OnInit {
       this.onTimeChange(time, 'fechaFinTime');
     });
     if (this.rutaActiva.snapshot.params?.id) {
+      this.isEdit = true;
       this.citaService.findById(this.rutaActiva.snapshot.params.id).subscribe(cita => {
         this.citaConsultada = cita;
         const fechaIncio = new Date(cita.fechaIncio[0], cita.fechaIncio[1] - 1, cita.fechaIncio[2], cita.fechaIncio[3], cita.fechaIncio[4], cita.fechaIncio[5]);

@@ -62,15 +62,17 @@ export class MunicipiosComponent {
   cargarMunicipios() {
     this.provincias = [];
     this.municipios = [];
-    forkJoin([
-      this.provinciaService.findAll(),
-      this.municipioService.findAll()
-    ]).subscribe(([provincias, municipios]) => {
+    this.provinciaService.findAll().subscribe((provincias: Provincia[]) => {
       this.provincias = provincias;
+    }, error => {
+      this.municipiosForm.reset();
+      Alerts.error('Error', 'No se pudo cargar la provincia', error);
+    });
+    this.municipioService.findAll().subscribe((municipios: Municipo[]) => {
       this.municipios = municipios;
     }, error => {
       this.municipiosForm.reset();
-      Alerts.error('Error', 'No se pudo cargar la municipo', error);
+      Alerts.error('Error', 'No se pudo cargar la provincia', error);
     });
   }
   private get municipio(): Municipo {

@@ -60,15 +60,15 @@ export class BarriosComponent {
   cargarMunicipios() {
     this.municipios = [];
     this.barrios = [];
-    forkJoin([
-      this.municipioService.findAll(),
-      this.barrioService.findAll()
-    ]).subscribe(([municipios, barrios]) => {
+    this.municipioService.findAll().subscribe((municipios: Municipo[]) => {
       this.municipios = municipios;
+    }, error => {
+      Alerts.error('Error', 'No se pudo cargar los municipios', error);
+    });
+    this.barrioService.findAll().subscribe((barrios: Barrio[]) => {
       this.barrios = barrios;
     }, error => {
-      this.barrioForm.reset();
-      Alerts.error('Error', 'No se pudo cargar la municipo', error);
+      Alerts.error('Error', 'No se pudo cargar los barrios', error);
     });
   }
   private get barrio(): Barrio {
