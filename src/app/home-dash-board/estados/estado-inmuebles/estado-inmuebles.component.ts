@@ -40,37 +40,6 @@ export class EstadoInmueblesComponent {
         }, error => Alerts.error('Error', 'No se pudo guardar el estado', error));
       });
   }
-  eliminar(id: number) {
-    Alerts.warning('Advertencia', '¿Está seguro que desea eliminar el estado?', 'Sí, eliminar')
-      .then((result) => {
-        if (!result.isConfirmed) {
-          Alerts.info('Información', 'Operación cancelada por el usuario');
-          this.estadoInmuebleForm.reset();
-          return;
-        }
-        this.inmuebleEstados.delete(id).subscribe((data) => {
-          Alerts.success('Éxito', 'Estado eliminado correctamente');
-          this.cargarEstadosInmueble();
-        }, error => Alerts.error('Error', 'No se pudo eliminar el estado', error));
-      });
-  }
-  editar(id: number) {
-    this.inmuebleEstados.findById(id).subscribe((data) => {
-      this.estadoInmuebleForm.get('idEstadoInmueble').setValue(data.idEstadoInmueble)
-      this.estadoInmuebleForm.get('estadoInmueble').setValue(data.estado)
-      this.estadoInmuebleForm.get('fechaCreacion').setValue(data.fechaCreacion)
-      this.estadoInmuebleForm.enable();
-    }, error => Alerts.error('Error', 'No se pudo editar el estado', error));
-  }
-  ver(id: number) {
-    this.inmuebleEstados.findById(id).subscribe(
-      (data) => {
-        this.estadoInmuebleForm.get('idEstadoInmueble').setValue(data.idEstadoInmueble)
-        this.estadoInmuebleForm.get('estadoInmueble').setValue(data.estado)
-        this.estadoInmuebleForm.get('fechaCreacion').setValue(data.fechaCreacion)
-        this.estadoInmuebleForm.disable();
-      }, error => Alerts.error('Error', 'No se pudo ver el estado', error));
-  }
   cargarEstadosInmueble() {
     this.inmuebleEstados.findAll().subscribe(
       (data) => {
