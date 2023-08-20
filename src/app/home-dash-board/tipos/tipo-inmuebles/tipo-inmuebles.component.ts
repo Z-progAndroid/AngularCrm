@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TableColumn } from 'src/app/interfaces/table-column';
 import { TipoInmueble } from 'src/app/models/tipo-inmueble';
 import { TipoInmuebleService } from 'src/app/services/tipo-inmueble.service';
 import { Alerts } from 'src/app/utils/Alerts';
@@ -17,6 +18,10 @@ export class TipoInmueblesComponent {
     private fb: FormBuilder,
     private tipoInmuebleService: TipoInmuebleService
   ) { }
+  tableColumns: TableColumn[] = [
+    { name: 'ID', dataKey: 'id' },
+    { name: 'Estado', dataKey: 'tipo', }
+  ];
   ngOnInit(): void {
     this.crearFromulario();
     this.cargarTipoInmuebles();
@@ -35,35 +40,6 @@ export class TipoInmueblesComponent {
         }, error => Alerts.error('Error', 'Error al guardar el tipo de inmueble', error));
       });
 
-  }
-  editar(id: number) {
-    this.tipoInmuebleService.findById(id).subscribe(
-      (tipoInmueble: TipoInmueble) => {
-        this.tipoInmueblesForm.patchValue(tipoInmueble);
-        this.tipoInmueblesForm.enable();
-      }, error => Alerts.error('Error', 'Error al cargar el tipo de inmueble', error));
-  }
-  eliminar(id: number) {
-    Alerts.warning('Advertencia', '¿Está seguro de guardar el tipo de inmueble?', 'Si,guardar')
-      .then((result) => {
-        if (!result.isConfirmed) {
-          Alerts.info('Información', 'Operación cancelada por el usuario');
-          return;
-        }
-        this.tipoInmuebleService.delete(id).subscribe(
-          (mensaje: any) => {
-            Alerts.success('Operación exitosa', 'Tipo de inmueble eliminado con éxito');
-            this.tipoInmueblesForm.reset();
-            this.cargarTipoInmuebles();
-          }, error => Alerts.error('Error', 'Error al eliminar el tipo de inmueble', error));
-      });
-  }
-  ver(id: number) {
-    this.tipoInmuebleService.findById(id).subscribe(
-      (tipoInmueble: TipoInmueble) => {
-        this.tipoInmueblesForm.patchValue(tipoInmueble);
-        this.tipoInmueblesForm.disable();
-      }, error => Alerts.error('Error', 'Error al cargar el tipo de inmueble', error));
   }
   crearFromulario() {
     this.tipoInmueblesForm = this.fb.group({
@@ -87,5 +63,34 @@ export class TipoInmueblesComponent {
     tipoInmueble.fechaModificacion = new Date();
     tipoInmueble.modificado = 'admin';
     return tipoInmueble;
+  }
+  delete($event) {
+    Alerts.warning('Advertencia', '¿Está seguro de guardar el tipo de inmueble?', 'Si,guardar')
+    .then((result) => {
+      if (!result.isConfirmed) {
+        Alerts.info('Información', 'Operación cancelada por el usuario');
+        return;
+      }
+      this.tipoInmuebleService.delete($event.id).subscribe(
+        (mensaje: any) => {
+          Alerts.success('Operación exitosa', 'Tipo de inmueble eliminado con éxito');
+          this.tipoInmueblesForm.reset();
+          this.cargarTipoInmuebles();
+        }, error => Alerts.error('Error', 'Error al eliminar el tipo de inmueble', error));
+    });
+  }
+  export($event) {
+    this.tipoInmuebleService.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe((data) => {
+      Utils.descargarFichero(data, 'tipo-inmuebles.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    }, (error) => {
+      Alerts.error('Error', 'Error al exportar los estados de los usuarios usuarios', error);
+    });
+  }
+  edit($event) {
+    this.tipoInmuebleService.findById($event.id).subscribe(
+      (tipoInmueble: TipoInmueble) => {
+        this.tipoInmueblesForm.patchValue(tipoInmueble);
+        this.tipoInmueblesForm.enable();
+      }, error => Alerts.error('Error', 'Error al cargar el tipo de inmueble', error));
   }
 }

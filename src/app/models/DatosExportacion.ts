@@ -7,6 +7,7 @@ import { Estadocontrato } from "./estadocontrato";
 import { Inmueble } from "./inmueble";
 import { Tarea } from "./tarea";
 import { TipoContrato } from "./tipo-contrato";
+import { TipoInmueble } from "./tipo-inmueble";
 import { User } from "./user";
 
 export class DatosExportacion {
@@ -21,4 +22,5 @@ export class DatosExportacion {
     estadosUsuario: EstadoUsuario[];
     estadosCitas: EstadoCitas[];
     tiposContrato: TipoContrato[];
+    tiposInmueble: TipoInmueble[];
 }
