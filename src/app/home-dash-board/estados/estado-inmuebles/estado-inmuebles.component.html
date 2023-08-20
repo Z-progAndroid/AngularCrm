@@ -42,6 +42,17 @@
         </div>
     </form>
 </div>
+<app-comon-table 
+    [tableData]="estadosInmueble" 
+    [tableColumns]="tableColumns" 
+    [isFilterable]="true" 
+    [isPageable]="true"
+    [paginationSizes]="[10,15,25]" 
+    [defaultPageSize]="10" 
+    [rowActionIcon]="'true'" 
+    (delete)="delete($event)"
+    (export)="export($event)" 
+    (edit)="edit($event)"></app-comon-table>
 <table class="table align-middle mb-0 bg-white  margin-form">
     <thead class="bg-dark text-light">
         <tr>

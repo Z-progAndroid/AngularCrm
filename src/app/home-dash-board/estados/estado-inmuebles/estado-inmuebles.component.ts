@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TableColumn } from 'src/app/interfaces/table-column';
 import { EstadoInmueble } from 'src/app/models/estado-inmueble';
 import { EstadoInmuebleService } from 'src/app/services/estado-inmueble.service';
 import { Alerts } from 'src/app/utils/Alerts';
@@ -16,7 +17,10 @@ export class EstadoInmueblesComponent {
   constructor(
     private fb: FormBuilder,
     private inmuebleEstados: EstadoInmuebleService) { }
-
+    tableColumns: TableColumn[] = [
+      { name: 'ID', dataKey: 'idEstadoInmueble' },
+      { name: 'Estado', dataKey: 'estado' },
+    ];
   ngOnInit(): void {
     this.crearFromulario();
     this.cargarEstadosInmueble();
@@ -90,5 +94,34 @@ export class EstadoInmueblesComponent {
     estadoInmueble.fechaModificacion = new Date()
     estadoInmueble.modificado = 'admin'
     return estadoInmueble;
+  }
+  delete($event) {
+    Alerts.warning('Advertencia', '¿Está seguro que desea eliminar el estado?', 'Sí, eliminar')
+    .then((result) => {
+      if (!result.isConfirmed) {
+        Alerts.info('Información', 'Operación cancelada por el usuario');
+        this.estadoInmuebleForm.reset();
+        return;
+      }
+      this.inmuebleEstados.delete($event.idEstadoInmueble).subscribe((data) => {
+        Alerts.success('Éxito', 'Estado eliminado correctamente');
+        this.cargarEstadosInmueble();
+      }, error => Alerts.error('Error', 'No se pudo eliminar el estado', error));
+    });
+  }
+  export($event) {
+    this.inmuebleEstados.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe((data) => {
+      Utils.descargarFichero(data, 'estado-inmuebles.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    }, (error) => {
+      Alerts.error('Error', 'Error al exportar las tareas', error);
+    });
+  }
+  edit($event) {
+    this.inmuebleEstados.findById($event.idEstadoInmueble).subscribe((data) => {
+      this.estadoInmuebleForm.get('idEstadoInmueble').setValue(data.idEstadoInmueble)
+      this.estadoInmuebleForm.get('estadoInmueble').setValue(data.estado)
+      this.estadoInmuebleForm.get('fechaCreacion').setValue(data.fechaCreacion)
+      this.estadoInmuebleForm.enable();
+    }, error => Alerts.error('Error', 'No se pudo editar el estado', error));
   }
 }
