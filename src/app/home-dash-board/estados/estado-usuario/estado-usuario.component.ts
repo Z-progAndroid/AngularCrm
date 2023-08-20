@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TableColumn } from 'src/app/interfaces/table-column';
 import { EstadoUsuario } from 'src/app/models/estado-usuario';
 import { EstadoUsuarioService } from 'src/app/services/estado-usuario.service';
 import { Alerts } from 'src/app/utils/Alerts';
@@ -13,6 +14,10 @@ import { Utils } from 'src/app/utils/Utils';
 export class EstadoUsuarioComponent implements OnInit {
   estadoUsuarioForm: FormGroup
   estadosUsuario: EstadoUsuario[]
+  tableColumns: TableColumn[] = [
+    { name: 'ID', dataKey: 'idEstadoUsuario' },
+    { name: 'Estado', dataKey: 'estadoUsuario' },
+  ];
   constructor(
     private fb: FormBuilder,
     private estadoUsuarioService: EstadoUsuarioService
@@ -37,38 +42,6 @@ export class EstadoUsuarioComponent implements OnInit {
           }, error => Alerts.error('Error', 'Error al guardar el estado.', error));
       });
   }
-  editar(id: number) {
-    this.estadoUsuarioService.findById(id).subscribe(
-      (estadoUsuario: EstadoUsuario) => {
-        this.estadoUsuarioForm.patchValue(estadoUsuario);
-        this.estadoUsuarioForm.enable();
-      }, error => Alerts.error('Error', 'Error al editar el estado.', error));
-
-  }
-  eliminar(id: number) {
-    Alerts.warning('Avertencia', 'Estas seguro de eliminar este registro?', 'Si, Eliminar!').then(
-      (result: any) => {
-        if (!result.isConfirmed) {
-          Alerts.info('Informacion', 'Operacion cancelada por el usuario');
-          this.estadoUsuarioForm.reset();
-          return
-        };
-        this.estadoUsuarioService.delete(id).subscribe(
-          (mensaje: any) => {
-            Alerts.success('Exito', 'Estado eliminado con exito.');
-            this.estadoUsuarioForm.reset();
-            this.cargarEstadoUsuario();
-          }, error => Alerts.error('Error', 'Error al eliminar el estado.', error));
-      });
-
-  }
-  ver(id: number) {
-    this.estadoUsuarioService.findById(id).subscribe(
-      (estadoUsuario: EstadoUsuario) => {
-        this.estadoUsuarioForm.patchValue(estadoUsuario);
-        this.estadoUsuarioForm.disable();
-      }, error => Alerts.error('Error', 'Error al ver el estado.', error));
-  }
   crearFormulario() {
     this.estadoUsuarioForm = this.fb.group({
       idEstadoUsuario: ['', Validators.required],
@@ -91,5 +64,35 @@ export class EstadoUsuarioComponent implements OnInit {
     estadoUsuario.fechaModificacion = new Date();
     estadoUsuario.modificado = 'admin';
     return estadoUsuario;
+  }
+  delete($event) {
+    Alerts.warning('Avertencia', 'Estas seguro de eliminar este registro?', 'Si, Eliminar').then(
+      (result: any) => {
+        if (!result.isConfirmed) {
+          Alerts.info('Informacion', 'Operacion cancelada por el usuario');
+          this.estadoUsuarioForm.reset();
+          return
+        };
+        this.estadoUsuarioService.delete($event.idEstadoUsuario).subscribe(
+          (mensaje: any) => {
+            Alerts.success('Exito', 'Estado eliminado con exito.');
+            this.estadoUsuarioForm.reset();
+            this.cargarEstadoUsuario();
+          }, error => Alerts.error('Error', 'Error al eliminar el estado.', error));
+      });
+  }
+  export($event) {
+    this.estadoUsuarioService.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe((data) => {
+      Utils.descargarFichero(data, 'estado-usuarios.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    }, (error) => {
+      Alerts.error('Error', 'Error al exportar los estados de los usuarios usuarios', error);
+    });
+  }
+  edit($event) {
+    this.estadoUsuarioService.findById($event.idEstadoUsuario).subscribe(
+      (estadoUsuario: EstadoUsuario) => {
+        this.estadoUsuarioForm.patchValue(estadoUsuario);
+        this.estadoUsuarioForm.enable();
+      }, error => Alerts.error('Error', 'Error al editar el estado.', error));
   }
 }
