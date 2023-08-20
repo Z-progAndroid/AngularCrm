@@ -6,9 +6,10 @@ import { EstadoUsuario } from "./estado-usuario";
 import { Estadocontrato } from "./estadocontrato";
 import { Inmueble } from "./inmueble";
 import { Tarea } from "./tarea";
+import { TipoContrato } from "./tipo-contrato";
 import { User } from "./user";
 
-export class DatosExportacion { 
+export class DatosExportacion {
     cabeceras: string[];
     contratos: Contrato[];
     usuarios: User[];
@@ -19,4 +20,5 @@ export class DatosExportacion {
     estadosTareas: EstadoTarea[];
     estadosUsuario: EstadoUsuario[];
     estadosCitas: EstadoCitas[];
+    tiposContrato: TipoContrato[];
 }

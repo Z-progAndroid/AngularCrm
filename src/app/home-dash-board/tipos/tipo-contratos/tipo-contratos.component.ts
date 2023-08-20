@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { TableColumn } from 'src/app/interfaces/table-column';
 import { TipoContrato } from 'src/app/models/tipo-contrato';
 import { TipoContratoService } from 'src/app/services/tipo-contrato.service';
 import { Alerts } from 'src/app/utils/Alerts';
@@ -17,6 +18,10 @@ export class TipoContratosComponent {
     private fb: FormBuilder,
     private tipoContratoService: TipoContratoService
   ) { }
+  tableColumns: TableColumn[] = [
+    { name: 'ID', dataKey: 'idTipoContrato' },
+    { name: 'Tipo', dataKey: 'tipo', }
+  ];
   ngOnInit(): void {
     this.creacionFormulario();
     this.cargarTiposContrato();
@@ -33,33 +38,6 @@ export class TipoContratosComponent {
         this.tipoContratoForm.reset();
       }, error => Alerts.error('Error', 'No se ha podido guardar el tipo de contrato', error));
     });
-  }
-  editar(id: number) {
-    this.tipoContratoService.findById(id).subscribe((tipoContrato: TipoContrato) => {
-      this.tipoContratoForm.patchValue(tipoContrato);
-      this.tipoContratoForm.enable();
-    }, error => Alerts.error('Error', 'No se ha podido cargar el tipo de contrato', error));
-
-  }
-  eliminar(id: number) {
-    Alerts.warning('Avertencia', '¿Está seguro de eliminar el tipo de contrato?', 'Aceptar').then((result) => {
-      if (!result.isConfirmed) {
-        Alerts.info('Información', 'Operación cancelada por el usuario');
-        return;
-      }
-      this.tipoContratoService.delete(id).subscribe((mensaje: any) => {
-        Alerts.success('Operación exitosa', 'El tipo de contrato se ha eliminado correctamente');
-        this.cargarTiposContrato();
-        this.tipoContratoForm.reset();
-      }, error => Alerts.error('Error', 'No se ha podido eliminar el tipo de contrato', error));
-    });
-  }
-  ver(id: number) {
-    this.tipoContratoService.findById(id).subscribe(
-      (tipoContrato: TipoContrato) => {
-        this.tipoContratoForm.patchValue(tipoContrato);
-        this.tipoContratoForm.disable();
-      }, error => Alerts.error('Error', 'No se ha podido cargar el tipo de contrato', error));
   }
   creacionFormulario() {
     this.tipoContratoForm = this.fb.group({
@@ -83,5 +61,31 @@ export class TipoContratosComponent {
     tipoContrato.fechaModificacion = new Date();
     tipoContrato.modificado = 'admin';
     return tipoContrato;
+  }
+  delete($event) {
+    Alerts.warning('Avertencia', '¿Está seguro de eliminar el tipo de contrato?', 'Aceptar').then((result) => {
+      if (!result.isConfirmed) {
+        Alerts.info('Información', 'Operación cancelada por el usuario');
+        return;
+      }
+      this.tipoContratoService.delete($event.idTipoContrato).subscribe((mensaje: any) => {
+        Alerts.success('Operación exitosa', 'El tipo de contrato se ha eliminado correctamente');
+        this.cargarTiposContrato();
+        this.tipoContratoForm.reset();
+      }, error => Alerts.error('Error', 'No se ha podido eliminar el tipo de contrato', error));
+    });
+  }
+  export($event) {
+    this.tipoContratoService.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe((data) => {
+      Utils.descargarFichero(data, 'tipo-contratos.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    }, (error) => {
+      Alerts.error('Error', 'Error al exportar los estados de los usuarios usuarios', error);
+    });
+  }
+  edit($event) {
+    this.tipoContratoService.findById($event.idTipoContrato).subscribe((tipoContrato: TipoContrato) => {
+      this.tipoContratoForm.patchValue(tipoContrato);
+      this.tipoContratoForm.enable();
+    }, error => Alerts.error('Error', 'No se ha podido cargar el tipo de contrato', error));
   }
 }
