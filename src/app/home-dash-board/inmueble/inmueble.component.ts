@@ -20,6 +20,9 @@ import { forkJoin } from 'rxjs';
 import { Inmueble } from 'src/app/models/inmueble';
 import { Alerts } from 'src/app/utils/Alerts';
 import { BaseComponent } from 'src/app/utils/BaseComponent';
+import { TableColumn } from 'src/app/interfaces/table-column';
+import { Mensaje } from 'src/app/models/mensaje';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-inmueble',
   templateUrl: './inmueble.component.html',
@@ -36,6 +39,13 @@ export class InmuebleComponent extends BaseComponent implements OnInit {
   provincias: Provincia[] = [];
   tiposInmueble: TipoInmueble[] = [];
   usuarios: User[] = [];
+  tableColumns: TableColumn[] = [
+    { name: 'Direccion', dataKey: 'direccion' },
+    { name: 'Precio Venta', dataKey: 'precio_venta' },
+    { name: 'Precio Alquiler', dataKey: 'precio_alquiler' },
+    { name: 'Tipo Inmueble', dataKey: 'tipoInmueble' },
+    { name: 'Estado Inmueble', dataKey: 'estadoInmueble' }
+  ];
   constructor(
     private inmuebleService: InmuebleService,
     private barrioservice: BarrioService,
@@ -46,6 +56,7 @@ export class InmuebleComponent extends BaseComponent implements OnInit {
     private tipoInmuebleService: TipoInmuebleService,
     private usuariosService: UsuarioService,
     private fb: FormBuilder,
+    private router: Router
   ) { super(); }
   ngOnInit(): void {
     this.crearFormulario();
@@ -146,5 +157,29 @@ export class InmuebleComponent extends BaseComponent implements OnInit {
     }, (error) => {
       Alerts.error('Error', 'Error no se han encontrado inmuebles por los parametros introducidos', error);
     });
+  }
+  delete($event) {
+    Alerts.warning('Advertencia', 'el inmueble se eliminara de forma permanente con todos sus datos asociados', 'si,eliminar').then((result) => {
+      if (!result.isConfirmed) {
+        Alerts.info('Informacion', 'Operacion cancelada por el usuario');
+        return;
+      }
+      this.inmuebleService.delete($event.idInmueble).subscribe(() => {
+        Alerts.success('Exito', 'Inmueble eliminado correctamente');
+        this.cargarInmuebles();
+      }, (error) => {
+        Alerts.error('Error', 'Error al eliminar el inmueble', error);
+      });
+    });
+  }
+  export($event) {
+    this.inmuebleService.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe((data) => {
+      this.descargarFichero(data, 'inmuebles.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    }, (error) => {
+      Alerts.error('Error', 'Error al exportar los inmuebles', error);
+    });
+  }
+  edit($event) {
+    this.router.navigate(['/home-dashboard/inmueble/editar/', $event.idInmueble]);
   }
 }

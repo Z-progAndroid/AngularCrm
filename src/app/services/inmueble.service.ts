@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Inmueble } from '../models/inmueble';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Mensaje } from '../models/mensaje';
+import { DatosExportacion } from '../models/DatosExportacion';
 
 @Injectable({
   providedIn: 'root'
@@ -38,4 +39,13 @@ export class InmuebleService {
   deleteImage(idInmueble: string, idImagen: string): Observable<Mensaje> {
     return this.http.delete<Mensaje>(`${environment.urlBase}inmueble/deleteImage?idInmueble=${idInmueble}&idImagen=${idImagen}`);
   }
+  exportarExcel(cabeceras: string[], contratos: Inmueble[]): Observable<Blob> {
+    const datosExportacion = new DatosExportacion();
+    datosExportacion.cabeceras = cabeceras;
+    datosExportacion.inmuebles = contratos;
+    const headers = new HttpHeaders().set('Content-Type', 'application/json')
+        .set('Accept', 'application/octet-stream');
+
+    return this.http.post(`${environment.urlBase}inmueble/download-excel`, datosExportacion, { headers, responseType: 'blob' });
+}
 }

@@ -24,4 +24,11 @@
             font-size: 5rem;
         }
     }
+    
+}
+@media screen and (max-width: 1249px) {
+    .responsive-selects {
+        display: flex;
+        flex-flow: column wrap;
+    }
 }
