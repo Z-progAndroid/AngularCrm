@@ -5,6 +5,7 @@ import { EstadoTarea } from "./estado-tarea";
 import { EstadoUsuario } from "./estado-usuario";
 import { Estadocontrato } from "./estadocontrato";
 import { Inmueble } from "./inmueble";
+import { Municipo } from "./municipo";
 import { Pais } from "./pais";
 import { Provincia } from "./provincia";
 import { Tarea } from "./tarea";
@@ -31,4 +32,5 @@ export class DatosExportacion {
     tipoCita: TipoCita[];
     paises: Pais[];
     provincias: Provincia[];
+    municipios: Municipo[];
 }
