@@ -5,7 +5,7 @@ import { Tarea } from "../models/tarea";
 import { Mensaje } from "../models/mensaje";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { DatosExportacion } from "../models/datosExportacion";
+import { DatosExportacion } from "../models/DatosExportacion";
 
 
 @Injectable({

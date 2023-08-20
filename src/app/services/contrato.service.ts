@@ -2,12 +2,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-
-import { Barrio } from '../models/barrio';
 import { CrudService } from '../interfaces/CrudService';
 import { Mensaje } from '../models/mensaje';
 import { Contrato } from '../models/contrato';
-import { DatosExportacion } from '../models/datosExportacion';
+import { DatosExportacion } from '../models/DatosExportacion';
+
 
 @Injectable({
     providedIn: 'root'

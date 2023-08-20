@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { TableColumn } from 'src/app/interfaces/table-column';
 import { Estadocontrato } from 'src/app/models/estadocontrato';
 import { EstadoContratoService } from 'src/app/services/estado-contrato.service';
 import { Alerts } from 'src/app/utils/Alerts';
@@ -14,9 +16,13 @@ export class EstadoContratosComponent implements OnInit {
   estadocontratoForm: FormGroup;
   estadosContrato: Estadocontrato[];
   disabled: boolean = false;
+  tableColumns: TableColumn[] = [
+    { name: 'ID', dataKey: 'idestadoContrato' },
+    { name: 'Estado', dataKey: 'estado' },
+  ];
   constructor(
     private fb: FormBuilder,
-    private estadocontratoService: EstadoContratoService
+    private estadocontratoService: EstadoContratoService,
   ) { }
 
   ngOnInit(): void {
@@ -48,14 +54,6 @@ export class EstadoContratosComponent implements OnInit {
       });
 
   }
-  ver(id: number) {
-    this.estadocontratoService.findById(id).subscribe((data: Estadocontrato) => {
-      this.estadocontratoForm.get('idEstadoContrato').setValue(data.idestadoContrato);
-      this.estadocontratoForm.get('estadoContrato').setValue(data.estado);
-      this.estadocontratoForm.get('fechaCreacion').setValue(data.fechaCreacion);
-      this.estadocontratoForm.disable();
-    }, (error) => Alerts.error('Error', 'No se pudo obtener el estado', error));
-  }
   editar(id: number) {
     this.estadocontratoService.findById(id).subscribe((data: Estadocontrato) => {
       this.estadocontratoForm.get('idEstadoContrato').setValue(data.idestadoContrato);
@@ -64,22 +62,6 @@ export class EstadoContratosComponent implements OnInit {
       this.estadocontratoForm.enable();
     }, (error) => Alerts.error('Error', 'No se pudo obtener el estado', error));
   }
-  eliminar(id: number) {
-    Alerts.warning('Advertencia', '¿Está seguro que desea eliminar el estado?', 'Sí, eliminar').
-      then((result) => {
-        if (!result.isConfirmed) {
-          Alerts.info('Información', 'Operación cancelada por el usuario');
-          this.estadocontratoForm.reset();
-          return;
-        }
-        this.estadocontratoService.delete(id).subscribe((data: any) => {
-          Alerts.success('Éxito', 'Estado eliminado correctamente');
-          this.cargarEstadosContrato();
-        }, (error) => Alerts.error('Error', 'No se pudo eliminar el estado', error));
-
-      });
-  }
-
   cargarEstadosContrato() {
     this.estadosContrato = [];
     this.estadocontratoService.findAll().subscribe((data: Estadocontrato[]) => {
@@ -96,5 +78,36 @@ export class EstadoContratosComponent implements OnInit {
     estadoContrato.fechaModificacion = new Date();
     estadoContrato.modificado = 'N';
     return estadoContrato;
+  }
+
+  delete($event) {
+    Alerts.warning('Advertencia', '¿Está seguro que desea eliminar el estado?', 'Sí, eliminar').
+      then((result) => {
+        if (!result.isConfirmed) {
+          Alerts.info('Información', 'Operación cancelada por el usuario');
+          this.estadocontratoForm.reset();
+          return;
+        }
+        this.estadocontratoService.delete($event.idestadoContrato).subscribe((data: any) => {
+          Alerts.success('Éxito', 'Estado eliminado correctamente');
+          this.cargarEstadosContrato();
+        }, (error) => Alerts.error('Error', 'No se pudo eliminar el estado', error));
+
+      });
+  }
+  export($event) {
+    this.estadocontratoService.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe((data) => {
+      Utils.descargarFichero(data, 'estado-contratos.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    }, (error) => {
+      Alerts.error('Error', 'Error al exportar las tareas', error);
+    });
+  }
+  edit($event) {
+    this.estadocontratoService.findById($event.idestadoContrato).subscribe((data: Estadocontrato) => {
+      this.estadocontratoForm.get('idEstadoContrato').setValue(data.idestadoContrato);
+      this.estadocontratoForm.get('estadoContrato').setValue(data.estado);
+      this.estadocontratoForm.get('fechaCreacion').setValue(data.fechaCreacion);
+      this.estadocontratoForm.enable();
+    }, (error) => Alerts.error('Error', 'No se pudo obtener el estado', error));
   }
 }
