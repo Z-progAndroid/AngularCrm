@@ -13,3 +13,21 @@
         padding: 0.7rem;
     }
 }
+
+@media screen and (max-width: 1010px) {
+    .responsive-selects {
+        display: flex;
+        flex-flow: column wrap;
+    }
+}
+
+@media screen and (max-width: 506px) {
+    .responsive-buttons {
+        display: flex;
+        flex-flow: column wrap;
+
+        button {
+            margin-top: 0.5rem;
+        }
+    }
+}

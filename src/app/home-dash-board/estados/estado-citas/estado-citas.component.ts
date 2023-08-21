@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TableColumn } from 'src/app/interfaces/table-column';
 import { EstadoCitas } from 'src/app/models/estado-citas';
 import { Mensaje } from 'src/app/models/mensaje';
 import { EstadoCitasService } from 'src/app/services/estado-citas.service';
@@ -14,7 +15,10 @@ import { Utils } from 'src/app/utils/Utils';
 export class EstadoCitasComponent implements OnInit {
   estadoCitasForm: FormGroup;
   estadosCita: EstadoCitas[];
-
+  tableColumns: TableColumn[] = [
+    { name: 'ID', dataKey: 'idEstadoCita' },
+    { name: 'Estado', dataKey: 'estadoCita', }
+  ];
   constructor(
     private fb: FormBuilder,
     private estadoCitasService: EstadoCitasService
@@ -38,41 +42,6 @@ export class EstadoCitasComponent implements OnInit {
           this.cargarEstadosCita();
         },
         (error: any) => Alerts.error('Error', 'No se pudo guardar el estado', error)
-      );
-    });
-  }
-
-  ver(id: number) {
-    this.estadoCitasService.findById(id).subscribe(
-      (estadoCita: EstadoCitas) => {
-        this.estadoCitasForm.patchValue(estadoCita);
-        this.estadoCitasForm.disable();
-      },
-      (error: any) => Alerts.error('Error', 'No se pudo obtener el estado', error)
-    );
-  }
-
-  editar(id: number) {
-    this.estadoCitasService.findById(id).subscribe(
-      (estadoCita: EstadoCitas) => {
-        this.estadoCitasForm.patchValue(estadoCita);
-        this.estadoCitasForm.enable();
-      },
-      (error: any) => Alerts.error('Error', 'No se pudo obtener el estado', error)
-    );
-  }
-
-  eliminar(id: number) {
-    Alerts.warning('Advertencia', '¿Está seguro que desea eliminar el estado?', 'Eliminar').then((result: any) => {
-      if (!result.isConfirmed) {
-        Alerts.info('Información', 'Operación cancelada por el usuario');
-        return;
-      }
-      this.estadoCitasService.delete(id).subscribe(
-        (mensaje: Mensaje) => {
-          Alerts.success('Éxito', 'Estado eliminado correctamente').then(() => this.cargarEstadosCita());
-        },
-        (error: any) => Alerts.error('Error', 'Error al eliminar el estado', error)
       );
     });
   }
@@ -102,5 +71,33 @@ export class EstadoCitasComponent implements OnInit {
       ? estadoCita.fechaCreacion = new Date()
       : estadoCita.fechaCreacion = estadoCita.fechaCreacion;
     return estadoCita;
+  }
+  delete($event) {
+    Alerts.warning('Advertencia', '¿Está seguro que desea eliminar el estado?', 'Eliminar').then((result: any) => {
+      if (!result.isConfirmed) {
+        Alerts.info('Información', 'Operación cancelada por el usuario');
+        return;
+      }
+      this.estadoCitasService.delete($event.idEstadoCita).subscribe(
+        (mensaje: Mensaje) => {
+          Alerts.success('Éxito', 'Estado eliminado correctamente').then(() => this.cargarEstadosCita());
+        },
+        (error: any) => Alerts.error('Error', 'Error al eliminar el estado', error)
+      );
+    });
+  }
+  export($event) {
+    this.estadoCitasService.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe((data) => {
+      Utils.descargarFichero(data, 'estado-citas.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    }, (error) => {
+      Alerts.error('Error', 'Error al exportar los estados de los usuarios usuarios', error);
+    });
+  }
+  edit($event) {
+    this.estadoCitasService.findById($event.idEstadoCita).subscribe(
+      (estadoCita: EstadoCitas) => {
+        this.estadoCitasForm.patchValue(estadoCita);
+        this.estadoCitasForm.enable();
+      },(error: any) => Alerts.error('Error', 'No se pudo obtener el estado', error));
   }
 }

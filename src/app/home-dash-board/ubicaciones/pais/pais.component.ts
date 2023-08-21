@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { TableColumn } from 'src/app/interfaces/table-column';
 import { Pais } from 'src/app/models/pais';
 
 import { PaisService } from 'src/app/services/pais.service';
@@ -14,7 +15,11 @@ import { Utils } from 'src/app/utils/Utils';
 export class PaisComponent {
   paisForm: FormGroup
   paises: Pais[]
-  idPaisExistente: string='';
+  idPaisExistente: string = '';
+  tableColumns: TableColumn[] = [
+    { name: 'ID', dataKey: 'idPais' },
+    { name: 'Estado', dataKey: 'pais', }
+  ];
   constructor(
     private fb: FormBuilder,
     private paisService: PaisService
@@ -38,36 +43,6 @@ export class PaisComponent {
         }, error => Alerts.error('Error', 'Error guardando el país', error));
       })
 
-  }
-  ver(id: string) {
-    this.paisService.findById(id).subscribe(
-      (pais: Pais) => {
-        this.paisForm.patchValue(pais);
-        this.paisForm.disable();
-      }, error => Alerts.error('Error', 'Error cargando el país', error));
-  }
-  editar(id: string) {
-    this.paisService.findById(id).subscribe(
-      (pais: Pais) => {
-        this.idPaisExistente =id;
-        this.paisForm.patchValue(pais);
-        this.paisForm.enable();
-      }, error => Alerts.error('Error', 'Error cargando el país', error));
-  }
-  eliminar(id: string) {
-    Alerts.warning('Avertencia', '¿ Está seguro de borrar el país ,tenga en cuenta que se borran los registros relacionados ?', 'Si, guardar')
-      .then((result) => {
-        if (!result.isConfirmed) {
-          Alerts.info('Información', 'Operación cancelada por usuario');
-          return
-        }
-        this.paisService.delete(id).subscribe(() => {
-          Alerts.success('Exito', 'País eliminado con éxito');
-          this.idPaisExistente='';
-          this.paisForm.reset();
-          this.cargarPaises();
-        }, error => Alerts.error('Error', 'Error eliminando el país', error));
-      })
   }
   cargarPaises() {
     this.paises = [];
@@ -93,5 +68,35 @@ export class PaisComponent {
       : this.paisForm.get('fechaModificacion').value;
     pais.modificado = 'admin';
     return pais;
+  }
+  delete($event) {
+    Alerts.warning('Avertencia', '¿ Está seguro de borrar el país ,tenga en cuenta que se borran los registros relacionados ?', 'Si, guardar')
+    .then((result) => {
+      if (!result.isConfirmed) {
+        Alerts.info('Información', 'Operación cancelada por usuario');
+        return
+      }
+      this.paisService.delete($event.idPais).subscribe(() => {
+        Alerts.success('Exito', 'País eliminado con éxito');
+        this.idPaisExistente='';
+        this.paisForm.reset();
+        this.cargarPaises();
+      }, error => Alerts.error('Error', 'Error eliminando el país', error));
+    })
+  }
+  export($event) {
+    this.paisService.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe((data) => {
+      Utils.descargarFichero(data, 'paises.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    }, (error) => {
+      Alerts.error('Error', 'Error al exportar los estados de los usuarios usuarios', error);
+    });
+  }
+  edit($event) {
+    this.paisService.findById($event.idPais).subscribe(
+      (pais: Pais) => {
+        this.idPaisExistente =$event.idPais;
+        this.paisForm.patchValue(pais);
+        this.paisForm.enable();
+      }, error => Alerts.error('Error', 'Error cargando el país', error));
   }
 }

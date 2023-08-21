@@ -1,4 +1,4 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe, registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 registerLocaleData(localeEs, 'es');
@@ -7,9 +7,9 @@ registerLocaleData(localeEs, 'es');
   name: 'dataPropertyGetter'
 })
 export class DataPropertyGetterPipe implements PipeTransform {
-  constructor(private datePipe: DatePipe) {}
+  constructor(private datePipe: DatePipe) { }
   transform(object: any, keyName: string, ...args: unknown[]): unknown {
-    if (keyName.includes('fecha')) {
+    if (keyName && keyName.includes('fecha')) {
       return this.datePipe.transform(object[keyName], 'dd/MM/yyyy');
     }
     return object[keyName];

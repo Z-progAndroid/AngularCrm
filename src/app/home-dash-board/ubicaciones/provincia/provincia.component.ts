@@ -7,6 +7,7 @@ import { ProvinciaService } from 'src/app/services/provincia.service';
 import { forkJoin } from 'rxjs';
 import { Utils } from 'src/app/utils/Utils';
 import { Alerts } from 'src/app/utils/Alerts';
+import { TableColumn } from 'src/app/interfaces/table-column';
 @Component({
   selector: 'app-provincia',
   templateUrl: './provincia.component.html',
@@ -17,6 +18,11 @@ export class ProvinciaComponent {
   provincias: Provincia[]
   paises: Pais[]
   idProvinciaExistente: number = null;
+  tableColumns: TableColumn[] = [
+    { name: 'Pais', dataKey: 'idPais'},
+    { name: 'Codigo', dataKey: 'idProvincia'},
+    { name: 'Provincia', dataKey: 'provincia'}
+  ];
   constructor(
     private fb: FormBuilder,
     private paisService: PaisService,
@@ -43,42 +49,6 @@ export class ProvinciaComponent {
       });
     });
   }
-  ver(id: number) {
-    this.provinciaService.findById(id).subscribe(
-      (provincia: Provincia) => {
-        this.provinciasForm.patchValue(provincia);
-        this.provinciasForm.disable();
-      }, error => {
-        this.provinciasForm.reset();
-        Alerts.error('Error', 'No se pudo cargar la provincia', error);
-      });
-  }
-  editar(id: number) {
-    this.provinciaService.findById(id).subscribe(
-      (provincia: Provincia) => {
-        this.idProvinciaExistente = id;
-        this.provinciasForm.patchValue(provincia);
-        this.provinciasForm.enable();
-      }, error => {
-        this.provinciasForm.reset();
-        Alerts.error('Error', 'No se pudo cargar la provincia', error);
-      });
-  }
-  eliminar(id: number) {
-    Alerts.warning('Advertencia', '¿Está seguro de elimninar los cambios?', 'Confirmar').then((result) => {
-      if (!result.isConfirmed) {
-        Alerts.info('Información', 'Operación cancelada por el usuario');
-        return;
-      }
-      this.provinciaService.delete(id).subscribe((mensaje: any) => {
-        Alerts.success('Exito', 'Provincia eliminada con éxito');
-        this.idProvinciaExistente = 0;
-      }, error => {
-        this.provinciasForm.reset();
-        Alerts.error('Error', 'No se pudo eliminar la provincia', error);
-      });
-    });
-  }
   crearFormulario() {
     this.provinciasForm = this.fb.group({
       idPais: ['', Validators.required],
@@ -88,15 +58,17 @@ export class ProvinciaComponent {
     })
   }
   cargarProvincias() {
-    forkJoin([
-      this.paisService.findAll(),
-      this.provinciaService.findAll()
-    ]).subscribe(([paises, provincias]) => {
-      this.paises = paises;
-      this.provincias = provincias;
+    this.provincias = [];
+    this.provinciaService.findAll().subscribe(data => {
+      this.provincias = data;
     }, error => {
-      this.provinciasForm.reset();
       Alerts.error('Error', 'No se pudo cargar las provincias', error);
+    });
+    this.paises = [];
+    this.paisService.findAll().subscribe(data => {
+      this.paises = data;
+    }, error => {
+      Alerts.error('Error', 'No se pudo cargar los paises', error);
     });
   }
   private get getProvincia(): Provincia {
@@ -111,5 +83,40 @@ export class ProvinciaComponent {
     provincia.fechaCreacion = new Date();
     provincia.modificado = 'admin';
     return provincia;
+  }
+  delete($event) {
+    Alerts.warning('Advertencia', '¿Está seguro de elimninar los cambios?', 'Confirmar').then((result) => {
+      if (!result.isConfirmed) {
+        Alerts.info('Información', 'Operación cancelada por el usuario');
+        return;
+      }
+      this.provinciaService.delete($event.idProvincia).subscribe((mensaje: any) => {
+        Alerts.success('Exito', 'Provincia eliminada con éxito');
+        this.idProvinciaExistente = 0;
+        this.cargarProvincias();
+        this.provinciasForm.reset();
+      }, error => {
+        this.provinciasForm.reset();
+        Alerts.error('Error', 'No se pudo eliminar la provincia', error);
+      });
+    });
+  }
+  export($event) {
+    this.provinciaService.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe((data) => {
+      Utils.descargarFichero(data, 'procincias.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    }, (error) => {
+      Alerts.error('Error', 'Error al exportar los estados de los usuarios usuarios', error);
+    });
+  }
+  edit($event) {
+    this.provinciaService.findById($event.idProvincia).subscribe(
+      (provincia: Provincia) => {
+        this.idProvinciaExistente = $event.idProvincia;
+        this.provinciasForm.patchValue(provincia);
+        this.provinciasForm.enable();
+      }, error => {
+        this.provinciasForm.reset();
+        Alerts.error('Error', 'No se pudo cargar la provincia', error);
+      });
   }
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TableColumn } from 'src/app/interfaces/table-column';
 import { TipoCita } from 'src/app/models/tipo-cita';
 import { TipoCitaService } from 'src/app/services/tipo-cita.service';
 import { Alerts } from 'src/app/utils/Alerts';
@@ -13,6 +14,10 @@ import { Utils } from 'src/app/utils/Utils';
 export class TiposCitasComponent {
   tipoCitaForm: FormGroup
   tiposCitas: TipoCita[]
+  tableColumns: TableColumn[] = [
+    { name: 'ID', dataKey: 'idTipoCita' },
+    { name: 'Estado', dataKey: 'tipoCita', }
+  ];
   constructor(
     private fb: FormBuilder,
     private tipoCitaService: TipoCitaService
@@ -34,35 +39,6 @@ export class TiposCitasComponent {
         this.cargarTiposCita();
       }, error => Alerts.error('Error', 'Error al guardar el tipo de cita', error));
     });
-  }
-  editar(id: number) {
-    this.tipoCitaService.findById(id).subscribe(
-      (tipoCita: TipoCita) => {
-        this.tipoCitaForm.patchValue(tipoCita);
-        this.tipoCitaForm.enable();
-      }, error => Alerts.error('Error', 'Error al cargar el tipo de cita', error));
-
-  }
-  eliminar(id: number) {
-    Alerts.warning('Avertencia', '¿Está seguro de guardar el tipo de cita?', 'Si, guardar').then((result) => {
-      if (!result.isConfirmed) {
-        Alerts.info('Información', 'Operación cancelada por el usuario');
-        this.tipoCitaForm.reset();
-        return;
-      }
-      this.tipoCitaService.delete(id).subscribe((mensaje: any) => {
-        Alerts.success('Operación exitosa', 'El tipo de cita se ha eliminado correctamente');
-        this.tipoCitaForm.reset();
-        this.cargarTiposCita();
-      }, error => Alerts.error('Error', 'Error al eliminar el tipo de cita', error));
-    });
-  }
-  ver(id: number) {
-    this.tipoCitaService.findById(id).subscribe(
-      (tipoCita: TipoCita) => {
-        this.tipoCitaForm.patchValue(tipoCita);
-        this.tipoCitaForm.disable();
-      }, error => Alerts.error('Error', 'Error al cargar el tipo de cita', error));
   }
   crearFormulario() {
     this.tipoCitaForm = this.fb.group({
@@ -86,5 +62,33 @@ export class TiposCitasComponent {
     tipoCita.fechaModificacion = new Date();
     tipoCita.modificado = 'admin';
     return tipoCita;
+  }
+  delete($event) {
+    Alerts.warning('Avertencia', '¿Está seguro de guardar el tipo de cita?', 'Si, guardar').then((result) => {
+      if (!result.isConfirmed) {
+        Alerts.info('Información', 'Operación cancelada por el usuario');
+        this.tipoCitaForm.reset();
+        return;
+      }
+      this.tipoCitaService.delete($event.idTipoCita).subscribe((mensaje: any) => {
+        Alerts.success('Operación exitosa', 'El tipo de cita se ha eliminado correctamente');
+        this.tipoCitaForm.reset();
+        this.cargarTiposCita();
+      }, error => Alerts.error('Error', 'Error al eliminar el tipo de cita', error));
+    });
+  }
+  export($event) {
+    this.tipoCitaService.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe((data) => {
+      Utils.descargarFichero(data, 'tipo-citas.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    }, (error) => {
+      Alerts.error('Error', 'Error al exportar los estados de los usuarios usuarios', error);
+    });
+  }
+  edit($event) {
+    this.tipoCitaService.findById($event.idTipoCita).subscribe(
+      (tipoCita: TipoCita) => {
+        this.tipoCitaForm.patchValue(tipoCita);
+        this.tipoCitaForm.enable();
+      }, error => Alerts.error('Error', 'Error al cargar el tipo de cita', error));
   }
 }

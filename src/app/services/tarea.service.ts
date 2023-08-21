@@ -1,10 +1,11 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { CrudService } from "../interfaces/CrudService";
 import { Tarea } from "../models/tarea";
 import { Mensaje } from "../models/mensaje";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
+import { DatosExportacion } from "../models/DatosExportacion";
 
 
 @Injectable({
@@ -27,5 +28,14 @@ export class TareaService implements CrudService<Tarea> {
     findAllByParams(tarea :Tarea): Observable<Tarea[]> {
         return this.http.post<Tarea[]>(`${environment.urlBase}tarea/search`,tarea);
     }
-    
+    exportarExcel(cabeceras: string[], tareas: Tarea[]): Observable<Blob> {
+        const datosExportacion = new DatosExportacion();
+        datosExportacion.cabeceras = cabeceras;
+        datosExportacion.tareas = tareas;
+        const headers = new HttpHeaders()
+            .set('Content-Type', 'application/json')
+            .set('Accept', 'application/octet-stream');
+        return this.http.post(`${environment.urlBase}tarea/download-excel`, datosExportacion, { headers, responseType: 'blob' });
+    }
+
 }  

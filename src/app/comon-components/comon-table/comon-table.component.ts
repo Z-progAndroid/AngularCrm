@@ -64,13 +64,15 @@ export class ComonTableComponent implements OnInit, AfterViewInit {
     this.tableDataSource = new MatTableDataSource<any>(data);
     this.tableDataSource.paginator = this.matPaginator;
     this.tableDataSource.sort = this.matSort;
-    setTimeout(() => {
-    const itemsPerPage = this.tableDataSource.paginator.pageSize;
-    const currentPageIndex = this.tableDataSource.paginator.pageIndex;
-    const startIndex = currentPageIndex * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    this.currentPageData = this.tableDataSource.data.slice(startIndex, endIndex);
-    }, 1);
+    if (this.isFilterable) {
+      setTimeout(() => {
+        const itemsPerPage = this.tableDataSource.paginator.pageSize;
+        const currentPageIndex = this.tableDataSource.paginator.pageIndex;
+        const startIndex = currentPageIndex * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        this.currentPageData = this.tableDataSource.data.slice(startIndex, endIndex);
+      }, 20);
+    }
   }
 
   applyFilter(event: any) {

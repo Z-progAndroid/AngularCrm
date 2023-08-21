@@ -10,6 +10,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Utils } from 'src/app/utils/Utils';
 import { Alerts } from 'src/app/utils/Alerts';
 import { BaseComponent } from 'src/app/utils/BaseComponent';
+import { TableColumn } from 'src/app/interfaces/table-column';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -20,7 +22,19 @@ export class UserComponent extends BaseComponent implements OnInit {
   roles: Rol[] = [];
   estados: EstadoUsuario[] = [];
   userSearchForm: FormGroup;
-  constructor(private usuarioService: UsuarioService, private fb: FormBuilder, private rolService: RolService, private estadoUsuarioService: EstadoUsuarioService) {
+  tableColumns: TableColumn[] = [
+    { name: 'Nombre', dataKey: 'nombre' },
+    { name: 'Apellidos', dataKey: 'apellido' },
+    { name: 'Email', dataKey: 'email' },
+    { name: 'Rol', dataKey: 'rol' },
+    { name: 'Estado', dataKey: 'estadoUsuario' }
+  ];
+  constructor(
+    private usuarioService: UsuarioService,
+    private fb: FormBuilder,
+    private rolService: RolService,
+    private estadoUsuarioService: EstadoUsuarioService,
+    private router: Router) {
     super();
   }
   ngOnInit(): void {
@@ -75,5 +89,33 @@ export class UserComponent extends BaseComponent implements OnInit {
       }, error => {
         Alerts.error("Error", "Error al cargar los usuarios", error);
       });
+  }
+  edit($event) {
+    console.log($event);
+    this.router.navigate(['/home-dashboard/user/editar', $event.idUsuario]);
+  }
+  export($event) {
+    console.log($event);
+    this.usuarioService.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe(data => {
+      Utils.descargarFichero(data, "usuarios.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    }, error => {
+      Alerts.error("Error", "Error al exportar los usuarios", error);
+    });
+  }
+  delete($event) {
+    console.log($event);
+    Alerts.warning("Eliminar", "¿Está seguro que desea eliminar el usuario? ,se eliminara permanentemente", 'Si, eliminar').then(result => {
+      if (!result.isConfirmed) {
+        Alerts.info("Información", "Operación cancelada por el usuario");
+        return;
+      }
+      this.usuarioService.delete($event.idUsuario).subscribe(result => {
+        Alerts.success("Éxito", "Usuario eliminado correctamente");
+        this.cargarUsuarios();
+      }, error => {
+        Alerts.error("Error", "Error al eliminar el usuario", error);
+      });
+    });
+
   }
 }

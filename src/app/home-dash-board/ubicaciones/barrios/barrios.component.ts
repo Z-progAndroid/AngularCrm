@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { forkJoin } from 'rxjs';
+import { TableColumn } from 'src/app/interfaces/table-column';
 import { Barrio } from 'src/app/models/barrio';
 import { Municipo } from 'src/app/models/municipo';
 import { BarrioService } from 'src/app/services/barrio.service';
@@ -17,6 +18,11 @@ export class BarriosComponent {
   barrioForm: FormGroup
   municipios: Municipo[]
   barrios: Barrio[]
+  tableColumns: TableColumn[] = [
+    { name: 'Codigo Municipio', dataKey: 'idMunicipio' },
+    { name: 'Codigo Barrio', dataKey: 'idBarrio' },
+    { name: 'Barrio', dataKey: 'barrio' }
+  ];
   constructor(
     private fb: FormBuilder,
     private municipioService: MunicipioService,
@@ -43,39 +49,6 @@ export class BarriosComponent {
     });
 
   }
-  ver(id: number) {
-    this.barrioService.findById(id).subscribe((barrio: Barrio) => {
-      this.barrioForm.patchValue(barrio);
-      this.barrioForm.disable();
-    }, error => {
-      this.barrioForm.reset();
-      Alerts.error('Error', 'No se pudo cargar el barrio', error);
-    });
-  }
-  editar(id: number) {
-    this.barrioService.findById(id).subscribe((barrio: Barrio) => {
-      this.barrioForm.patchValue(barrio);
-      this.barrioForm.enable();
-    }, error => {
-      this.barrioForm.reset();
-      Alerts.error('Error', 'No se pudo cargar el barrio', error);
-    });
-  }
-  eliminar(id: number) {
-    Alerts.warning('Advertencia', '¿Estas seguro de eliminar el barrio?', 'Confirmar').then((result) => {
-      if (!result.isConfirmed) {
-        Alerts.info('Informacion', 'Operacion cancelada por el usuario');
-        return;
-      }
-      this.barrioService.delete(id).subscribe((mensaje: any) => {
-        Alerts.success('Exito', 'Barrio eliminado correctamente');
-        this.cargarMunicipios();
-      }, error => {
-        this.barrioForm.reset();
-        Alerts.error('Error', 'No se pudo eliminar el barrio', error);
-      });
-    });
-  }
   crearFormulario() {
     this.barrioForm = this.fb.group({
       idMunicipio: ['', Validators.required],
@@ -87,15 +60,15 @@ export class BarriosComponent {
   cargarMunicipios() {
     this.municipios = [];
     this.barrios = [];
-    forkJoin([
-      this.municipioService.findAll(),
-      this.barrioService.findAll()
-    ]).subscribe(([municipios, barrios]) => {
+    this.municipioService.findAll().subscribe((municipios: Municipo[]) => {
       this.municipios = municipios;
+    }, error => {
+      Alerts.error('Error', 'No se pudo cargar los municipios', error);
+    });
+    this.barrioService.findAll().subscribe((barrios: Barrio[]) => {
       this.barrios = barrios;
     }, error => {
-      this.barrioForm.reset();
-      Alerts.error('Error', 'No se pudo cargar la municipo', error);
+      Alerts.error('Error', 'No se pudo cargar los barrios', error);
     });
   }
   private get barrio(): Barrio {
@@ -109,5 +82,36 @@ export class BarriosComponent {
       : this.barrioForm.get('fechaModificacion').value;
     barrio.modificado = 'admin';
     return barrio;
+  }
+  delete($event) {
+    Alerts.warning('Advertencia', '¿Estas seguro de eliminar el barrio?', 'Confirmar').then((result) => {
+      if (!result.isConfirmed) {
+        Alerts.info('Informacion', 'Operacion cancelada por el usuario');
+        return;
+      }
+      this.barrioService.delete($event.idBarrio).subscribe((mensaje: any) => {
+        Alerts.success('Exito', 'Barrio eliminado correctamente');
+        this.cargarMunicipios();
+      }, error => {
+        this.barrioForm.reset();
+        Alerts.error('Error', 'No se pudo eliminar el barrio', error);
+      });
+    });
+  }
+  export($event) {
+    this.barrioService.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe((data) => {
+      Utils.descargarFichero(data, 'estado-citas.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    }, (error) => {
+      Alerts.error('Error', 'Error al exportar los estados de los usuarios usuarios', error);
+    });
+  }
+  edit($event) {
+    this.barrioService.findById($event.idBarrio).subscribe((barrio: Barrio) => {
+      this.barrioForm.patchValue(barrio);
+      this.barrioForm.enable();
+    }, error => {
+      this.barrioForm.reset();
+      Alerts.error('Error', 'No se pudo cargar el barrio', error);
+    });
   }
 }
