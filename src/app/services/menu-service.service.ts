@@ -53,11 +53,6 @@ export class MenuServiceService {
         title: 'Ubicaciones',
         icon: 'fas fa-globe',
         link: '/home-dashboard/ubicacion'
-      },
-      {
-        title: 'Desconectar',
-        icon: 'fas fa-sign-out-alt',
-        link: '/home-dashboard'
       }
     ];
   }
