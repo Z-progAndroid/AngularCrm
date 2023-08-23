@@ -15,7 +15,6 @@
 
     .imagen-inmueble {
         position: relative;
-        width: 90;
         button {
             position: absolute;
             top: 1.5rem;
@@ -24,7 +23,6 @@
             font-size: 5rem;
         }
     }
-    
 }
 @media screen and (max-width: 1249px) {
     .responsive-selects {
