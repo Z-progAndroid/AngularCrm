@@ -1,16 +1,15 @@
 .wrapper {
     margin: 0 auto;
-    /* Para centrar el contenido horizontalmente */
     max-width: 1700px;
-    /* Ajusta el valor según tus necesidades */
     padding: 30px;
-    /* Añade espaciado alrededor del contenido si es necesario */
+
     .data-section {
         display: flex;
         justify-content: space-around;
         align-items: center;
     }
-    .custom-card{
+
+    .custom-card {
         width: 18rem;
         margin: 1rem;
     }
