@@ -15,7 +15,6 @@ import { EstadoCitas } from 'src/app/models/estado-citas';
 import { Inmueble } from 'src/app/models/inmueble';
 import { User } from 'src/app/models/user';
 import { Alerts } from 'src/app/utils/Alerts';
-
 import { ActivatedRoute, Router } from '@angular/router';
 import { Mensaje } from 'src/app/models/mensaje';
 import { Cita } from 'src/app/models/cita';

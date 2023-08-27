@@ -20,7 +20,9 @@ export class InmuebleService {
   search(inmueble: Inmueble): Observable<Inmueble[]> {
     return this.http.post<Inmueble[]>(`${environment.urlBase}inmueble/search`, inmueble);
   }
-
+  searchSinRelaciones(inmueble: Inmueble): Observable<Inmueble[]> {
+    return this.http.post<Inmueble[]>(`${environment.urlBase}inmueble/searchSinRelaciones`, inmueble);
+  }
   delete(id: number): Observable<Mensaje> {
     return this.http.delete<Mensaje>(`${environment.urlBase}inmueble?idInmueble=${id}`);
   }
@@ -31,6 +33,13 @@ export class InmuebleService {
   findAll(): Observable<Inmueble[]> {
     return this.http.get<Inmueble[]>(`${environment.urlBase}inmueble/all`);
   }
+  findAllSinRelaciones(): Observable<Inmueble[]> {
+    return this.http.get<Inmueble[]>(`${environment.urlBase}inmueble/findAllRelaciones`);
+  }
+  generarInmuebleDetallePdf(idInmueble: Number): Observable<Blob> {
+    const headers = new HttpHeaders({ RESPONSETYPE: 'arraybuffer' as 'json' });
+    return this.http.get<Blob>(`${environment.urlBase}inmueble/download-pdf?idInmueble=${idInmueble}`, { headers, responseType: 'arraybuffer' as 'json' });
+}
   saveImage(formData: FormData, idInmueble: string, idImagen: string): Observable<Mensaje> {
     formData.append("idInmueble", idInmueble);
     formData.append("idImagen", idImagen);

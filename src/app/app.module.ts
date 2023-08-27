@@ -95,6 +95,11 @@ import { TipoInmuebleService } from './services/tipo-inmueble.service';
 import { TipoPagoService } from './services/tipo-pago.service';
 import { UsuarioService } from './services/usuario.service';
 import { MenuServiceService } from './services/menu-service.service';
+import { StayListComponent } from './stay-list/stay-list.component';
+import { HeaderComponent } from './stay-list/header/header.component';
+import { FooterComponent } from './stay-list/footer/footer.component';
+import { DetailComponent } from './stay-list/detail/detail.component';
+import { FilterComponent } from './stay-list/filter/filter.component';
 
 @NgModule({
   declarations: [
@@ -135,7 +140,12 @@ import { MenuServiceService } from './services/menu-service.service';
     TareaEditarComponent,
     ContratoEditarComponent,
     ComonTableComponent,
-    DataPropertyGetterPipe
+    DataPropertyGetterPipe,
+    StayListComponent,
+    HeaderComponent,
+    FooterComponent,
+    DetailComponent,
+    FilterComponent
   ],
   imports: [
     BrowserModule,

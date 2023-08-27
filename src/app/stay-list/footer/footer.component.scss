@@ -1,0 +1,16 @@
+.fondo-footer{
+    background-color: rgba(0, 0, 0, 0.05);
+}
+.color-icono{
+    color: #36467B;
+}
+@media screen and (max-width: 994px) {
+    .seccion-footer{
+        font-size: 14px;
+    }
+}
+@media screen and (max-width: 802px) {
+    .seccion-footer{
+        font-size: 1rem;
+    }
+}
