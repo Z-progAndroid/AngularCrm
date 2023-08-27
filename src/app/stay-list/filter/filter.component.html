@@ -1,0 +1,100 @@
+<nav class="wrapper w-100 p-0 sticky-top row m-0 p-2" [formGroup]="filterForm">
+    <div class="col-12 col-md-4 col-lg-3">
+        <mdb-form-control>
+            <input mdbInput type="number" min="0" id="precio_venta" class="form-control my-1"
+                formControlName="precioVenta" />
+            <label mdbLabel class="form-label" for="precio_venta">Precio Venta</label>
+        </mdb-form-control>
+    </div>
+    <div class="col-12 col-md-4 col-lg-2">
+        <mdb-form-control>
+            <input mdbInput type="number" min="0" id="precio_alquiler" class="form-control my-1"
+                formControlName="precioAquiler" />
+            <label mdbLabel class="form-label" for="precio_alquiler">Precio Alquiler</label>
+        </mdb-form-control>
+    </div>
+    <div class="col-12 col-md-4 col-lg-2">
+        <mdb-form-control>
+            <input mdbInput type="number" min="0" id="numHabitaciones" class="form-control my-1"
+                formControlName="numeroHabitaciones" />
+            <label mdbLabel class="form-label" for="numHabitaciones">Numero Habitaciones</label>
+        </mdb-form-control>
+    </div>
+    <div class="col-12 col-md-6 col-lg-2">
+        <mdb-form-control>
+            <input mdbInput type="number" min="0" id="numBanos" class="form-control my-1"
+                formControlName="numeroBanos" />
+            <label mdbLabel class="form-label" for="numBanos">Numero Baños</label>
+        </mdb-form-control>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3">
+        <mdb-form-control>
+            <input mdbInput type="number" min="0" id="metros_cuadrados" class="form-control my-1"
+                formControlName="metrosCuadrados" />
+            <label mdbLabel class="form-label" for="metros_cuadrados">Metros Cuadrados</label>
+        </mdb-form-control>
+    </div>
+    <nav class=" p-0  w-100 row m-0 p-2">
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="floating-label ng-select-js w-100">
+                <ng-select [clearable]="false" class="form-control floating-label-select" [searchable]="true"
+                    formControlName="tiposInmueble">
+                    <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                    <ng-option *ngFor="let tipo of tiposInmuebles" [value]="tipo.id">{{tipo.tipo}}</ng-option>
+                </ng-select>
+                <label class="floating-label-label">Tipo Inmuebles</label>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-2">
+            <div class="floating-label ng-select-js w-100">
+                <ng-select [clearable]="false" class="form-control floating-label-select"
+                    (change)="changePais(filterForm.get('pais').value)" [searchable]="true" formControlName="pais">
+                    <ng-option [value]="''">SELECCIONA UNA OPCIÓN</ng-option>
+                    <ng-option *ngFor="let pais of paises" [value]="pais.idPais">{{pais.pais}}</ng-option>
+                </ng-select>
+                <label class="floating-label-label">Pais</label>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-2">
+            <div class="floating-label ng-select-js w-100">
+                <ng-select [clearable]="false" class="form-control floating-label-select"
+                    (change)="changeProvincia(filterForm.get('provincia').value)" [searchable]="true"
+                    formControlName="provincia">
+                    <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                    <ng-option *ngFor="let provinicia of provincias"
+                        [value]="provinicia.idProvincia">{{provinicia.provincia}}</ng-option>
+                </ng-select>
+                <label class="floating-label-label">Provincia</label>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-2">
+            <div class="floating-label ng-select-js w-100">
+                <ng-select [clearable]="false" class="form-control floating-label-select"
+                    (change)="changeMunicipio(filterForm.get('municipio').value)" [searchable]="true"
+                    formControlName="municipio">
+                    <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                    <ng-option *ngFor="let m of municipios" [value]="m.idMunicipio">{{m.municipio}}</ng-option>
+                </ng-select>
+                <label class="floating-label-label">Municipio</label>
+            </div>
+        </div>
+        <div class="col-12 col-md-12 col-lg-3">
+            <div class="floating-label ng-select-js w-100">
+                <ng-select [clearable]="false" class="form-control floating-label-select" [searchable]="true"
+                    formControlName="barrio">
+                    <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                    <ng-option *ngFor="let b of barrios" [value]="b.idBarrio">{{b.barrio}}</ng-option>
+                </ng-select>
+                <label class="floating-label-label">Barrio</label>
+            </div>
+        </div>
+        <div class="col-12 d-flex justify-content-center  my-2">
+            <button type="button" class="btn btn-primary my-1 btn-lg mx-4" (click)="buscar()">
+                <i class="fas fa-search mx-2"></i>Buscar
+            </button>
+            <button type="button" class="btn btn-primary my-1 btn-lg" (click)="resetForm()">
+                <i class="fas fa-arrows-rotate mx-2"></i>Limpiar Filtros
+            </button>
+        </div>
+    </nav>
+</nav>

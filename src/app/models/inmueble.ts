@@ -1,3 +1,5 @@
+import { SafeUrl } from "@angular/platform-browser";
+
 export class Inmueble {
     idInmueble: number;
     descripcion: String;
@@ -30,5 +32,6 @@ export class Inmueble {
     imagen1:Uint8Array;
     imagen2:Uint8Array;
     imagen3:Uint8Array;
-    imagen4:Uint8Array;
+    imagen4: Uint8Array;
+    imagenes: SafeUrl[] = [];
 }

@@ -1,4 +1,4 @@
-import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export class CustomValidators {
     static validarSeleccionOpcionPorDefectoValidator(): ValidatorFn {
@@ -39,5 +39,23 @@ export class CustomValidators {
             }
             return null;
         };
+    }
+    static validateDate(control: AbstractControl): ValidationErrors | null {
+        const fechaInicio = control.get('fechaInicio');
+        const horaInicio = control.get('fechaInicioTime');
+        if (!fechaInicio || !horaInicio) {
+            return null;
+        }
+        if (!fechaInicio.value || !horaInicio.value) {
+            return { fechaHoraIncompleta: true };
+        }
+        const fechaHoraInicio = new Date(`${fechaInicio.value}T${horaInicio.value}`);
+        const ahora = new Date();
+
+        if (fechaHoraInicio <= ahora) {
+            return { fechaHoraInvalida: true };
+        }
+
+        return null;
     }
 }

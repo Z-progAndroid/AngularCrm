@@ -1,0 +1,73 @@
+<app-header [visible]="false"></app-header>
+<div class="wrapper">
+    <div class="border rounded-6 p-3 bg-white shadow box-area">
+        <div class="group-inputs">
+            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <mdb-carousel [controls]="true" [animation]="'fade'">
+                    <mdb-carousel-item *ngFor="let imagen of inmueble.imagenes">
+                        <img [src]="imagen" loading="lazy" class="d-block w-100" />
+                    </mdb-carousel-item>
+                </mdb-carousel>
+            </div>
+            <div class="d-flex flex-row align-items-center justify-content-between my-3">
+                <h5 class="m-0">{{inmueble.direccion}}</h5>
+                <button type="button" (click)="descargar(inmueble.idInmueble)" class="btn btn-primary btn-lg btn-floating mx-5">
+                    <i class="fas fa-download"></i>
+                </button>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-6 col-xxl-6">
+                    <p class="m-0">Precio venta&nbsp;<span>{{inmueble.precio_venta}}&euro;</span></p>
+                    <p class="m-0">Precio aquiler&nbsp;<span>{{inmueble.precio_alquiler}}&euro;</span></p>
+                    <p class="m-0">
+                        <i class="fas fa-bath"></i>&nbsp;{{inmueble.numBanos}}&nbsp;&nbsp;
+                        <i class="fas fa-door-closed"></i>&nbsp;{{inmueble.numHabitaciones}}
+                        &nbsp;<img src="assets/img/m2.svg" class="fa-fw">&nbsp;{{inmueble.metros_cuadrados}}
+                    <p>{{inmueble.descripcion}}</p>
+                </div>
+                <div class="col-12 col-md-12 col-lg-6 col-xxl-6">
+                    <div class="border rounded-6 p-3 bg-white shadow box-area">
+                        <h5 class="text-center">Realiza tu cita</h5>
+                        <form (submit)="submit()" [formGroup]="citaFrom">
+                            <div class="row d-flex align-items-center margin-form">
+                                <div class="col-12 col-md-12 col-lg-9">
+                                    <mdb-form-control>
+                                        <input mdbInput type="text" id="fechaInicio" name="fechaInicio"
+                                            formControlName="fechaInicio" [daysDisabled]="[6,0]" [minDate]="minDate"
+                                            class="form-control" bsDatepicker>
+                                        <label mdbLabel class="form-label" for="titulo">Fecha (*)</label>
+                                    </mdb-form-control>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-3">
+                                    <timepicker id="fechaInicioTime" name="fechaInicioTime"
+                                        class="w-100 d-flex align-items-center justify-content-center"
+                                        formControlName="fechaInicioTime" [showSpinners]="false" [showMeridian]="false">
+                                    </timepicker>
+                                </div>
+                            </div>
+                            <div class="text-center text-danger"
+                                *ngIf="citaFrom.get('fechaInicio').invalid && (citaFrom.get('fechaInicio').touched|| citaFrom.get('fechaInicio').dirty)">
+                                La fecha es requerida
+                            </div>
+
+                            <div class="row">
+                                <div class="text-center margin-form col-12 col-sm-12 col-md-12 margin-form ">
+                                    <mdb-form-control>
+                                        <textarea mdbInput class="form-control no-resize" id="descripcion"
+                                            formControlName="descripcion" rows="4"></textarea>
+                                        <label mdbLabel class="form-label" for="descripcion">Descripcion</label>
+                                    </mdb-form-control>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" [disabled]="citaFrom.invalid||citaFrom.disabled"
+                                    class="btn btn-primary btn-block margin-form">Realizar cita</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

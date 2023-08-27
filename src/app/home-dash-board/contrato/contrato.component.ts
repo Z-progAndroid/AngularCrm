@@ -150,7 +150,6 @@ export class ContratoComponent extends BaseComponent implements OnInit {
     });
   }
   export($event) {
-    console.log("export eeeee", $event)
     this.contratoService.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe((data) => {
       Utils.descargarFichero(data , 'contratos.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     }, error => Alerts.error('Error', 'Error al exportar contratos', error));
@@ -161,7 +160,6 @@ export class ContratoComponent extends BaseComponent implements OnInit {
     }, error => Alerts.error('Error', 'Error al obtener contrato', error));
   }
   edit($event) {
-    console.log("edit", $event)
     this.router.navigate(['/home-dashboard/contrato/editar', $event.idContrato]);
   }
 

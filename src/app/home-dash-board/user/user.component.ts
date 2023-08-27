@@ -91,11 +91,9 @@ export class UserComponent extends BaseComponent implements OnInit {
       });
   }
   edit($event) {
-    console.log($event);
     this.router.navigate(['/home-dashboard/user/editar', $event.idUsuario]);
   }
   export($event) {
-    console.log($event);
     this.usuarioService.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe(data => {
       Utils.descargarFichero(data, "usuarios.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
     }, error => {
@@ -103,7 +101,6 @@ export class UserComponent extends BaseComponent implements OnInit {
     });
   }
   delete($event) {
-    console.log($event);
     Alerts.warning("Eliminar", "¿Está seguro que desea eliminar el usuario? ,se eliminara permanentemente", 'Si, eliminar').then(result => {
       if (!result.isConfirmed) {
         Alerts.info("Información", "Operación cancelada por el usuario");

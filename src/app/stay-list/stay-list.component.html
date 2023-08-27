@@ -1,0 +1,31 @@
+<app-header (buscardor)="buscaqueda($event)"></app-header>
+<div class="wrapper">
+    <div class="row">
+        <div *ngFor="let imueble of inmuebles" class="col-12 col-sm-12 col-md-6 col-lg-4">
+            <div class="card my-2">
+                <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                    <mdb-carousel [controls]="true" [animation]="'fade'">
+                        <mdb-carousel-item *ngFor="let imagen of imueble.imagenes">
+                            <img [src]="imagen" loading="lazy" class="d-block w-100" />
+                        </mdb-carousel-item>
+                    </mdb-carousel>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{imueble.direccion}}</h5>
+                    <p class="card-text">
+                    <p class="m-0">Precio venta&nbsp;<span>{{imueble.precio_venta}}&euro;</span></p>
+                    <p class="m-0">Precio aquiler&nbsp;<span>{{imueble.precio_alquiler}}&euro;</span></p>
+                    <p class="m-0"><i class="fas fa-bath"></i>&nbsp;{{imueble.numBanos}}&nbsp;&nbsp;<i
+                            class="fas fa-door-closed"></i>
+                        &nbsp;{{imueble.numHabitaciones}}
+                        &nbsp;<img src="assets/img/m2.svg" class="fa-fw">&nbsp;{{imueble.metros_cuadrados}}
+                    </p>
+                    <button type="button" [routerLink]="['/detalle', imueble.idInmueble]" class="btn btn-primary btn-lg my-1">
+                        <i class="fas fa-eye mx-1"></i>&nbsp;Ver Detalle
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
