@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TableColumn } from 'src/app/interfaces/table-column';
 import { Pais } from 'src/app/models/pais';
+import { AuthService } from 'src/app/services/auth.service';
 
 import { PaisService } from 'src/app/services/pais.service';
 import { Alerts } from 'src/app/utils/Alerts';
@@ -22,7 +23,8 @@ export class PaisComponent {
   ];
   constructor(
     private fb: FormBuilder,
-    private paisService: PaisService
+    private paisService: PaisService,
+    private authService: AuthService,
   ) { }
   ngOnInit(): void {
     this.crearFormulario();
@@ -66,7 +68,7 @@ export class PaisComponent {
     pais.fechaModificacion = Utils.isNullOrUndefined(this.paisForm.get('fechaModificacion').value)
       ? new Date()
       : this.paisForm.get('fechaModificacion').value;
-    pais.modificado = 'admin';
+    pais.modificado = this.authService.getUsername();
     return pais;
   }
   delete($event) {

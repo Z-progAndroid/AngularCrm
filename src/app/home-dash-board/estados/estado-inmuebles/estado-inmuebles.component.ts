@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TableColumn } from 'src/app/interfaces/table-column';
 import { EstadoInmueble } from 'src/app/models/estado-inmueble';
+import { AuthService } from 'src/app/services/auth.service';
 import { EstadoInmuebleService } from 'src/app/services/estado-inmueble.service';
 import { Alerts } from 'src/app/utils/Alerts';
 import { Utils } from 'src/app/utils/Utils';
@@ -16,7 +17,9 @@ export class EstadoInmueblesComponent {
   estadosInmueble: EstadoInmueble[]
   constructor(
     private fb: FormBuilder,
-    private inmuebleEstados: EstadoInmuebleService) { }
+    private inmuebleEstados: EstadoInmuebleService,
+    private authService: AuthService,
+  ) { }
     tableColumns: TableColumn[] = [
       { name: 'ID', dataKey: 'idEstadoInmueble' },
       { name: 'Estado', dataKey: 'estado' },
@@ -61,7 +64,7 @@ export class EstadoInmueblesComponent {
       ? new Date()
       : this.estadoInmuebleForm.get('fechaCreacion').value
     estadoInmueble.fechaModificacion = new Date()
-    estadoInmueble.modificado = 'admin'
+    estadoInmueble.modificado = this.authService.getUsername();
     return estadoInmueble;
   }
   delete($event) {

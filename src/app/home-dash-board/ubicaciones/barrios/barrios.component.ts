@@ -4,6 +4,7 @@ import { forkJoin } from 'rxjs';
 import { TableColumn } from 'src/app/interfaces/table-column';
 import { Barrio } from 'src/app/models/barrio';
 import { Municipo } from 'src/app/models/municipo';
+import { AuthService } from 'src/app/services/auth.service';
 import { BarrioService } from 'src/app/services/barrio.service';
 import { MunicipioService } from 'src/app/services/municipio.service';
 import { Alerts } from 'src/app/utils/Alerts';
@@ -26,7 +27,8 @@ export class BarriosComponent {
   constructor(
     private fb: FormBuilder,
     private municipioService: MunicipioService,
-    private barrioService: BarrioService
+    private barrioService: BarrioService,
+    private authService: AuthService,
   ) { }
   ngOnInit(): void {
     this.crearFormulario();
@@ -80,7 +82,7 @@ export class BarriosComponent {
     barrio.fechaModificacion = Utils.isNullOrUndefined(this.barrioForm.get('fechaModificacion').value)
       ? new Date()
       : this.barrioForm.get('fechaModificacion').value;
-    barrio.modificado = 'admin';
+    barrio.modificado = this.authService.getUsername();
     return barrio;
   }
   delete($event) {

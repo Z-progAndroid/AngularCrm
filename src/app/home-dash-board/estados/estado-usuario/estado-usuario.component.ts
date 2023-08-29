@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TableColumn } from 'src/app/interfaces/table-column';
 import { EstadoUsuario } from 'src/app/models/estado-usuario';
+import { AuthService } from 'src/app/services/auth.service';
 import { EstadoUsuarioService } from 'src/app/services/estado-usuario.service';
 import { Alerts } from 'src/app/utils/Alerts';
 import { Utils } from 'src/app/utils/Utils';
@@ -20,7 +21,8 @@ export class EstadoUsuarioComponent implements OnInit {
   ];
   constructor(
     private fb: FormBuilder,
-    private estadoUsuarioService: EstadoUsuarioService
+    private estadoUsuarioService: EstadoUsuarioService,
+    private authService: AuthService,
   ) { }
   ngOnInit(): void {
     this.crearFormulario();
@@ -62,7 +64,7 @@ export class EstadoUsuarioComponent implements OnInit {
       ? new Date()
       : this.estadoUsuarioForm.get('fechaCreacion').value;
     estadoUsuario.fechaModificacion = new Date();
-    estadoUsuario.modificado = 'admin';
+    estadoUsuario.modificado = this.authService.getUsername();
     return estadoUsuario;
   }
   delete($event) {

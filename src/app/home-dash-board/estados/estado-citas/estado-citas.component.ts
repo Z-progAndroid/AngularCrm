@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TableColumn } from 'src/app/interfaces/table-column';
 import { EstadoCitas } from 'src/app/models/estado-citas';
 import { Mensaje } from 'src/app/models/mensaje';
+import { AuthService } from 'src/app/services/auth.service';
 import { EstadoCitasService } from 'src/app/services/estado-citas.service';
 import { Alerts } from 'src/app/utils/Alerts';
 import { Utils } from 'src/app/utils/Utils';
@@ -21,7 +22,8 @@ export class EstadoCitasComponent implements OnInit {
   ];
   constructor(
     private fb: FormBuilder,
-    private estadoCitasService: EstadoCitasService
+    private estadoCitasService: EstadoCitasService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -66,7 +68,7 @@ export class EstadoCitasComponent implements OnInit {
   private get estadoCita(): EstadoCitas {
     let estadoCita: EstadoCitas = Object.assign({}, this.estadoCitasForm.value);
     estadoCita.fechaModificacion = new Date();
-    estadoCita.modificado = 'admin';
+    estadoCita.modificado = this.authService.getUsername();
     Utils.isNullOrUndefined(estadoCita.fechaCreacion)
       ? estadoCita.fechaCreacion = new Date()
       : estadoCita.fechaCreacion = estadoCita.fechaCreacion;

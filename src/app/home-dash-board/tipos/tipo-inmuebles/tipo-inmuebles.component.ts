@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TableColumn } from 'src/app/interfaces/table-column';
 import { TipoInmueble } from 'src/app/models/tipo-inmueble';
+import { AuthService } from 'src/app/services/auth.service';
 import { TipoInmuebleService } from 'src/app/services/tipo-inmueble.service';
 import { Alerts } from 'src/app/utils/Alerts';
 import { Utils } from 'src/app/utils/Utils';
@@ -16,7 +17,8 @@ export class TipoInmueblesComponent {
   tiposInmuebles: TipoInmueble[]
   constructor(
     private fb: FormBuilder,
-    private tipoInmuebleService: TipoInmuebleService
+    private tipoInmuebleService: TipoInmuebleService,
+    private authService: AuthService,
   ) { }
   tableColumns: TableColumn[] = [
     { name: 'ID', dataKey: 'id' },
@@ -61,7 +63,7 @@ export class TipoInmueblesComponent {
       ? new Date()
       : this.tipoInmueblesForm.get('fechaCreacion').value;
     tipoInmueble.fechaModificacion = new Date();
-    tipoInmueble.modificado = 'admin';
+    tipoInmueble.modificado = this.authService.getUsername();
     return tipoInmueble;
   }
   delete($event) {

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TableColumn } from 'src/app/interfaces/table-column';
 import { TipoPago } from 'src/app/models/tipo-pago';
+import { AuthService } from 'src/app/services/auth.service';
 import { TipoPagoService } from 'src/app/services/tipo-pago.service';
 import { Alerts } from 'src/app/utils/Alerts';
 import { Utils } from 'src/app/utils/Utils';
@@ -20,7 +21,8 @@ export class TipoPagosComponent {
   ];
   constructor(
     private fb: FormBuilder,
-    private tipoPagoService: TipoPagoService
+    private tipoPagoService: TipoPagoService,
+    private authService: AuthService,
   ) { }
   ngOnInit(): void {
     this.crearFromulario();
@@ -61,7 +63,7 @@ export class TipoPagosComponent {
       ? new Date()
       : this.tipoPagoForm.get('fechaCreacion').value;
     tipoPago.fechaModificacion = new Date();
-    tipoPago.modificado = 'admin';
+    tipoPago.modificado = this.authService.getUsername();
     return tipoPago;
   }
   delete($event) {

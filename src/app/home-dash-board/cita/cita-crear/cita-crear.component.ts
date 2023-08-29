@@ -19,6 +19,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Mensaje } from 'src/app/models/mensaje';
 import { Cita } from 'src/app/models/cita';
 import { CitasService } from 'src/app/services/citas.service';
+import { AuthService } from 'src/app/services/auth.service';
 defineLocale('es', esLocale);
 @Component({
   selector: 'app-cita-crear',
@@ -44,6 +45,7 @@ export class CitaCrearComponent extends BaseComponent implements OnInit {
     private citaService: CitasService,
     private router: Router,
     private rutaActiva: ActivatedRoute,
+    private authService: AuthService,
   ) { super(); }
 
   ngOnInit(): void {
@@ -180,7 +182,7 @@ export class CitaCrearComponent extends BaseComponent implements OnInit {
       ? new Date()
       : this.citaFrom.get('fechaCreacion').value;
     cita.fechaModificacion = new Date();
-    cita.modificado = 'admin';
+    cita.modificado = this.authService.getUsername();
     cita.idTipoCita = this.citaFrom.get('idTipoCita').value;
     cita.idEstadoCita = this.citaFrom.get('idEstadoCita').value;
     cita.idInmueble = this.citaFrom.get('idInmueble').value;

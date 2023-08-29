@@ -4,6 +4,7 @@ import { error } from 'console';
 import { TableColumn } from 'src/app/interfaces/table-column';
 import { EstadoTarea } from 'src/app/models/estado-tarea';
 import { Mensaje } from 'src/app/models/mensaje';
+import { AuthService } from 'src/app/services/auth.service';
 import { EstadoTareaService } from 'src/app/services/estado-tarea.service';
 import { Alerts } from 'src/app/utils/Alerts';
 import { Utils } from 'src/app/utils/Utils';
@@ -22,8 +23,9 @@ export class EstadoTareaComponent implements OnInit {
     { name: 'Estado', dataKey: 'estadoTarea' },
   ];
   constructor(
-    private fb: FormBuilder
-    , private tareaEstadosService: EstadoTareaService) { }
+    private fb: FormBuilder,
+    private tareaEstadosService: EstadoTareaService,
+    private authService: AuthService,) { }
 
   ngOnInit(): void {
     this.crearFromulario();
@@ -39,7 +41,7 @@ export class EstadoTareaComponent implements OnInit {
         }
         let estadoTarea: EstadoTarea = Object.assign({}, this.estadoTareaForm.value);
         estadoTarea.fechaModificacion = new Date();
-        estadoTarea.modificado = 'admin';
+        estadoTarea.modificado = this.authService.getUsername();
         this.tareaEstadosService.save(estadoTarea).subscribe(() => {
           Alerts.success("Exito", "Estado de tarea guardado correctamente").then(() => this.cargarEstadosTarea());
         }, (error) => Alerts.error("Error", "No se pudo guardar el estado de tarea", error));
@@ -61,17 +63,17 @@ export class EstadoTareaComponent implements OnInit {
   }
   delete($event) {
     Alerts.warning("Advertencia", "¿Está seguro que desea eliminar el estado de tarea?", "Si, eliminar")
-    .then((result) => {
-      if (!result.isConfirmed) {
-        Alerts.info('Información', 'Operación cancelada por el usuario');
-        this.estadoTareaForm.reset();
-        return;
-      }
-      this.tareaEstadosService.delete($event.idEstadoTarea).subscribe((mensaje: Mensaje) => {
-        Alerts.success("Exito", "Se borrado correctamente el estado de la tarea").then(() => this.cargarEstadosTarea());
-      });
+      .then((result) => {
+        if (!result.isConfirmed) {
+          Alerts.info('Información', 'Operación cancelada por el usuario');
+          this.estadoTareaForm.reset();
+          return;
+        }
+        this.tareaEstadosService.delete($event.idEstadoTarea).subscribe((mensaje: Mensaje) => {
+          Alerts.success("Exito", "Se borrado correctamente el estado de la tarea").then(() => this.cargarEstadosTarea());
+        });
 
-    });
+      });
   }
   export($event) {
     this.tareaEstadosService.exportarExcel(this.tableColumns.map(x => x.name), $event).subscribe((data) => {

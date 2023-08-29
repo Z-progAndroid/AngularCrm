@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TableColumn } from 'src/app/interfaces/table-column';
 import { TipoCita } from 'src/app/models/tipo-cita';
+import { AuthService } from 'src/app/services/auth.service';
 import { TipoCitaService } from 'src/app/services/tipo-cita.service';
 import { Alerts } from 'src/app/utils/Alerts';
 import { Utils } from 'src/app/utils/Utils';
@@ -20,7 +21,8 @@ export class TiposCitasComponent {
   ];
   constructor(
     private fb: FormBuilder,
-    private tipoCitaService: TipoCitaService
+    private tipoCitaService: TipoCitaService,
+    private authService: AuthService,
   ) { }
   ngOnInit(): void {
     this.crearFormulario();
@@ -60,7 +62,7 @@ export class TiposCitasComponent {
       ? new Date()
       : this.tipoCitaForm.get('fechaCreacion').value;
     tipoCita.fechaModificacion = new Date();
-    tipoCita.modificado = 'admin';
+    tipoCita.modificado = this.authService.getUsername();
     return tipoCita;
   }
   delete($event) {

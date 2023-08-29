@@ -5,6 +5,7 @@ import { TableColumn } from 'src/app/interfaces/table-column';
 import { Municipo } from 'src/app/models/municipo';
 import { Pais } from 'src/app/models/pais';
 import { Provincia } from 'src/app/models/provincia';
+import { AuthService } from 'src/app/services/auth.service';
 import { MunicipioService } from 'src/app/services/municipio.service';
 import { ProvinciaService } from 'src/app/services/provincia.service';
 import { Alerts } from 'src/app/utils/Alerts';
@@ -29,7 +30,8 @@ export class MunicipiosComponent {
   constructor(
     private fb: FormBuilder,
     private provinciaService: ProvinciaService,
-    private municipioService: MunicipioService
+    private municipioService: MunicipioService,
+    private authService: AuthService,
   ) { }
   ngOnInit(): void {
     this.cargarFormulario();
@@ -85,7 +87,7 @@ export class MunicipiosComponent {
     municipio.fechaModificacion = Utils.isNullOrUndefined(this.municipiosForm.get('fechaModificacion').value)
       ? new Date()
       : this.municipiosForm.get('fechaModificacion').value;
-    municipio.modificado = 'admin';
+    municipio.modificado = this.authService.getUsername();
     return municipio;
   }
   delete($event) {
