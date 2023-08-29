@@ -30,7 +30,7 @@
             <div class="container text-center text-md-start mt-5 mb-3 p-0 d-flex align-items-center justify-content-around flex-row flex-sm-row flex-md-row">
                 <div title="explorar" class="color-icono"  routerLink="/listado" role="button">
                     <i class="fas fas fa-magnifying-glass m-1"></i></div>
-                <div title="citas" class="color-icono"  role="button">
+                <div title="citas" class="color-icono"  *ngIf="logeado"  routerLink="/citas" role="button">
                     <i class="fas fa-calendar-day m-1"></i></div>
                 <div title="iniciar sesion" *ngIf="!logeado" class="color-icono"  routerLink="/login" role="button">
                     <i class="fas fa-user-circle me-2"></i>

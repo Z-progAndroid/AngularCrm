@@ -5,7 +5,7 @@
             <button title="activar filtros" *ngIf="visible" class="button-17 me-2" role="button"
                 (click)="toggleElement()">
                 <i class="fas fa-arrow-down-wide-short"></i></button>
-            <button title="citas" *ngIf="logeado" class="button-17 me-2" role="button">
+            <button title="citas" *ngIf="logeado" class="button-17 me-2"  routerLink="/citas" role="button">
                 <i class="fas fa-calendar-day m-1"></i></button>
             <button title="iniciar sesion" *ngIf="botonVisible" class="button-17 me-5" routerLink="/login"
                 role="button">

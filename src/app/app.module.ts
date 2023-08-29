@@ -103,6 +103,7 @@ import { FilterComponent } from './stay-list/filter/filter.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { TokenExpirationInterceptor } from './interceptor/token-expiration.interceptor';
 import { LoginComponent } from './login/login/login.component';
+import { CitasComponent } from './stay-list/citas/citas.component';
 
 @NgModule({
   declarations: [
@@ -149,7 +150,8 @@ import { LoginComponent } from './login/login/login.component';
     FooterComponent,
     DetailComponent,
     FilterComponent,
-    LoginComponent
+    LoginComponent,
+    CitasComponent
   ],
   imports: [
     BrowserModule,

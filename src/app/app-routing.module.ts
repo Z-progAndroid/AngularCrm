@@ -4,12 +4,14 @@ import { StayListComponent } from './stay-list/stay-list.component';
 import { DetailComponent } from './stay-list/detail/detail.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './login/login/login.component';
+import { CitasComponent } from './stay-list/citas/citas.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/listado', pathMatch: 'full' },
   { path: 'listado', component: StayListComponent, },
   { path: 'detalle/:id', component: DetailComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'citas', component: CitasComponent, canActivate: [AuthGuard] },
   { path: 'home-dashboard', loadChildren: () => import('src/app/home-dash-board/home-dash-board-routing.module').then(m => m.HomeDashBoardRoutingModule), canActivate: [AuthGuard] },
 ];
 
