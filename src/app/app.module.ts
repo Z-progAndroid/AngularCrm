@@ -32,7 +32,7 @@ import { CitaComponent } from './home-dash-board/cita/cita.component';
 import { ContratoComponent } from './home-dash-board/contrato/contrato.component';
 import { SeguimientoComponent } from './home-dash-board/seguimiento/seguimiento.component';
 import { TareaComponent } from './home-dash-board/tarea/tarea.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { UserDetailsComponent } from './home-dash-board/user/user-details/user-details.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InmuebleDetailComponent } from './home-dash-board/inmueble/inmueble-detail/inmueble-detail.component';
@@ -64,14 +64,14 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { TareaEditarComponent } from './home-dash-board/tarea/tarea-editar/tarea-editar.component';
 import { ContratoEditarComponent } from './home-dash-board/contrato/contrato-editar/contrato-editar.component';
 import { ComonTableComponent } from './comon-components/comon-table/comon-table.component';
-import {MatTableModule} from '@angular/material/table';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatSortModule} from '@angular/material/sort';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTabsModule } from '@angular/material/tabs';
 import { DataPropertyGetterPipe } from './pipes/DataPropertyGetterPipe';
 import { DatePipe } from '@angular/common';
 import { BarrioService } from './services/barrio.service';
@@ -100,6 +100,9 @@ import { HeaderComponent } from './stay-list/header/header.component';
 import { FooterComponent } from './stay-list/footer/footer.component';
 import { DetailComponent } from './stay-list/detail/detail.component';
 import { FilterComponent } from './stay-list/filter/filter.component';
+import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { TokenExpirationInterceptor } from './interceptor/token-expiration.interceptor';
+import { LoginComponent } from './login/login/login.component';
 
 @NgModule({
   declarations: [
@@ -145,7 +148,8 @@ import { FilterComponent } from './stay-list/filter/filter.component';
     HeaderComponent,
     FooterComponent,
     DetailComponent,
-    FilterComponent
+    FilterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -203,7 +207,16 @@ import { FilterComponent } from './stay-list/filter/filter.component';
     TipoInmuebleService,
     TipoPagoService,
     UsuarioService,
-    DatePipe
+    DatePipe,
+    {
+      provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
+    }
+    ,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenExpirationInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

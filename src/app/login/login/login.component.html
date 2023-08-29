@@ -1,0 +1,282 @@
+<app-header [visible]="false" [botonVisible]="false"></app-header>
+<div class="wrapper">
+    <div class="border rounded-6 p-3 bg-white shadow box-area">
+
+        <ul class="nav nav-pills nav-justified mb-3" id="pillsNavs" role="tablist">
+            <li class="nav-item" id="tab-login-li" role="presentation">
+                <a class="nav-link active" id="tab-login" (click)="activarLogin()" data-mdb-toggle="pill" role="tab"
+                    aria-controls="pills-login" aria-selected="true">Inicia Sesión</a>
+            </li>
+            <li class="nav-item d-none" id="tab-register-li" role="presentation">
+                <a class="nav-link" id="tab-register" (click)="activarRegister()" data-mdb-toggle="pill" role="tab"
+                    aria-controls="pills-register" aria-selected="false">Registrate</a>
+            </li>
+            <li class="nav-item d-none" id="tab-forgot-password-li" role="presentation">
+                <a class="nav-link" id="tab-forgot-password" (click)="activarforgotPassword()" data-mdb-toggle="pill"
+                    role="tab" aria-controls="pills-register" aria-selected="false">Cambiar Contraseña</a>
+            </li>
+        </ul>
+        <!-- EMPIEZA LOGIN -->
+        <div class="tab-content">
+            <div class="tab-pane fade active show " id="pills-login" role="tabpanel" aria-labelledby="tab-login">
+                <form class="row" (submit)="inicioSubmit()" [formGroup]="inicioForm">
+                    <div class="text-center margin-form col-12 col-sm-12 col-md-12">
+                        <mdb-form-control>
+                            <input mdbInput type="text" id="usernameLogin" class="form-control"
+                                formControlName="usuario" />
+                            <label mdbLabel class="form-label" for="usernameLogin">Username (*)</label>
+                        </mdb-form-control>
+                        <span class="text-center text-danger"
+                            *ngIf="inicioForm.controls['usuario'].errors?.required && inicioForm.controls['usuario'].touched">
+                            El username es obligatorio
+                        </span>
+                    </div>
+                    <div class="text-center margin-form col-12 col-sm-12 col-md-12">
+                        <div class="d-flex flex-row">
+                            <button class="btn btn-primary" (click)="mostrarPasswordLogin = !mostrarPasswordLogin"
+                                type="button" id="button-addon-login">
+                                <i class="{{ mostrarPasswordLogin ? 'fas fa-eye' : 'fas fa-eye-slash' }}"></i>
+                            </button>
+                            <mdb-form-control class="w-100">
+                                <input mdbInput type="{{ mostrarPasswordLogin ? 'text' : 'password' }}"
+                                    id="passwordLogin" class="form-control" formControlName="contrasena" />
+                                <label mdbLabel class="form-label" for="passwordLogin">Contraseña (*)</label>
+                            </mdb-form-control>
+                        </div>
+                        <span class="text-center text-danger"
+                            *ngIf="inicioForm.controls['contrasena'].errors?.required && inicioForm.controls['contrasena'].touched">
+                            La contraseña es obligatoria
+                        </span>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-12 margin-form d-flex justify-content-center">
+                            <a (click)="activarforgotPassword()">¿ Olvildaste la contraseña ?</a>
+                        </div>
+                    </div>
+                    <div class="text-center  col-12 col-sm-12 col-md-12">
+                        <button type="submit" [disabled]="inicioForm.invalid"
+                            class="btn btn-primary btn-lg btn-block mb-4">Inicia Sesión</button>
+                    </div>
+
+                    <div class="text-center">
+                        <p>¿ No estas registrado ? <a (click)="activarRegister()">Registrate</a></p>
+                    </div>
+                </form>
+            </div>
+            <!-- FIN LOGIN -->
+            <!-- EMPIEZA CAMBIAR CONTRASEÑA -->
+            <div class="tab-content">
+                <div class="tab-pane fade" id="pills-forgot" role="tabpanel">
+                    <form class="row" (submit)="cambioContrasenaSubmit()" [formGroup]="cambiarContrasena">
+
+                        <div class="text-center margin-form col-12 col-sm-12 col-md-12">
+                            <mdb-form-control>
+                                <input mdbInput type="text" id="usernameForgot" class="form-control"
+                                    formControlName="usuario" />
+                                <label mdbLabel class="form-label" for="usernameForgot">Usuario (*)</label>
+                            </mdb-form-control>
+                            <span class="text-danger"
+                                *ngIf="cambiarContrasena.controls['usuario'].invalid && cambiarContrasena.controls['usuario'].touched">El
+                                usuario es requerido<br></span>
+                        </div>
+                        <div class="text-center margin-form col-12 col-sm-12 col-md-12">
+                            <div class="d-flex flex-row">
+                                <button class="btn btn-primary" (click)="mostrarPasswordLogin = !mostrarPasswordLogin"
+                                    type="button" id="button-addon-forgot">
+                                    <i class="{{ mostrarPasswordLogin ? 'fas fa-eye' : 'fas fa-eye-slash' }}"></i>
+                                </button>
+                                <mdb-form-control class="w-100">
+                                    <input mdbInput type="{{ mostrarPasswordLogin ? 'text' : 'password' }}"
+                                        id="passwordForgot" class="form-control" formControlName="contrasena" />
+                                    <label mdbLabel class="form-label" for="passwordForgot">Contraseña (*)</label>
+                                </mdb-form-control>
+                            </div>
+                            <span class="text-center text-danger"
+                                *ngIf="cambiarContrasena.controls['contrasena'].errors?.required && cambiarContrasena.controls['contrasena'].touched">
+                                La contraseña es obligatoria
+                            </span>
+                            <span class="text-danger"
+                                *ngIf="cambiarContrasena.controls['contrasena'].invalid && cambiarContrasena.controls['contrasena'].touched">La
+                                contraseña es requerida</span>
+                            <br>
+                            <span class="text-danger"
+                                *ngIf="cambiarContrasena.controls['contrasena'].hasError('pattern')">La contraseña debe
+                                tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un
+                                número.</span>
+                        </div>
+                        <div class="text-center margin-form col-12 col-sm-12 col-md-12">
+                            <div class="d-flex flex-row">
+                                <button class="btn btn-primary" (click)="mostrarPasswordLogin2 = !mostrarPasswordLogin2"
+                                    type="button" id="button-addon-forgot2">
+                                    <i class="{{ mostrarPasswordLogin2 ? 'fas fa-eye' : 'fas fa-eye-slash' }}"></i>
+                                </button>
+                                <mdb-form-control class="w-100">
+                                    <input mdbInput type="{{ mostrarPasswordLogin2 ? 'text' : 'password' }}"
+                                        id="passwordForgot2" class="form-control" formControlName="contrasenaRepetir" />
+                                    <label mdbLabel class="form-label" for="passwordForgot2">Repetir contraseña
+                                        (*)</label>
+                                </mdb-form-control>
+                            </div>
+                            <span class="text-center text-danger"
+                                *ngIf="cambiarContrasena.controls['contrasenaRepetir'].errors?.required && cambiarContrasena.controls['contrasenaRepetir'].touched">
+                                La contraseña es obligatoria
+                            </span>
+                            <span class="text-center text-danger"
+                                *ngIf="cambiarContrasena.controls['contrasenaRepetir'].errors?.passwordsNotMatch">
+                                Las contraseñas no coinciden
+                            </span>
+                        </div>
+                        <div class="text-center  col-12 col-sm-12 col-md-12 my-3">
+                            <button type="submit" [disabled]="cambiarContrasena.invalid"
+                                class="btn btn-primary btn-lg btn-block mb-4">CAMBIAR CONTRASEÑA</button>
+                        </div>
+                        <div class="text-center">
+                            <p>¿ No estas registrado ? <a (click)="activarRegister()">Registrate</a> o sino <a
+                                    (click)="activarLogin()">Inicia Sesion</a></p>
+                        </div>
+                    </form>
+                </div>
+                <!-- FIN CAMBIAR CONTRASEÑA -->
+                <!-- EMPIEZA REGISTRO -->
+                <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
+                    <form class="row" (submit)="registroSubmit()" [formGroup]="registroForm">
+                        <div class="text-center margin-form col-12 col-sm-12 col-md-12">
+                            <mdb-form-control>
+                                <input mdbInput type="text" id="nombre" class="form-control" formControlName="nombre" />
+                                <label mdbLabel class="form-label" for="nombre">Nombre (*)</label>
+                            </mdb-form-control>
+                            <span class="text-center text-danger"
+                                *ngIf="registroForm.controls['nombre'].errors?.required && registroForm.controls['nombre'].touched">
+                                El nombre es obligatorio
+                            </span>
+                        </div>
+                        <div class="text-center margin-form col-12 col-sm-12 col-md-12">
+                            <mdb-form-control>
+                                <input mdbInput type="text" id="apellido" class="form-control"
+                                    formControlName="apellidos" />
+                                <label mdbLabel class="form-label" for="apellido">Apellidos (*)</label>
+                            </mdb-form-control>
+                            <span class="text-center text-danger"
+                                *ngIf="registroForm.controls['apellidos'].errors?.required && registroForm.controls['apellidos'].touched">
+                                Los apellidos son obligatorios
+                            </span>
+                        </div>
+                        <div class="text-center margin-form col-12 col-sm-12 col-md-12">
+                            <mdb-form-control>
+                                <input mdbInput type="email" id="email" class="form-control" formControlName="email" />
+                                <label mdbLabel class="form-label" for="email">Email (*)</label>
+                            </mdb-form-control>
+                            <span class="text-center text-danger"
+                                *ngIf="registroForm.controls['email'].errors?.required && registroForm.controls['email'].touched">
+                                El email es obligatorio
+                            </span>
+                            <span class="text-center text-danger"
+                                *ngIf="registroForm.controls['email'].errors?.email && registroForm.controls['email'].touched">
+                                El email no es valido
+                            </span>
+                        </div>
+                        <div class="text-center margin-form col-12 col-sm-12 col-md-12">
+                            <mdb-form-control>
+                                <input mdbInput type="text" id="username" class="form-control"
+                                    formControlName="username" />
+                                <label mdbLabel class="form-label" for="username">Username (*)</label>
+                            </mdb-form-control>
+                            <span class="text-center text-danger"
+                                *ngIf="registroForm.controls['username'].errors?.required && registroForm.controls['username'].touched">
+                                El username es obligatorio
+                            </span>
+                            <span class="text-danger" *ngIf="registroForm.controls['username'].errors?.['minlength']">El
+                                username debe tener minimo {{
+                                registroForm.get('username').errors.minlength.requiredLength }}
+                                caracteres</span>
+                        </div>
+                        <div class="text-center margin-form col-12 col-sm-12 col-md-12">
+                            <mdb-form-control>
+                                <input mdbInput type="tel" id="telefono" class="form-control"
+                                    formControlName="telefono" />
+                                <label mdbLabel class="form-label" for="telefono">Telefono (*)</label>
+                            </mdb-form-control>
+                            <span class="text-center text-danger"
+                                *ngIf="registroForm.controls['telefono'].errors?.required && registroForm.controls['telefono'].touched">
+                                El telefono es obligatorio
+                            </span>
+                            <span class="text-center text-danger"
+                                *ngIf="registroForm.controls['telefono'].errors?.pattern && registroForm.controls['telefono'].touched">
+                                El telefono no es valido
+                            </span>
+                            <span class="text-danger" *ngIf="registroForm.controls['telefono'].errors?.['minlength']">El
+                                telefono debe tener minimo {{
+                                registroForm.get('telefono').errors.minlength.requiredLength }}
+                                caracteres</span>
+                                <span class="text-danger" *ngIf="registroForm.controls['telefono'].errors?.['maxlength']">EL
+                                    telefono debe tener  maximo {{
+                                    registroForm.get('telefono').errors.maxlength.requiredLength }}
+                                    caracteres</span>
+                        </div>
+                        <div class="text-center margin-form col-12 col-sm-12 col-md-12">
+                            <mdb-form-control>
+                                <input mdbInput type="text" id="direccion" class="form-control"
+                                    formControlName="direccion" />
+                                <label mdbLabel class="form-label" for="direccion">Direccion</label>
+                            </mdb-form-control>
+                        </div>
+                        <div class="text-center margin-form col-12 col-sm-12 col-md-12">
+                            <div class="d-flex flex-row">
+                                <button class="btn btn-primary" (click)="mostrarPassword = !mostrarPassword"
+                                    type="button" id="button-addon1">
+                                    <i class="{{ mostrarPassword ? 'fas fa-eye' : 'fas fa-eye-slash' }}"></i>
+                                </button>
+                                <mdb-form-control class="w-100">
+                                    <input mdbInput type="{{ mostrarPassword ? 'text' : 'password' }}" id="contraseña"
+                                        class="form-control" formControlName="contrasena" />
+                                    <label mdbLabel class="form-label" for="contraseña">Contraseña (*)</label>
+                                </mdb-form-control>
+                            </div>
+                            <span class="text-center text-danger"
+                                *ngIf="registroForm.controls['contrasena'].errors?.required && registroForm.controls['contrasena'].touched">
+                                La contraseña es obligatoria
+                            </span>
+                            <br>
+                            <span class="text-danger" *ngIf="registroForm.controls['contrasena'].hasError('pattern')">La
+                                contraseña debe
+                                tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un
+                                número.</span>
+                        </div>
+                        <div class="text-center margin-form col-12 col-sm-12 col-md-12">
+                            <div class="d-flex flex-row">
+                                <button class="btn btn-primary"
+                                    (click)="mostrarPasswordRepetir = !mostrarPasswordRepetir" type="button"
+                                    id="button-addon2">
+                                    <i class="{{ mostrarPasswordRepetir ? 'fas fa-eye' : 'fas fa-eye-slash' }}"></i>
+                                </button>
+                                <mdb-form-control class="w-100">
+                                    <input mdbInput type="{{ mostrarPasswordRepetir ? 'text' : 'password' }}"
+                                        id="repeatContraseña" class="form-control"
+                                        formControlName="contrasenaRepetir" />
+                                    <label mdbLabel class="form-label" for="repeatContraseña">Repetir Contraseña
+                                        (*)</label>
+                                </mdb-form-control>
+                            </div>
+                            <span class="text-center text-danger"
+                                *ngIf="registroForm.controls['contrasenaRepetir'].errors?.required && registroForm.controls['contrasenaRepetir'].touched">
+                                La contraseña es obligatoria
+                            </span>
+                            <span class="text-center text-danger"
+                                *ngIf="registroForm.controls['contrasenaRepetir'].errors?.passwordsNotMatch && registroForm.controls['contrasenaRepetir'].touched">
+                                Las contraseñas no coinciden
+                            </span>
+                        </div>
+                        <div class="text-center margin-form col-12 col-sm-12 col-md-12">
+                            <button type="submit" [disabled]="registroForm.invalid"
+                                class="btn btn-primary btn-lg btn-block mb-3 my-3 p-2">Registar</button>
+                        </div>
+                        <div class="text-center">
+                            <p>¿estas registrado ? <a (click)="activarLogin()">Inicia Sesión</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- FIN REGISTRO -->
+
+        </div>
+    </div>

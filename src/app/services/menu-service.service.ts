@@ -56,4 +56,34 @@ export class MenuServiceService {
       }
     ];
   }
+  getMenuAgente() {
+    return [
+      {
+        title: 'Dashboard',
+        icon: 'fas fa-tachometer-alt',
+        link: '/home-dashboard/dashboard'
+      },
+      {
+        title: 'Inmueble',
+        icon: 'fas fa-building',
+        link: '/home-dashboard/inmueble'
+      },
+      {
+        title: 'Cita',
+        icon: 'fas fa-calendar-day',
+        link: '/home-dashboard/cita'
+      },
+      {
+        title: 'Contrato',
+        icon: 'fas fa-file-contract',
+        link: '/home-dashboard/contrato'
+      },
+      {
+        title: 'Tarea',
+        icon: 'fas fa-tasks',
+        link: '/home-dashboard/tarea'
+      }
+    
+    ];
+  }
 }

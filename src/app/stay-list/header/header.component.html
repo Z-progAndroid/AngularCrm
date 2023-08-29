@@ -1,17 +1,32 @@
 <header *ngIf="!isMobileResize" class="sticky-top bg-light">
     <nav class="navbar  p-0 d-flex align-items-center">
-        <img src="assets/img/stayLogo.svg" alt="logo" class="logo">
-        <button class="button-17 me-5" role="button">
-            <i class="fas fa-bars m-1"></i>
-            <i class="fas fa-user-circle"></i></button>
+        <img src="assets/img/stayLogo.svg" alt="logo"  class="logo" (click)="imagenClicada()">
+        <div>
+            <button title="activar filtros" *ngIf="visible" class="button-17 me-2" role="button"
+                (click)="toggleElement()">
+                <i class="fas fa-arrow-down-wide-short"></i></button>
+            <button title="citas" *ngIf="logeado" class="button-17 me-2" role="button">
+                <i class="fas fa-calendar-day m-1"></i></button>
+            <button title="iniciar sesion" *ngIf="botonVisible" class="button-17 me-5" routerLink="/login"
+                role="button">
+                <i class="fas fa-user-circle me-2"></i>
+                <i class="fas fa-arrow-right-to-bracket"></i>
+            </button>
+            <button title="cerrar sesion" *ngIf="logeado" class="button-17 me-5" (click)="logout()" role="button">
+                <i class="fas fa-user-circle me-2"></i>
+                <i class="fas fas fa-sign-out-alt"></i>
+            </button>
+        </div>
     </nav>
-    <app-filter  *ngIf="visible" (filter)="buscar($event)" [style.display]="isElementVisible ? 'block' : 'none'" class="my-5 visible flex-grow-1" ></app-filter>
+    <app-filter *ngIf="visible" (filter)="buscar($event)" [style.display]="isElementVisible ? 'block' : 'none'"
+        class="my-5 visible flex-grow-1"></app-filter>
 </header>
 <header *ngIf="isMobileResize" class="sticky-top bg-light">
     <nav class="navbar  p-0 d-flex align-items-center">
-        <img src="assets/img/stayLogo.svg" alt="logo" class="logo">
-        <button  *ngIf="visible" class="button-17 me-5" role="button" (click)="toggleElement()">
+        <img src="assets/img/stayLogo.svg" alt="logo" class="logo"  (click)="imagenClicada()">
+        <button *ngIf="visible" class="button-17 me-5" role="button" (click)="toggleElement()">
             <i class="fas fa-arrow-down-wide-short"></i></button>
     </nav>
-    <app-filter *ngIf="visible"  (filter)="buscar($event)" [style.display]="isElementVisible ? 'block' : 'none'" class="my-5 visible" ></app-filter>
+    <app-filter *ngIf="visible" (filter)="buscar($event)" [style.display]="isElementVisible ? 'block' : 'none'"
+        class="my-5 visible"></app-filter>
 </header>

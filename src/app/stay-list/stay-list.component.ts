@@ -5,6 +5,8 @@ import { Alerts } from '../utils/Alerts';
 import { FormBuilder } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { LoginRequest } from '../models/LoginRequest';
 const MOVIL_SIZE = 802;
 @Component({
   selector: 'app-stay-list',
@@ -15,7 +17,8 @@ export class StayListComponent implements OnInit {
   inmuebles: Inmueble[] = [];
   constructor(
     private inmuebleService: InmuebleService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private authService: AuthService,
   ) { }
   ngOnInit(): void {
     this.cargarInmuebles();
