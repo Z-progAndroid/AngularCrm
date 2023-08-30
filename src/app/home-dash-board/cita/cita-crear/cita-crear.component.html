@@ -153,25 +153,25 @@
                 <div class="row" *ngIf="isEdit">
                     <div class="col-12 col-md-4 col-lg-4">
                         <button type="button" routerLink="/home-dashboard/cita"
-                            class="btn btn-primary btn-block margin-form">Volver</button>
+                            class="btn btn-secondary btn-block margin-form"><i class="fas fa-arrow-rotate-left mx-2"></i>Volver</button>
                     </div>
                     <div class="col-12 col-md-4 col-lg-4">
                         <button type="button" (click)="borrarCita()"
-                            class="btn btn-primary btn-block margin-form">Borrar</button>
+                            class="btn btn-danger btn-block margin-form"><i class="fas fa-trash mx-2"></i>Borrar</button>
                     </div>
                     <div class="col-12 col-md-4 col-lg-4">
                         <button type="submit" [disabled]="citaFrom.invalid||citaFrom.disabled"
-                            class="btn btn-primary btn-block margin-form">Guardar</button>
+                            class="btn btn-primary btn-block margin-form"><i class="fas fa-floppy-disk mx-2"></i>Guardar</button>
                     </div>
                 </div>
                 <div class="row" *ngIf="!isEdit">
                     <div class="col-12 col-md-6 col-lg-6">
                         <button type="button" routerLink="/home-dashboard/cita"
-                            class="btn btn-primary btn-block margin-form">Volver</button>
+                            class="btn btn-secondary btn-block margin-form"><i class="fas fa-arrow-rotate-left mx-2"></i>Volver</button>
                     </div>
                     <div class="col-12 col-md-6 col-lg-6">
                         <button type="submit" [disabled]="citaFrom.invalid||citaFrom.disabled"
-                            class="btn btn-primary btn-block margin-form">Guardar</button>
+                            class="btn btn-primary btn-block margin-form"><i class="fas fa-floppy-disk mx-2"></i>Guardar</button>
                     </div>
                 </div>
             </form>

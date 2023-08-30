@@ -36,16 +36,17 @@
         <input type="hidden" name="fechaModificacion" formControlName="fechaModificacion" />
         <div class="row">
             <div class="col-12 col-sm-12 col-md-4 margin-form">
-                <a routerLink="/home-dashboard/dashboard" mdbBtn type="button" id="btnVolver" class="btn btn-primary btn-lg btn-block"
-                    mdbWavesEffect>Volver</a>
+                <a routerLink="/home-dashboard/dashboard" mdbBtn type="button" id="btnVolver" 
+                class="btn btn-secondary btn-lg btn-block"
+                    mdbWavesEffect><i class="fas fa-arrow-rotate-left mx-2"></i>Volver</a>
             </div>
             <div class="col-12 col-sm-12 col-md-4 margin-form">
                 <button mdbBtn type="button" id="btnRefrescar" (click)="submit()"
-                    class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Refrescar</button>
+                    class="btn btn-primary btn-lg btn-block" mdbWavesEffect><i class="fas fa-search mx-2"></i>Buscar</button>
             </div>
             <div class="col-12 col-sm-12 col-md-4 margin-form">
                 <button mdbBtn type="submit" id="btnSave" [disabled]="barrioForm.invalid||barrioForm.disabled"
-                    class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Guardar</button>
+                    class="btn btn-primary btn-lg btn-block" mdbWavesEffect><i class="fas fa-floppy-disk mx-2"></i>Guardar</button>
             </div>
         </div>
     </form>

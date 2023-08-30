@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 <div class="row d-flex align-items-center my-1">
-                    <div class="col-12 col-md-6">
+                    <div *ngIf="!isAgente"  class="col-12 col-md-6">
                         <div class="floating-label ng-select-js margin-form" style="width: 100%; ">
                             <ng-select [clearable]="false" formControlName="idEstadoTarea"
                                 class="form-control floating-label-select" [searchable]="true">
@@ -50,7 +50,19 @@
                             <label class="floating-label-label">Estado Tarea (*)</label>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6">
+                    <div *ngIf="isAgente"  class="col-12 col-md-12">
+                        <div class="floating-label ng-select-js margin-form" style="width: 100%; ">
+                            <ng-select [clearable]="false" formControlName="idEstadoTarea"
+                                class="form-control floating-label-select" [searchable]="true">
+                                <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
+                                <ng-option *ngFor="let estadoTarea of estadosTarea" [value]="estadoTarea.idEstadoTarea">
+                                    {{estadoTarea.estadoTarea}}
+                                </ng-option>
+                            </ng-select>
+                            <label class="floating-label-label">Estado Tarea (*)</label>
+                        </div>
+                    </div>
+                    <div *ngIf="!isAgente" class="col-12 col-md-6">
                         <div class="floating-label ng-select-js margin-form" style="width: 100%;">
                             <ng-select [clearable]="false" formControlName="idUsuario"
                                 class="form-control floating-label-select" [searchable]="true">
@@ -75,7 +87,7 @@
         </div>
     </div>
     <div class="d-flex justify-content-end mx-5 my-3">
-        <a routerLink="/home-dashboard/tarea/crear" mdbBtn color="primary" class="btn btn-primary btn-lg">
+        <a *ngIf="!isAgente" routerLink="/home-dashboard/tarea/crear" mdbBtn color="primary" class="btn btn-primary btn-lg">
             +<i class="fas fa-tasks mx-2"></i>Nueva Tarea
         </a>
     </div>
