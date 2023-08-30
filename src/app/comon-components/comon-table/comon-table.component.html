@@ -9,7 +9,7 @@
                 </mdb-form-control>
             </div>
             <div class="col-12 col-md-6 col-lg-6 text-end">
-                <button type="button" class="btn btn-success btn-lg export-button" (click)="exportAction(element)"><i
+                <button type="button" class="btn btn-success btn-lg export-button" [disabled]="tableDataSource?.data?.length===0" (click)="exportAction(element)"><i
                         class="fas  fa-file-excel mx-2"></i>Exportar</button>
             </div>
         </div>
@@ -45,7 +45,7 @@
                     rippleColor="dark">
                     <i class="fas fa-pen"></i>
                 </a>
-                <a (click)="deleteAction(element)" type="button" class="btn btn-danger btn-floating mx-1">
+                <a *ngIf="!isAgente" (click)="deleteAction(element)" type="button" class="btn btn-danger btn-floating mx-1">
                     <i class="fas fa-trash"></i>
                 </a>
                 <a *ngIf="isPdfs" (click)="downloadPdfAction(element)" type="button" class="btn btn-primary btn-floating mx-1">
