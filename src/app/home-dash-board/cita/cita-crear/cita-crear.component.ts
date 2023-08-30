@@ -88,12 +88,20 @@ export class CitaCrearComponent extends BaseComponent implements OnInit {
     this.estadoCitaService.findAll().subscribe(estadosCita => {
       this.estadosCita = estadosCita;
     }, error => Alerts.error('Error', 'Error al cargar los estados de cita', error));
-    this.inmuebleService.findAll().subscribe(inmuebles => {
-      this.inmuebles = inmuebles;
-    }, error => Alerts.error('Error', 'Error al cargar los inmuebles', error));
     this.usuarioService.findAllClientes().subscribe(clientes => {
       this.clientes = clientes;
     }, error => Alerts.error('Error', 'Error al cargar los clientes', error));
+    if(this.authService.isAdmin()){
+      this.inmuebleService.findAll().subscribe(inmuebles => {
+        this.inmuebles = inmuebles;
+      }, error => Alerts.error('Error', 'Error al cargar los inmuebles', error));
+    }
+    if(this.authService.isAgent()){
+      this.inmuebleService.obtenerInmueblesPorUsuario(this.authService.getIdUsuario()).subscribe(inmuebles => {
+        this.inmuebles = inmuebles;
+      }, error => Alerts.error('Error', 'Error al cargar los inmuebles', error));
+    }
+    
   }
   crearFormulario() {
     this.citaFrom = this.fb.group({

@@ -46,7 +46,6 @@ export class ContratoEditarComponent extends BaseComponent implements OnInit {
     private router: Router,
     private rutaActiva: ActivatedRoute,
     private authService: AuthService,
-    
   ) {
     super();
   }
@@ -103,13 +102,20 @@ export class ContratoEditarComponent extends BaseComponent implements OnInit {
     this.tipoPagoService.findAll().subscribe((data) => {
       this.tipoPagos = data;
     }, error => Alerts.error('Error', 'Error al cargar combo tipo pagos', error));
-    this.inmuebleService.findAll().subscribe((data) => {
-      this.inmuebles = data;
-    }, error => Alerts.error('Error', 'Error al cargar combo inmuebles', error));
+    if (this.authService.isAgent()) {
+      this.inmuebleService.obtenerInmueblesPorUsuario(this.authService.getIdUsuario()).subscribe((data) => {
+        this.inmuebles = data;
+      }, error => Alerts.error('Error', 'Error al cargar combo inmuebles', error));
+    }
+    if (this.authService.isAdmin()) {
+      this.inmuebleService.findAll().subscribe((data) => {
+        this.inmuebles = data;
+      }, error => Alerts.error('Error', 'Error al cargar combo inmuebles', error));
+    }
     this.estadoContratoService.findAll().subscribe((data) => {
       this.estadosContrato = data;
     }, error => Alerts.error('Error', 'Error al cargar  combo estados', error));
-    this.usuarioService.findAll().subscribe((data) => {
+    this.usuarioService.findAllClientes().subscribe((data) => {
       this.usuarios = data;
     }, error => Alerts.error('Error', 'Error al cargar combo clientes', error));
   }

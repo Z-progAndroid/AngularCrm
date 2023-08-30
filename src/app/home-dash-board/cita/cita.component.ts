@@ -29,7 +29,7 @@ export class CitaComponent extends BaseComponent implements OnInit {
     private router: Router,
     private citaService: CitasService,
     private tipoCitaService: TipoCitaService,
-    private estadoCitaService: EstadoCitasService
+    private estadoCitaService: EstadoCitasService,
   ) { super(); }
   ngOnInit(): void {
     this.cargarCitas();

@@ -104,7 +104,7 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { TokenExpirationInterceptor } from './interceptor/token-expiration.interceptor';
 import { LoginComponent } from './login/login/login.component';
 import { CitasComponent } from './stay-list/citas/citas.component';
-
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 @NgModule({
   declarations: [
     AppComponent,
@@ -178,6 +178,7 @@ import { CitasComponent } from './stay-list/citas/citas.component';
     FullCalendarModule,
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),
+    TooltipModule.forRoot(),
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,

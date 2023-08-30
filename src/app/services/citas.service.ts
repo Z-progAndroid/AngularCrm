@@ -37,6 +37,9 @@ export class CitasService implements CrudService<Cita>{
     citasUsuarioNoEliminadas(idUsuario:number): Observable<Cita[]> {
         return this.http.get<Cita[]>(`${environment.urlBase}cita/citasUsuarioNoEliminadas?idUsuario=${idUsuario}`);
     }
+    citasCreadasParaElAgente(idUsuario:number): Observable<Cita[]> {
+        return this.http.get<Cita[]>(`${environment.urlBase}cita/citasCreadasParaElAgente?idUsuario=${idUsuario}`);
+    }
     generarCitaPdf(idCita: Number): Observable<Blob> {
         const headers = new HttpHeaders({ RESPONSETYPE: 'arraybuffer' as 'json' });
         return this.http.get<Blob>(`${environment.urlBase}cita/download-pdf?idCita=${idCita}`, { headers, responseType: 'arraybuffer' as 'json' });
