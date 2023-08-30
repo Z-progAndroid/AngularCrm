@@ -16,6 +16,9 @@ export class SidebarComponent {
   ) {
     this.authService.isAgent()
       ?this.menu = menuService.getMenuAgente()
-      : menuService.getMenu();
+      :this.menu = menuService.getMenu();
+  }
+  logout() { 
+    this.authService.logout();
   }
 }
