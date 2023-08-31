@@ -82,7 +82,7 @@ export class TareaEditarComponent extends BaseComponent implements OnInit {
     this.estadoTareaService.findAll().subscribe((estados: EstadoTarea[]) => {
       this.estadosTarea = estados;
     }, error => Alerts.error('Error', 'Error al cargar los estados de tarea', error));
-    this.usuarioService.findAll().subscribe((usuarios: User[]) => {
+    this.usuarioService.findAllUserAdminORAgente().subscribe((usuarios: User[]) => {
       this.usuarios = usuarios;
     }, error => Alerts.error('Error', 'Error al cargar los usuarios', error));
   }

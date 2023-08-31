@@ -18,32 +18,33 @@ import { CitaCrearComponent } from './cita/cita-crear/cita-crear.component';
 import { TareaEditarComponent } from './tarea/tarea-editar/tarea-editar.component';
 import { ContratoEditarComponent } from './contrato/contrato-editar/contrato-editar.component';
 import { AuthGuard } from '../guards/auth.guard';
+import { RolGuardGuard } from '../guards/rol-guard.guard';
 
 const routes: Routes = [
   {
     path: '', component: HomeDashBoardComponent, children: [
-      { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-      { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
-      { path: 'user/editar/:id', component: UserDetailsComponent, canActivate: [AuthGuard] },
-      { path: 'user/ver/:id', component: UserDetailsComponent, canActivate: [AuthGuard] },
-      { path: 'user/crear', component: UserDetailsComponent, canActivate: [AuthGuard] },
-      { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-      { path: 'inmueble', component: InmuebleComponent, canActivate: [AuthGuard] },
-      { path: 'inmueble/editar/:id', component: InmuebleDetailComponent, canActivate: [AuthGuard] },
-      { path: 'inmueble/ver/:id', component: InmuebleDetailComponent, canActivate: [AuthGuard] },
-      { path: 'inmueble/crear', component: InmuebleDetailComponent, canActivate: [AuthGuard] },
-      { path: 'estados', component: EstadosComponent, canActivate: [AuthGuard] },
-      { path: 'tipos', component: TiposComponent, canActivate: [AuthGuard] },
-      { path: 'ubicacion', component: UbicacionesComponent, canActivate: [AuthGuard] },
-      { path: 'cita', component: CitaComponent, canActivate: [AuthGuard] },
-      { path: 'cita/crear', component: CitaCrearComponent, canActivate: [AuthGuard] },
-      { path: 'cita/editar/:id', component: CitaCrearComponent, canActivate: [AuthGuard] },
-      { path: 'contrato', component: ContratoComponent, canActivate: [AuthGuard] },
-      { path: 'contrato/crear', component: ContratoEditarComponent, canActivate: [AuthGuard] },
-      { path: 'contrato/editar/:id', component: ContratoEditarComponent, canActivate: [AuthGuard] },
-      { path: 'tarea', component: TareaComponent, canActivate: [AuthGuard] },
-      { path: 'tarea/crear', component: TareaEditarComponent, canActivate: [AuthGuard] },
-      { path: 'tarea/editar/:id', component: TareaEditarComponent, canActivate: [AuthGuard] }
+      { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'user', component: UserComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'user/editar/:id', component: UserDetailsComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'user/ver/:id', component: UserDetailsComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'user/crear', component: UserDetailsComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'inmueble', component: InmuebleComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'inmueble/editar/:id', component: InmuebleDetailComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'inmueble/ver/:id', component: InmuebleDetailComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'inmueble/crear', component: InmuebleDetailComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'estados', component: EstadosComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'tipos', component: TiposComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'ubicacion', component: UbicacionesComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'cita', component: CitaComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'cita/crear', component: CitaCrearComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'cita/editar/:id', component: CitaCrearComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'contrato', component: ContratoComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'contrato/crear', component: ContratoEditarComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'contrato/editar/:id', component: ContratoEditarComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'tarea', component: TareaComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'tarea/crear', component: TareaEditarComponent, canActivate: [AuthGuard,RolGuardGuard] },
+      { path: 'tarea/editar/:id', component: TareaEditarComponent, canActivate: [AuthGuard,RolGuardGuard] }
     ]
   },
 ];

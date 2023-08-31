@@ -134,8 +134,8 @@ export class InmuebleDetailComponent extends BaseComponent implements OnInit {
     return this.fb.group({
       precioventa: ['', Validators.required],
       precioalquiler: ['', Validators.required],
-      numHabitaciones: ['', Validators.required],
-      numBanos: ['', Validators.required],
+      numHabitaciones: [''],
+      numBanos: [''],
       metroscuadrados: ['', Validators.required],
       anoconstruccion: ['', [Validators.required, CustomValidators.yearValidator()]],
       direccion: ['', Validators.required],

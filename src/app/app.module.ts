@@ -30,7 +30,6 @@ import { UserComponent } from './home-dash-board/user/user.component';
 import { InmuebleComponent } from './home-dash-board/inmueble/inmueble.component';
 import { CitaComponent } from './home-dash-board/cita/cita.component';
 import { ContratoComponent } from './home-dash-board/contrato/contrato.component';
-import { SeguimientoComponent } from './home-dash-board/seguimiento/seguimiento.component';
 import { TareaComponent } from './home-dash-board/tarea/tarea.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { UserDetailsComponent } from './home-dash-board/user/user-details/user-details.component';
@@ -116,7 +115,6 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     InmuebleComponent,
     CitaComponent,
     ContratoComponent,
-    SeguimientoComponent,
     TareaComponent,
     UserDetailsComponent,
     InmuebleDetailComponent,
