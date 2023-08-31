@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-around flex-md-row flex-sm-column flex-column gap-2">
-                    <div class="floating-label ng-select-js" style="width: 100%;">
+                    <div class="floating-label ng-select-js w-100">
                         <ng-select [clearable]="false" formControlName="rol" class="form-control floating-label-select"
                             [searchable]="true">
                             <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
@@ -107,7 +107,7 @@
                             *ngIf="userForm.controls['rol'].invalid && userForm.controls['rol'].touched">El rol es
                             requerido</span>
                     </div>
-                    <div class="floating-label ng-select-js" style="width: 100%;">
+                    <div class="floating-label ng-select-js w-100">
                         <ng-select [clearable]="false" formControlName="estado" class="form-control floating-label-select"
                             [searchable]="true">
                             <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>

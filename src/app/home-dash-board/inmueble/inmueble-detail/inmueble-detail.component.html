@@ -103,7 +103,7 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-around flex-md-column flex-sm-column flex-column gap-2 margin-form">
-                    <div class="floating-label ng-select-js" style="width: 100%;">
+                    <div class="floating-label ng-select-js w-100">
                         <ng-select [clearable]="false" formControlName="idTipoInmueble"
                             class="form-control floating-label-select" [searchable]="true">
                             <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
@@ -118,7 +118,7 @@
                             *ngIf="inmuebleForm.get('idTipoInmueble').errors && inmuebleForm.get('idTipoInmueble').errors.seleccionarOpcion">
                             Por favor, selecciona una opción válida.</span>
                     </div>
-                    <div class="floating-label ng-select-js" style="width: 100%;">
+                    <div class="floating-label ng-select-js w-100">
                         <ng-select [clearable]="false" formControlName="idEstadoInmueble"
                             class="form-control floating-label-select" [searchable]="true">
                             <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
@@ -133,7 +133,7 @@
                             *ngIf="inmuebleForm.get('idEstadoInmueble').errors && inmuebleForm.get('idEstadoInmueble').errors.seleccionarOpcion">
                             Por favor, selecciona una opción válida.</span>
                     </div>
-                    <div class="floating-label ng-select-js" style="width: 100%;">
+                    <div class="floating-label ng-select-js w-100">
                         <ng-select [clearable]="false" formControlName="idUsuario"
                             class="form-control floating-label-select" [searchable]="true">
                             <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
@@ -152,7 +152,7 @@
             </div>
             <div
                 class="d-flex justify-content-around flex-md-row responsive-selects flex-sm-column flex-column gap-2 margin-form">
-                <div class="floating-label ng-select-js" style="width: 100%;">
+                <div class="floating-label ng-select-js w-100">
                     <ng-select [clearable]="false" formControlName="idPais" class="form-control floating-label-select"
                         [searchable]="true" (change)="changePais(inmuebleForm.get('idPais').value)">
                         <ng-option [value]="''">SELECCIONA UNA OPCIÓN</ng-option>
@@ -166,7 +166,7 @@
                         *ngIf="inmuebleForm.get('idPais').errors && inmuebleForm.get('idPais').errors.seleccionarOpcion">
                         Por favor, selecciona una opción válida.</span>
                 </div>
-                <div class="floating-label ng-select-js" style="width: 100%;">
+                <div class="floating-label ng-select-js w-100">
                     <ng-select [clearable]="false" formControlName="idProvincia"
                         class="form-control floating-label-select" [searchable]="true"
                         (change)="changeProvincia(inmuebleForm.get('idProvincia').value)">
@@ -182,7 +182,7 @@
                         *ngIf="inmuebleForm.get('idProvincia').errors && inmuebleForm.get('idProvincia').errors.seleccionarOpcion">
                         Por favor, selecciona una opción válida.</span>
                 </div>
-                <div class="floating-label ng-select-js" style="width: 100%;">
+                <div class="floating-label ng-select-js w-100">
                     <ng-select [clearable]="false" formControlName="idMunicipio"
                         class="form-control floating-label-select" [searchable]="true"
                         (change)="changeMunicipio(inmuebleForm.get('idMunicipio').value)">
@@ -198,7 +198,7 @@
                         *ngIf="inmuebleForm.get('idMunicipio').touched&&inmuebleForm.get('idMunicipio').errors && inmuebleForm.get('idMunicipio').errors.seleccionarOpcion">
                         Por favor, selecciona una opción válida.</span>
                 </div>
-                <div class="floating-label ng-select-js" style="width: 100%;">
+                <div class="floating-label ng-select-js w-100">
                     <ng-select [clearable]="false" formControlName="idBarrio" class="form-control floating-label-select"
                         [searchable]="true" (change)="changeMunicipio(inmuebleForm.get('idMunicipio').value)">
                         <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
