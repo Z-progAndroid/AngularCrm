@@ -37,7 +37,17 @@
         }
     }
 }
-
+.active {
+    background-color: #3265B9;
+    color: #fff!important;
+    border-radius: 1rem;
+    i{
+        color:#fff;
+    }
+    a{
+        color: #fff;
+    }
+}
 @media screen and (max-width: 800px) {
     .sidebar {
         display: none;
