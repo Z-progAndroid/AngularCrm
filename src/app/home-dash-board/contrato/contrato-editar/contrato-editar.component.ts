@@ -108,7 +108,7 @@ export class ContratoEditarComponent extends BaseComponent implements OnInit {
       }, error => Alerts.error('Error', 'Error al cargar combo inmuebles', error));
     }
     if (this.authService.isAdmin()) {
-      this.inmuebleService.findAll().subscribe((data) => {
+      this.inmuebleService.findAllSinRelaciones().subscribe((data) => {
         this.inmuebles = data;
       }, error => Alerts.error('Error', 'Error al cargar combo inmuebles', error));
     }

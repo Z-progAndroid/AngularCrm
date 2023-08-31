@@ -170,7 +170,7 @@ export class InmuebleComponent extends BaseComponent implements OnInit {
   }
   cargarInmuebles() {
     if (this.authService.isAdmin()) {
-      this.inmuebleService.findAll().subscribe(inmuebles => {
+      this.inmuebleService.findAllSinRelaciones().subscribe(inmuebles => {
         this.inmuebles = inmuebles;
       }, (error) => {
         Alerts.error('Error', 'Error al cargar los inmuebles', error);

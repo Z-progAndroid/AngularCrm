@@ -105,7 +105,7 @@ export class ContratoComponent extends BaseComponent implements OnInit {
         this.tipoPagos = data;
     }, error => Alerts.error('Error', 'Error al cargar combo tipo pagos', error));
     if (this.authService.isAdmin()) {
-      this.inmuebleService.findAll().subscribe((data) => {
+      this.inmuebleService.findAllSinRelaciones().subscribe((data) => {
         this.inmuebles = data;
       }, error => Alerts.error('Error', 'Error al cargar combo inmuebles', error));
     }
