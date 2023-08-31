@@ -132,7 +132,7 @@ export class CitaCrearComponent extends BaseComponent implements OnInit {
         return;
       }
       this.citaService.checkAvailability(this.cita.fechaIncio, this.cita.fechaFin, this.cita.idInmueble).subscribe((disponible: Mensaje) => {
-        if (!disponible.error) {
+        if (!disponible.error&&!this.isEdit) {
           Alerts.error('Error', disponible.mensaje, null);
           return;
         }

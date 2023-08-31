@@ -47,8 +47,7 @@ export class EstadoContratosComponent implements OnInit {
           this.estadocontratoForm.reset();
           return;
         }
-        this.estadocontratoService.save(this.estadoContrato).subscribe(
-          (data: Estadocontrato) => {
+        this.estadocontratoService.save(this.estadoContrato).subscribe((data: Estadocontrato) => {
             Alerts.success('Éxito', 'Estado guardado correctamente');
             this.cargarEstadosContrato();
             this.estadocontratoForm.reset();
