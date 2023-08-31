@@ -1,13 +1,9 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { InmuebleService } from '../services/inmueble.service';
 import { Inmueble } from '../models/inmueble';
 import { Alerts } from '../utils/Alerts';
-import { FormBuilder } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
-import { LoginRequest } from '../models/LoginRequest';
-const MOVIL_SIZE = 802;
+
 @Component({
   selector: 'app-stay-list',
   templateUrl: './stay-list.component.html',
@@ -18,7 +14,6 @@ export class StayListComponent implements OnInit {
   constructor(
     private inmuebleService: InmuebleService,
     private sanitizer: DomSanitizer,
-    private authService: AuthService,
   ) { }
   ngOnInit(): void {
     this.cargarInmuebles();

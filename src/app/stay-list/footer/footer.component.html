@@ -33,7 +33,6 @@
                 <div title="citas" class="color-icono"  *ngIf="logeado"  routerLink="/citas" role="button">
                     <i class="fas fa-calendar-day m-1"></i></div>
                 <div title="iniciar sesion" *ngIf="!logeado" class="color-icono"  routerLink="/login" role="button">
-                    <i class="fas fa-user-circle me-2"></i>
                     <i class="fas fa-arrow-right-to-bracket"></i>
                 </div>
                 <div title="cerrar sesion" *ngIf="logeado" class="color-icono" (click)="logout()" role="button">

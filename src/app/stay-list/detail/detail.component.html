@@ -35,7 +35,7 @@
                                     <mdb-form-control>
                                         <input mdbInput type="text" id="fechaInicio" name="fechaInicio"
                                             formControlName="fechaInicio" [daysDisabled]="[6,0]" [minDate]="minDate"
-                                            class="form-control" bsDatepicker>
+                                            class="form-control" bsDatepicker [bsConfig]="{containerClass:'theme-dark-blue'}">
                                         <label mdbLabel class="form-label" for="titulo">Fecha (*)</label>
                                     </mdb-form-control>
                                 </div>
