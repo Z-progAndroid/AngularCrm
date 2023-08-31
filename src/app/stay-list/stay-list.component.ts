@@ -19,7 +19,7 @@ export class StayListComponent implements OnInit {
     this.cargarInmuebles();
   }
   cargarInmuebles() {
-    this.inmuebleService.findAllSinRelaciones().subscribe((response: Inmueble[]) => {
+    this.inmuebleService.findAllDisponibles().subscribe((response: Inmueble[]) => {
       this.inmuebles = response.map(inmueble => {
         inmueble.imagenes = [];
         if (inmueble.imagen1) inmueble.imagenes.push(this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + inmueble.imagen1));

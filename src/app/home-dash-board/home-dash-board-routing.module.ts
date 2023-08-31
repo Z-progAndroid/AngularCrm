@@ -7,7 +7,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { EstadosComponent } from './estados/estados.component';
 import { InmuebleDetailComponent } from './inmueble/inmueble-detail/inmueble-detail.component';
 import { InmuebleComponent } from './inmueble/inmueble.component';
-import { SeguimientoComponent } from './seguimiento/seguimiento.component';
 import { TareaComponent } from './tarea/tarea.component';
 import { TiposComponent } from './tipos/tipos.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';

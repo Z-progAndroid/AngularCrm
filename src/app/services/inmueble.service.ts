@@ -36,6 +36,9 @@ export class InmuebleService {
   findAllSinRelaciones(): Observable<Inmueble[]> {
     return this.http.get<Inmueble[]>(`${environment.urlBase}inmueble/findAllRelaciones`);
   }
+  findAllDisponibles(): Observable<Inmueble[]> {
+    return this.http.get<Inmueble[]>(`${environment.urlBase}inmueble/findAllDisponibles`);
+  }
   generarInmuebleDetallePdf(idInmueble: Number): Observable<Blob> {
     const headers = new HttpHeaders({ RESPONSETYPE: 'arraybuffer' as 'json' });
     return this.http.get<Blob>(`${environment.urlBase}inmueble/download-pdf?idInmueble=${idInmueble}`, { headers, responseType: 'arraybuffer' as 'json' });
