@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TableColumn } from 'src/app/interfaces/table-column';
 import { TipoContrato } from 'src/app/models/tipo-contrato';
+import { AuthService } from 'src/app/services/auth.service';
 import { TipoContratoService } from 'src/app/services/tipo-contrato.service';
 import { Alerts } from 'src/app/utils/Alerts';
 import { Utils } from 'src/app/utils/Utils';
@@ -16,7 +17,8 @@ export class TipoContratosComponent {
   tiposContratos: TipoContrato[]
   constructor(
     private fb: FormBuilder,
-    private tipoContratoService: TipoContratoService
+    private tipoContratoService: TipoContratoService,
+    private authService: AuthService,
   ) { }
   tableColumns: TableColumn[] = [
     { name: 'ID', dataKey: 'idTipoContrato' },
@@ -59,7 +61,7 @@ export class TipoContratosComponent {
       ? new Date()
       : this.tipoContratoForm.get('fechaCreacion').value;
     tipoContrato.fechaModificacion = new Date();
-    tipoContrato.modificado = 'admin';
+    tipoContrato.modificado = this.authService.getUsername();
     return tipoContrato;
   }
   delete($event) {

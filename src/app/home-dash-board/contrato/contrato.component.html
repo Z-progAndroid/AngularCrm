@@ -1,4 +1,9 @@
 <div class="wrapper">
+    <div class="d-flex justify-content-center mb-1">
+        <div class="d-flex justify-content-center">
+            <h2>Contratos</h2>
+        </div>
+    </div>
     <div class="border rounded-6 p-3 bg-white shadow box-area">
         <div class="group-inputs">
             <form (submit)="busqueda()" [formGroup]="buscadorFrom">
@@ -15,14 +20,14 @@
                         <mdb-form-control>
                             <input mdbInput type="text" id="fechaInicio" name="fechaInicio"
                                 formControlName="fechaInicio" [daysDisabled]="[6,0]" class="form-control margin-form"
-                                bsDatepicker>
+                                bsDatepicker [bsConfig]="{containerClass:'theme-dark-blue'}">
                             <label mdbLabel class="form-label" for="fechaInicio">Fecha Inicio (*)</label>
                         </mdb-form-control>
                     </div>
                     <div class="col-12 col-md-6 col-lg-6">
                         <mdb-form-control>
                             <input mdbInput type="text" id="fechaFin" name="fechaFin" formControlName="fechaFin"
-                                [daysDisabled]="[6,0]" class="form-control margin-form" bsDatepicker>
+                                [daysDisabled]="[6,0]" class="form-control margin-form" bsDatepicker [bsConfig]="{containerClass:'theme-dark-blue'}">
                             <label mdbLabel class="form-label" for="fechaFin">Fecha Fin (*)</label>
                         </mdb-form-control>
                     </div>
@@ -38,7 +43,7 @@
                 </div>
                 <div class="row d-flex align-items-center my-1">
                     <div class="col-12 col-md-6">
-                        <div class="floating-label ng-select-js margin-form" style="width: 100%; ">
+                        <div class="floating-label ng-select-js margin-form w-100">
                             <ng-select [clearable]="false" formControlName="idTipoContrato"
                                 class="form-control floating-label-select" [searchable]="true">
                                 <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
@@ -51,7 +56,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <div class="floating-label ng-select-js margin-form" style="width: 100%;">
+                        <div class="floating-label ng-select-js margin-form w-100">
                             <ng-select [clearable]="false" formControlName="idTipoPago"
                                 class="form-control floating-label-select" [searchable]="true">
                                 <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
@@ -65,7 +70,7 @@
                 </div>
                 <div class="row d-flex align-items-center my-1">
                     <div class="col-12 col-md-4">
-                        <div class="floating-label ng-select-js margin-form" style="width: 100%; ">
+                        <div class="floating-label ng-select-js margin-form w-100">
                             <ng-select [clearable]="false" formControlName="idEstadoContrato"
                                 class="form-control floating-label-select" [searchable]="true">
                                 <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
@@ -78,7 +83,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-4">
-                        <div class="floating-label ng-select-js margin-form" style="width: 100%;">
+                        <div class="floating-label ng-select-js margin-form w-100">
                             <ng-select [clearable]="false" formControlName="idInmueble"
                                 class="form-control floating-label-select" [searchable]="true">
                                 <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
@@ -90,7 +95,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-4">
-                        <div class="floating-label ng-select-js margin-form" style="width: 100%;">
+                        <div class="floating-label ng-select-js margin-form w-100">
                             <ng-select [clearable]="false" formControlName="idCliente"
                                 class="form-control floating-label-select" [searchable]="true">
                                 <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
@@ -113,7 +118,7 @@
             </button>
         </div>
     </div>
-    <div class="d-flex justify-content-end mx-5 my-3">
+    <div  class="d-flex justify-content-end mx-5 my-3">
         <a routerLink="/home-dashboard/contrato/crear" mdbBtn color="primary" class="btn btn-primary btn-lg">
             +<i class="fa-file-contract fas mx-2"></i>Nuevo contrato
         </a>

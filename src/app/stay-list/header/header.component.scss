@@ -72,8 +72,7 @@
         font-size: 1.5rem;
     }
 }
-
-@media screen and (max-width: 903px) {
+@media screen and (max-width: 1038px) {
     nav {
         img {
             width: 600px !important;
@@ -81,7 +80,8 @@
         }
     }
 }
-@media screen and (max-width: 768px) {
+
+@media screen and (max-width: 939px) {
     nav {
         img {
             width: 500px !important;
@@ -89,7 +89,7 @@
         }
     }
 }
-@media screen and (max-width: 703px) {
+@media screen and (max-width: 840px) {
     nav {
         img {
             width: 450px !important;
@@ -97,7 +97,6 @@
         }
     }
 }
-
 @media screen and (max-width: 617px) {
     nav {
         img {

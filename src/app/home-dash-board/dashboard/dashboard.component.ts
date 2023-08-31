@@ -4,6 +4,7 @@ import { ChartService } from 'src/app/services/chart.service';
 import { Chart, ChartConfiguration, ChartItem, registerables } from 'node_modules/chart.js'
 import { GraficoService } from 'src/app/services/graficoService';
 import { Grafico } from 'src/app/models/grafico';
+import { AuthService } from 'src/app/services/auth.service';
 
 const GRAFICO_CONTRATO = "contratosGraph";
 const GRAFICO_CONTRATO_PARRAFO = "contratosGraphParagraph";
@@ -22,26 +23,30 @@ const GRAFICO_VISITAS_PARRAFO = "visitasGraphParagraph";
 })
 export class DashboardComponent implements OnInit {
   responsiveClass: any;
-  private etiquetasContratos: string[] = ['Pendientes', 'Vigentes', 'Cancelados'];
   colores: string[] = ['#001f3f', '#003366', '#004080', '#0059b3', '#0073e6', '#3385ff', '#66a3ff', '#99c2ff', '#cce0ff', '#e6f5ff'];
   constructor(
     private chartService: ChartService,
-    private graficoService: GraficoService
+    private graficoService: GraficoService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    this.graficoService.graficoAdmin().subscribe((grafico: Grafico) => {
-      this.generarGrafico(grafico);
-    }); 
-
-    // this.graficoService.graficoAgente(2).subscribe((grafico: Grafico) => {
-    //   this.generarGrafico(grafico);
-    // });
+    if (this.authService.isAdmin()) {
+      this.graficoService.graficoAdmin().subscribe((grafico: Grafico) => {
+        this.generarGrafico(grafico);
+      });
+    }
+    if (this.authService.isAgent()) {
+      this.graficoService.graficoAgente(this.authService.getIdUsuario()).subscribe((grafico: Grafico) => {
+        this.generarGrafico(grafico);
+      });
+    }
   }
   openAside(responsiveClass: any) {
     this.responsiveClass = responsiveClass;
   }
   generarGrafico(grafico: Grafico) {
+    console.log("🚀 ~ file: dashboard.component.ts:49 ~ DashboardComponent ~ generarGrafico ~ grafico:", grafico)
     this.chartService.doughnut(Object.keys(grafico?.contratos)
       , Object.values(grafico?.contratos)
       , this.colores.slice(0, Object.keys(grafico.contratos).length)

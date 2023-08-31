@@ -1,4 +1,9 @@
 <div class="wrapper">
+    <div class="d-flex justify-content-center mb-1">
+        <div class="d-flex justify-content-center">
+            <h2>Citas Detalle</h2>
+        </div>
+    </div>
     <div class="border rounded-6 p-3 bg-white shadow box-area">
         <div class="group-inputs">
             <form (submit)="submit()" [formGroup]="citaFrom">
@@ -19,7 +24,7 @@
                         <mdb-form-control>
                             <input mdbInput type="text" id="fechaInicio" name="fechaInicio"
                                 formControlName="fechaInicio" [daysDisabled]="[6,0]" [minDate]="minDate"
-                                class="form-control" bsDatepicker>
+                                class="form-control" bsDatepicker [bsConfig]="{containerClass:'theme-dark-blue'}">
                             <label mdbLabel class="form-label" for="titulo">Fecha Inicio (*)</label>
                         </mdb-form-control>
                     </div>
@@ -46,7 +51,7 @@
                         <mdb-form-control>
                             <input mdbInput type="text" id="fechaFin" name="fechaFin" formControlName="fechaFin"
                                 [daysDisabled]="[6,0]" [minDate]="minDate" class="form-control margin-form"
-                                bsDatepicker>
+                                bsDatepicker [bsConfig]="{containerClass:'theme-dark-blue'}">
                             <label mdbLabel class="form-label" for="fechaFin">Fecha Fin (*)</label>
                         </mdb-form-control>
                     </div>
@@ -82,7 +87,7 @@
                 </div>
                 <div class="row d-flex align-items-center my-1">
                     <div class="col-12 col-md-6">
-                        <div class="floating-label ng-select-js margin-form" style="width: 100%; ">
+                        <div class="floating-label ng-select-js margin-form w-100">
                             <ng-select [clearable]="false" formControlName="idTipoCita"
                                 class="form-control floating-label-select" [searchable]="true">
                                 <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
@@ -94,7 +99,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <div class="floating-label ng-select-js margin-form" style="width: 100%;">
+                        <div class="floating-label ng-select-js margin-form w-100">
                             <ng-select [clearable]="false" formControlName="idEstadoCita"
                                 class="form-control floating-label-select" [searchable]="true">
                                 <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
@@ -116,7 +121,7 @@
                 </div>
                 <div class="row d-flex align-items-center">
                     <div class="col-12 col-md-6">
-                        <div class="floating-label ng-select-js margin-form" style="width: 100%;">
+                        <div class="floating-label ng-select-js margin-form w-100">
                             <ng-select [clearable]="false" formControlName="idInmueble"
                                 class="form-control floating-label-select" [searchable]="true">
                                 <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
@@ -128,7 +133,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <div class="floating-label ng-select-js margin-form" style="width: 100%;">
+                        <div class="floating-label ng-select-js margin-form w-100">
                             <ng-select [clearable]="false" formControlName="idUsuarioCliente"
                                 class="form-control floating-label-select" [searchable]="true">
                                 <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
@@ -153,25 +158,25 @@
                 <div class="row" *ngIf="isEdit">
                     <div class="col-12 col-md-4 col-lg-4">
                         <button type="button" routerLink="/home-dashboard/cita"
-                            class="btn btn-primary btn-block margin-form">Volver</button>
+                            class="btn btn-secondary btn-block margin-form"><i class="fas fa-arrow-rotate-left mx-2"></i>Volver</button>
                     </div>
                     <div class="col-12 col-md-4 col-lg-4">
                         <button type="button" (click)="borrarCita()"
-                            class="btn btn-primary btn-block margin-form">Borrar</button>
+                            class="btn btn-danger btn-block margin-form"><i class="fas fa-trash mx-2"></i>Borrar</button>
                     </div>
                     <div class="col-12 col-md-4 col-lg-4">
                         <button type="submit" [disabled]="citaFrom.invalid||citaFrom.disabled"
-                            class="btn btn-primary btn-block margin-form">Guardar</button>
+                            class="btn btn-primary btn-block margin-form"><i class="fas fa-floppy-disk mx-2"></i>Guardar</button>
                     </div>
                 </div>
                 <div class="row" *ngIf="!isEdit">
                     <div class="col-12 col-md-6 col-lg-6">
                         <button type="button" routerLink="/home-dashboard/cita"
-                            class="btn btn-primary btn-block margin-form">Volver</button>
+                            class="btn btn-secondary btn-block margin-form"><i class="fas fa-arrow-rotate-left mx-2"></i>Volver</button>
                     </div>
                     <div class="col-12 col-md-6 col-lg-6">
                         <button type="submit" [disabled]="citaFrom.invalid||citaFrom.disabled"
-                            class="btn btn-primary btn-block margin-form">Guardar</button>
+                            class="btn btn-primary btn-block margin-form"><i class="fas fa-floppy-disk mx-2"></i>Guardar</button>
                     </div>
                 </div>
             </form>

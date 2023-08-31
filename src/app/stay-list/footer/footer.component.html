@@ -1,4 +1,4 @@
-<nav class="navbar  fixed-bottom navbar-light bg-light w-100 container-fluid p-0">
+<nav class="fixed-bottom navbar navbar-light bg-light w-100 container-fluid p-0">
     <footer *ngIf="!isMobileResize" class="text-center text-lg-start bg-light text-muted w-100">
         <section class="seccion-footer">
             <div class="container text-center text-md-start  p-0">
@@ -12,26 +12,32 @@
                         </p>
                     </div>
                     <div *ngFor="let d of direcciones" class="col-md-3 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-0 p-0">
-                            <h6 class="text-uppercase fw-bold mb-1">{{d.titulo}}</h6>
-                            <p class="m-0"><i class="{{d.direccionIcon}}"></i><a href="{{d.linkDireccion}}" target="{{d.linkDireccionTarget}}">{{d.direccion}}</a></p>
-                            <p class="m-0"><i class="{{d.emailIcon}}"></i>{{d.email}}</p>
-                            <p class="m-0"><i class="{{d.telfonnoIcon}}"></i> {{d.telefono}}</p>
+                        <h6 class="text-uppercase fw-bold mb-1">{{d.titulo}}</h6>
+                        <p class="m-0"><i class="{{d.direccionIcon}}"></i><a href="{{d.linkDireccion}}"
+                                target="{{d.linkDireccionTarget}}">{{d.direccion}}</a></p>
+                        <p class="m-0"><i class="{{d.emailIcon}}"></i>{{d.email}}</p>
+                        <p class="m-0"><i class="{{d.telfonnoIcon}}"></i> {{d.telefono}}</p>
                     </div>
                 </div>
             </div>
         </section>
         <div class="text-center p-0 fondo-footer">
-            <span class="text-reset fw-bold">{{copyright}}</span> 
+            <span class="text-reset fw-bold">{{copyright}}</span>
         </div>
     </footer>
     <footer *ngIf="isMobileResize" class="text-center text-lg-start bg-light text-muted w-100">
         <section class="seccion-footer">
-            <div class="container text-center text-md-start mt-5 p-0">
-                <div class="row mt-3 p-0">
-                    <div *ngFor="let m of movilFooter" class="col-2 mx-auto mb-md-0 mb-0 p-0 text-center">
-                            <i class="{{m.icon}}"></i>
-                            <p>{{m.titulo}}</p>
-                    </div>
+            <div class="container text-center text-md-start mt-5 mb-3 p-0 d-flex align-items-center justify-content-around flex-row flex-sm-row flex-md-row">
+                <div title="explorar" class="color-icono"  routerLink="/listado" role="button">
+                    <i class="fas fas fa-magnifying-glass m-1"></i></div>
+                <div title="citas" class="color-icono"  *ngIf="logeado"  routerLink="/citas" role="button">
+                    <i class="fas fa-calendar-day m-1"></i></div>
+                <div title="iniciar sesion" *ngIf="!logeado" class="color-icono"  routerLink="/login" role="button">
+                    <i class="fas fa-arrow-right-to-bracket"></i>
+                </div>
+                <div title="cerrar sesion" *ngIf="logeado" class="color-icono" (click)="logout()" role="button">
+                    <i class="fas fa-user-circle me-2"></i>
+                    <i class="fas fas fa-sign-out-alt"></i>
                 </div>
             </div>
         </section>

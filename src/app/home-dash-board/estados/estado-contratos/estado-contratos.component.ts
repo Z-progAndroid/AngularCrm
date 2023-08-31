@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TableColumn } from 'src/app/interfaces/table-column';
 import { Estadocontrato } from 'src/app/models/estadocontrato';
+import { AuthService } from 'src/app/services/auth.service';
 import { EstadoContratoService } from 'src/app/services/estado-contrato.service';
 import { Alerts } from 'src/app/utils/Alerts';
 import { Utils } from 'src/app/utils/Utils';
@@ -23,6 +24,7 @@ export class EstadoContratosComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private estadocontratoService: EstadoContratoService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -45,8 +47,7 @@ export class EstadoContratosComponent implements OnInit {
           this.estadocontratoForm.reset();
           return;
         }
-        this.estadocontratoService.save(this.estadoContrato).subscribe(
-          (data: Estadocontrato) => {
+        this.estadocontratoService.save(this.estadoContrato).subscribe((data: Estadocontrato) => {
             Alerts.success('Éxito', 'Estado guardado correctamente');
             this.cargarEstadosContrato();
             this.estadocontratoForm.reset();
@@ -76,7 +77,7 @@ export class EstadoContratosComponent implements OnInit {
       ? new Date()
       : this.estadocontratoForm.get('fechaCreacion').value;
     estadoContrato.fechaModificacion = new Date();
-    estadoContrato.modificado = 'N';
+    estadoContrato.modificado = this.authService.getUsername();;
     return estadoContrato;
   }
 

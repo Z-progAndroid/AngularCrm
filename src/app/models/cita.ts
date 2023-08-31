@@ -11,4 +11,6 @@ export class Cita {
     idEstadoCita: number;
     idInmueble: number;
     idUsuarioCliente: number;
+    tipoCita: string
+    estadoCita:string
 }

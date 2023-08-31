@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Cita } from "../models/cita";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { CrudService } from "../interfaces/CrudService";
 import { Observable } from "rxjs";
 import { Mensaje } from "../models/mensaje";
@@ -33,5 +33,15 @@ export class CitasService implements CrudService<Cita>{
     }
     findAllPendienteYActivas(): Observable<Cita[]> {
         return this.http.get<Cita[]>(`${environment.urlBase}cita/pendientesYActivas`);
+    }
+    citasUsuarioNoEliminadas(idUsuario:number): Observable<Cita[]> {
+        return this.http.get<Cita[]>(`${environment.urlBase}cita/citasUsuarioNoEliminadas?idUsuario=${idUsuario}`);
+    }
+    citasCreadasParaElAgente(idUsuario:number): Observable<Cita[]> {
+        return this.http.get<Cita[]>(`${environment.urlBase}cita/citasCreadasParaElAgente?idUsuario=${idUsuario}`);
+    }
+    generarCitaPdf(idCita: Number): Observable<Blob> {
+        const headers = new HttpHeaders({ RESPONSETYPE: 'arraybuffer' as 'json' });
+        return this.http.get<Blob>(`${environment.urlBase}cita/download-pdf?idCita=${idCita}`, { headers, responseType: 'arraybuffer' as 'json' });
     }
 }

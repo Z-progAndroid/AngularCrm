@@ -1,7 +1,7 @@
 <div class="wrapper">
     <div class="d-flex justify-content-center">
         <div class="d-flex justify-content-center">
-            <h2>Inmueble</h2>
+            <h2>Inmueble Detalle</h2>
         </div>
     </div>
     <div class="border rounded-6 p-3 bg-white shadow box-area">
@@ -103,9 +103,9 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-around flex-md-column flex-sm-column flex-column gap-2 margin-form">
-                    <div class="floating-label ng-select-js" style="width: 100%;">
-                        <ng-select [clearable]="false" formControlName="idTipoInmueble" class="form-control floating-label-select"
-                            [searchable]="true">
+                    <div class="floating-label ng-select-js w-100">
+                        <ng-select [clearable]="false" formControlName="idTipoInmueble"
+                            class="form-control floating-label-select" [searchable]="true">
                             <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
                             <ng-option *ngFor="let tipoInmueble of tiposInmueble" [value]="tipoInmueble.id">
                                 {{tipoInmueble.tipo}}</ng-option>
@@ -118,9 +118,9 @@
                             *ngIf="inmuebleForm.get('idTipoInmueble').errors && inmuebleForm.get('idTipoInmueble').errors.seleccionarOpcion">
                             Por favor, selecciona una opción válida.</span>
                     </div>
-                    <div class="floating-label ng-select-js" style="width: 100%;">
-                        <ng-select [clearable]="false" formControlName="idEstadoInmueble" class="form-control floating-label-select"
-                            [searchable]="true">
+                    <div class="floating-label ng-select-js w-100">
+                        <ng-select [clearable]="false" formControlName="idEstadoInmueble"
+                            class="form-control floating-label-select" [searchable]="true">
                             <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
                             <ng-option *ngFor="let estadoInmueble of estadosInmueble"
                                 [value]="estadoInmueble.idEstadoInmueble">{{estadoInmueble.estado}}</ng-option>
@@ -133,9 +133,9 @@
                             *ngIf="inmuebleForm.get('idEstadoInmueble').errors && inmuebleForm.get('idEstadoInmueble').errors.seleccionarOpcion">
                             Por favor, selecciona una opción válida.</span>
                     </div>
-                    <div class="floating-label ng-select-js" style="width: 100%;">
-                        <ng-select [clearable]="false" formControlName="idUsuario" class="form-control floating-label-select"
-                            [searchable]="true">
+                    <div class="floating-label ng-select-js w-100">
+                        <ng-select [clearable]="false" formControlName="idUsuario"
+                            class="form-control floating-label-select" [searchable]="true">
                             <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
                             <ng-option *ngFor="let usuario of usuarios" [value]="usuario.idUsuario">
                                 {{usuario.nombre}} {{usuario.apellido}}</ng-option>
@@ -150,10 +150,11 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-around flex-md-row responsive-selects flex-sm-column flex-column gap-2 margin-form">
-                <div class="floating-label ng-select-js" style="width: 100%;">
-                    <ng-select [clearable]="false" formControlName="idPais" class="form-control floating-label-select" [searchable]="true"
-                        (change)="changePais(inmuebleForm.get('idPais').value)">
+            <div
+                class="d-flex justify-content-around flex-md-row responsive-selects flex-sm-column flex-column gap-2 margin-form">
+                <div class="floating-label ng-select-js w-100">
+                    <ng-select [clearable]="false" formControlName="idPais" class="form-control floating-label-select"
+                        [searchable]="true" (change)="changePais(inmuebleForm.get('idPais').value)">
                         <ng-option [value]="''">SELECCIONA UNA OPCIÓN</ng-option>
                         <ng-option *ngFor="let pais of paises" [value]="pais.idPais">{{pais.pais}}</ng-option>
                     </ng-select>
@@ -165,9 +166,10 @@
                         *ngIf="inmuebleForm.get('idPais').errors && inmuebleForm.get('idPais').errors.seleccionarOpcion">
                         Por favor, selecciona una opción válida.</span>
                 </div>
-                <div class="floating-label ng-select-js" style="width: 100%;">
-                    <ng-select [clearable]="false" formControlName="idProvincia" class="form-control floating-label-select"
-                        [searchable]="true" (change)="changeProvincia(inmuebleForm.get('idProvincia').value)">
+                <div class="floating-label ng-select-js w-100">
+                    <ng-select [clearable]="false" formControlName="idProvincia"
+                        class="form-control floating-label-select" [searchable]="true"
+                        (change)="changeProvincia(inmuebleForm.get('idProvincia').value)">
                         <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
                         <ng-option *ngFor="let provincia of provincias" [value]="provincia.idProvincia">
                             {{provincia.provincia}}</ng-option>
@@ -180,9 +182,10 @@
                         *ngIf="inmuebleForm.get('idProvincia').errors && inmuebleForm.get('idProvincia').errors.seleccionarOpcion">
                         Por favor, selecciona una opción válida.</span>
                 </div>
-                <div class="floating-label ng-select-js" style="width: 100%;">
-                    <ng-select [clearable]="false" formControlName="idMunicipio" class="form-control floating-label-select"
-                        [searchable]="true" (change)="changeMunicipio(inmuebleForm.get('idMunicipio').value)">
+                <div class="floating-label ng-select-js w-100">
+                    <ng-select [clearable]="false" formControlName="idMunicipio"
+                        class="form-control floating-label-select" [searchable]="true"
+                        (change)="changeMunicipio(inmuebleForm.get('idMunicipio').value)">
                         <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
                         <ng-option *ngFor="let municipio of municipios" [value]="municipio.idMunicipio">
                             {{municipio.municipio}}</ng-option>
@@ -195,9 +198,9 @@
                         *ngIf="inmuebleForm.get('idMunicipio').touched&&inmuebleForm.get('idMunicipio').errors && inmuebleForm.get('idMunicipio').errors.seleccionarOpcion">
                         Por favor, selecciona una opción válida.</span>
                 </div>
-                <div class="floating-label ng-select-js" style="width: 100%;">
-                    <ng-select [clearable]="false" formControlName="idBarrio" class="form-control floating-label-select" [searchable]="true"
-                        (change)="changeMunicipio(inmuebleForm.get('idMunicipio').value)">
+                <div class="floating-label ng-select-js w-100">
+                    <ng-select [clearable]="false" formControlName="idBarrio" class="form-control floating-label-select"
+                        [searchable]="true" (change)="changeMunicipio(inmuebleForm.get('idMunicipio').value)">
                         <ng-option [value]="0">SELECCIONA UNA OPCIÓN</ng-option>
                         <ng-option *ngFor="let barrio of barrios"
                             [value]="barrio.idBarrio">{{barrio.barrio}}</ng-option>
@@ -227,16 +230,19 @@
                             <label class="form-label" for="img1">Portada (*)</label>
                             <input type="file" accept="image/png,image/jpeg" (change)="validateImage($event.target)"
                                 class="form-control" id="img1" formControlName="img1" />
-                            <span class="text-danger" *ngIf="inmuebleForm.get('img1').invalid && inmuebleForm.get('img1').touched">
+                            <span class="text-danger"
+                                *ngIf="inmuebleForm.get('img1').invalid && inmuebleForm.get('img1').touched">
                                 La imagen de portada es obligatoria
                             </span>
-                            <span class="text-danger" *ngIf="inmuebleForm.get('img1').invalid && inmuebleForm.get('img1').errors?.imageValidator">
+                            <span class="text-danger"
+                                *ngIf="inmuebleForm.get('img1').invalid && inmuebleForm.get('img1').errors?.imageValidator">
                                 La imagen debe ser de tipo jpg, jpeg, png o gif
                             </span>
                         </div>
                     </ng-container>
                     <ng-container *ngIf="hayImg1">
-                        <div class="imagen-inmueble margin-form col-12 col-sm-12 col-md-6 margin-form d-flex justify-content-center">
+                        <div
+                            class="imagen-inmueble margin-form col-12 col-sm-12 col-md-6 margin-form d-flex justify-content-center">
                             <img [src]="imagenes[0]" class="d-block w-100" alt="portada" />
                             <button type="button" class="btn btn-danger btn-floating"
                                 (click)="deleteImagen(1, this.inmuebleForm.get('idInmueble').value)">
@@ -258,7 +264,8 @@
                         </div>
                     </ng-container>
                     <ng-container *ngIf="hayImg2">
-                        <div class="imagen-inmueble margin-form col-12 col-sm-12 col-md-6 margin-form d-flex justify-content-center">
+                        <div
+                            class="imagen-inmueble margin-form col-12 col-sm-12 col-md-6 margin-form d-flex justify-content-center">
                             <img [src]="imagenes[1]" class="d-block w-100" alt="Imagen 2" />
                             <button type="button" class="btn btn-danger btn-floating"
                                 (click)="deleteImagen(2, this.inmuebleForm.get('idInmueble').value)">
@@ -281,7 +288,8 @@
                     </div>
                 </ng-container>
                 <ng-container *ngIf="hayImg3">
-                    <div class="imagen-inmueble margin-form col-12 col-sm-12 col-md-6 margin-form d-flex justify-content-center">
+                    <div
+                        class="imagen-inmueble margin-form col-12 col-sm-12 col-md-6 margin-form d-flex justify-content-center">
                         <img [src]="imagenes[2]" class="d-block w-100" alt="Imagen  3" />
                         <button type="button" class="btn btn-danger btn-floating"
                             (click)="deleteImagen(3, this.inmuebleForm.get('idInmueble').value)">
@@ -301,7 +309,8 @@
                     </div>
                 </ng-container>
                 <ng-container *ngIf="hayImg4">
-                    <div class="imagen-inmueble margin-form col-12 col-sm-12 col-md-6 margin-form d-flex justify-content-center">
+                    <div
+                        class="imagen-inmueble margin-form col-12 col-sm-12 col-md-6 margin-form d-flex justify-content-center">
                         <img [src]="imagenes[3]" class="d-block w-100" alt="Imagen  4" />
                         <button type="button" class="btn btn-danger btn-floating"
                             (click)="deleteImagen(4, this.inmuebleForm.get('idInmueble').value)">
@@ -318,11 +327,12 @@
             <div class="row margin-form">
                 <div class="col-12 col-sm-12 col-md-6 margin-form ">
                     <a routerLink="/home-dashboard/inmueble" mdbBtn type="button" id="btnVolver"
-                        class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Volver</a>
+                        class="btn btn-secondary btn-lg btn-block" mdbWavesEffect> <i
+                            class="fas fa-arrow-rotate-left mx-2"></i>Volver</a>
                 </div>
                 <div class="col-12 col-sm-12 col-md-6 margin-form ">
                     <button mdbBtn type="submit" [disabled]="inmuebleForm.invalid || botonSave" id="btnSave"
-                        class="btn btn-primary btn-lg btn-block" mdbWavesEffect>Guardar</button>
+                        class="btn btn-primary btn-lg btn-block" mdbWavesEffect><i class="fas fa-floppy-disk mx-2"></i>Guardar</button>
                 </div>
             </div>
         </form>

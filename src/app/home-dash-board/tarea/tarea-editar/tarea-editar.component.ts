@@ -13,6 +13,7 @@ import { CustomValidators } from 'src/app/utils/CustomValidators';
 import { Utils } from 'src/app/utils/Utils';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 defineLocale('es', esLocale);
 @Component({
   selector: 'app-tarea-editar',
@@ -32,7 +33,8 @@ export class TareaEditarComponent extends BaseComponent implements OnInit {
     private tareaService: TareaService,
     private localeService: BsLocaleService,
     private router: Router,
-    private rutaActiva: ActivatedRoute
+    private rutaActiva: ActivatedRoute,
+    private authService: AuthService,
   ) {
     super();
   }
@@ -80,7 +82,7 @@ export class TareaEditarComponent extends BaseComponent implements OnInit {
     this.estadoTareaService.findAll().subscribe((estados: EstadoTarea[]) => {
       this.estadosTarea = estados;
     }, error => Alerts.error('Error', 'Error al cargar los estados de tarea', error));
-    this.usuarioService.findAll().subscribe((usuarios: User[]) => {
+    this.usuarioService.findAllUserAdminORAgente().subscribe((usuarios: User[]) => {
       this.usuarios = usuarios;
     }, error => Alerts.error('Error', 'Error al cargar los usuarios', error));
   }
@@ -95,7 +97,7 @@ export class TareaEditarComponent extends BaseComponent implements OnInit {
       ? new Date()
       : this.tareaFrom.get('fechaCreacion').value;
     tarea.fechaModificacion = new Date();
-    tarea.modificado = 'aa';
+    tarea.modificado = this.authService.getUsername();
     tarea.idEstadoTarea = this.tareaFrom.get('idEstadoTarea').value;
     tarea.idUsuario = this.tareaFrom.get('idUsuario').value;
     return tarea;

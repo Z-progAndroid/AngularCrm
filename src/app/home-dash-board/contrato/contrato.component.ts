@@ -19,6 +19,7 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { TableColumn } from 'src/app/interfaces/table-column';
 import { Router } from '@angular/router';
 import { Utils } from 'src/app/utils/Utils';
+import { AuthService } from 'src/app/services/auth.service';
 defineLocale('es', esLocale);
 
 @Component({
@@ -50,7 +51,8 @@ export class ContratoComponent extends BaseComponent implements OnInit {
     private usuarioService: UsuarioService,
     private contratoService: ContratoService,
     private localeService: BsLocaleService,
-    private router: Router
+    private router: Router,
+    private authService:AuthService
   ) {
     super();
   }
@@ -96,31 +98,40 @@ export class ContratoComponent extends BaseComponent implements OnInit {
       });
   }
   cargarCombos() {
-    this.tipoContratoService.findAll().subscribe(
-      (data) => {
+    this.tipoContratoService.findAll().subscribe((data) => {
         this.tipoContratos = data;
       }, error => Alerts.error('Error', 'Error al cargar combo tipo contrato', error));
-    this.tipoPagoService.findAll().subscribe(
-      (data) => {
+    this.tipoPagoService.findAll().subscribe((data) => {
         this.tipoPagos = data;
-      }, error => Alerts.error('Error', 'Error al cargar combo tipo pagos', error));
-    this.inmuebleService.findAll().subscribe(
-      (data) => {
+    }, error => Alerts.error('Error', 'Error al cargar combo tipo pagos', error));
+    if (this.authService.isAdmin()) {
+      this.inmuebleService.findAllSinRelaciones().subscribe((data) => {
         this.inmuebles = data;
       }, error => Alerts.error('Error', 'Error al cargar combo inmuebles', error));
-    this.estadoContratoService.findAll().subscribe(
-      (data) => {
+    }
+    if (this.authService.isAgent()) { 
+      this.inmuebleService.obtenerInmueblesPorUsuario(this.authService.getIdUsuario()).subscribe((data) => {
+        this.inmuebles = data;
+      }, error => Alerts.error('Error', 'Error al cargar combo inmuebles', error));
+    }
+    this.estadoContratoService.findAll().subscribe((data) => {
         this.estadosContrato = data;
       }, error => Alerts.error('Error', 'Error al cargar  combo estados', error));
-    this.usuarioService.findAllClientes().subscribe(
-      (data) => {
+    this.usuarioService.findAllClientes().subscribe((data) => {
         this.usuarios = data;
       }, error => Alerts.error('Error', 'Error al cargar combo clientes', error));
   }
   cargarContratos() {
-    this.contratoService.findAll().subscribe((data) => {
-      this.contratos = data;
-    }, error => Alerts.error('Error', 'Error al cargar contratos', error));
+    if (this.authService.isAdmin()) {
+      this.contratoService.findAll().subscribe((data) => {
+        this.contratos = data;
+      }, error => Alerts.error('Error', 'Error al cargar contratos', error));
+    }
+    if (this.authService.isAgent()) {
+      this.contratoService.obtenerContratosPorUsuario(this.authService.getIdUsuario()).subscribe((data) => {
+        this.contratos = data;
+      }, error => Alerts.error('Error', 'Error al cargar contratos', error));
+    }
   }
   private get contrato(): Contrato {
     let contrato = new Contrato();
@@ -133,6 +144,7 @@ export class ContratoComponent extends BaseComponent implements OnInit {
     contrato.idInmueble = this.buscadorFrom.get('idInmueble').value
     contrato.idEstadoContrato = this.buscadorFrom.get('idEstadoContrato').value
     contrato.cliente = this.buscadorFrom.get('idCliente').value
+    contrato.noestadoEliminado = this.authService.isAgent() ? true : false;
     return contrato;
   }
   delete($event) {
@@ -162,5 +174,4 @@ export class ContratoComponent extends BaseComponent implements OnInit {
   edit($event) {
     this.router.navigate(['/home-dashboard/contrato/editar', $event.idContrato]);
   }
-
 }

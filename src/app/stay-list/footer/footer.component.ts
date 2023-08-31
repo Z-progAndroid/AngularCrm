@@ -1,4 +1,6 @@
 import { Component, HostListener, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 const MOVIL_SIZE = 802;
 @Component({
   selector: 'app-footer',
@@ -10,6 +12,7 @@ export class FooterComponent {
   copyright: string = '© 2023 Inmozara';
   tituloContacto: string = 'Contacto';
   isMobileResize: boolean = false;
+  logeado: boolean = false;
   redesSociales: any[] = [
     {
       nombre: 'Facebook',
@@ -59,9 +62,12 @@ export class FooterComponent {
       emailIcon: "fas fa-envelope me-1 color-icono",
     }
   ];
-  movilFooter: any[] = [{ icon: "fas fa-magnifying-glass color-icono me-1", titulo: 'Explora' },{ icon: "fas fa-circle-user color-icono me-1", titulo: 'Iniciar sesión' },];
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
   ngOnInit(): void {
+    this.logeado = this.authService.getToken() ? true : false;
     this.getScreenSize();
   }
 
@@ -70,5 +76,8 @@ export class FooterComponent {
     this.isMobileResize = window?.innerWidth < MOVIL_SIZE
       ? true
       : false;
+  }
+  logout(): void {
+    this.authService.logout();
   }
 }

@@ -19,6 +19,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Mensaje } from 'src/app/models/mensaje';
 import { Cita } from 'src/app/models/cita';
 import { CitasService } from 'src/app/services/citas.service';
+import { AuthService } from 'src/app/services/auth.service';
 defineLocale('es', esLocale);
 @Component({
   selector: 'app-cita-crear',
@@ -44,6 +45,7 @@ export class CitaCrearComponent extends BaseComponent implements OnInit {
     private citaService: CitasService,
     private router: Router,
     private rutaActiva: ActivatedRoute,
+    private authService: AuthService,
   ) { super(); }
 
   ngOnInit(): void {
@@ -86,12 +88,20 @@ export class CitaCrearComponent extends BaseComponent implements OnInit {
     this.estadoCitaService.findAll().subscribe(estadosCita => {
       this.estadosCita = estadosCita;
     }, error => Alerts.error('Error', 'Error al cargar los estados de cita', error));
-    this.inmuebleService.findAll().subscribe(inmuebles => {
-      this.inmuebles = inmuebles;
-    }, error => Alerts.error('Error', 'Error al cargar los inmuebles', error));
     this.usuarioService.findAllClientes().subscribe(clientes => {
       this.clientes = clientes;
     }, error => Alerts.error('Error', 'Error al cargar los clientes', error));
+    if(this.authService.isAdmin()){
+      this.inmuebleService.findAllSinRelaciones().subscribe(inmuebles => {
+        this.inmuebles = inmuebles;
+      }, error => Alerts.error('Error', 'Error al cargar los inmuebles', error));
+    }
+    if(this.authService.isAgent()){
+      this.inmuebleService.obtenerInmueblesPorUsuario(this.authService.getIdUsuario()).subscribe(inmuebles => {
+        this.inmuebles = inmuebles;
+      }, error => Alerts.error('Error', 'Error al cargar los inmuebles', error));
+    }
+    
   }
   crearFormulario() {
     this.citaFrom = this.fb.group({
@@ -122,7 +132,7 @@ export class CitaCrearComponent extends BaseComponent implements OnInit {
         return;
       }
       this.citaService.checkAvailability(this.cita.fechaIncio, this.cita.fechaFin, this.cita.idInmueble).subscribe((disponible: Mensaje) => {
-        if (!disponible.error) {
+        if (!disponible.error&&!this.isEdit) {
           Alerts.error('Error', disponible.mensaje, null);
           return;
         }
@@ -180,7 +190,7 @@ export class CitaCrearComponent extends BaseComponent implements OnInit {
       ? new Date()
       : this.citaFrom.get('fechaCreacion').value;
     cita.fechaModificacion = new Date();
-    cita.modificado = 'admin';
+    cita.modificado = this.authService.getUsername();
     cita.idTipoCita = this.citaFrom.get('idTipoCita').value;
     cita.idEstadoCita = this.citaFrom.get('idEstadoCita').value;
     cita.idInmueble = this.citaFrom.get('idInmueble').value;

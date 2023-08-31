@@ -17,6 +17,9 @@ export class ContratoService implements CrudService<Contrato>{
     findAll(): Observable<Contrato[]> {
         return this.http.get<Contrato[]>(`${environment.urlBase}contrato/all`);
     }
+    obtenerContratosPorUsuario(idUsuario:number): Observable<Contrato[]> {
+        return this.http.get<Contrato[]>(`${environment.urlBase}contrato/obtenerContratosPorUsuario?idUsuario=${idUsuario}`);
+    }
     search(item: Contrato): Observable<Contrato[]> {
         return this.http.post<Contrato[]>(`${environment.urlBase}contrato/search`, item);
     }

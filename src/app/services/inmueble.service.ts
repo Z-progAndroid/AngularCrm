@@ -36,10 +36,13 @@ export class InmuebleService {
   findAllSinRelaciones(): Observable<Inmueble[]> {
     return this.http.get<Inmueble[]>(`${environment.urlBase}inmueble/findAllRelaciones`);
   }
+  findAllDisponibles(): Observable<Inmueble[]> {
+    return this.http.get<Inmueble[]>(`${environment.urlBase}inmueble/findAllDisponibles`);
+  }
   generarInmuebleDetallePdf(idInmueble: Number): Observable<Blob> {
     const headers = new HttpHeaders({ RESPONSETYPE: 'arraybuffer' as 'json' });
     return this.http.get<Blob>(`${environment.urlBase}inmueble/download-pdf?idInmueble=${idInmueble}`, { headers, responseType: 'arraybuffer' as 'json' });
-}
+  }
   saveImage(formData: FormData, idInmueble: string, idImagen: string): Observable<Mensaje> {
     formData.append("idInmueble", idInmueble);
     formData.append("idImagen", idImagen);
@@ -53,8 +56,11 @@ export class InmuebleService {
     datosExportacion.cabeceras = cabeceras;
     datosExportacion.inmuebles = contratos;
     const headers = new HttpHeaders().set('Content-Type', 'application/json')
-        .set('Accept', 'application/octet-stream');
+      .set('Accept', 'application/octet-stream');
 
     return this.http.post(`${environment.urlBase}inmueble/download-excel`, datosExportacion, { headers, responseType: 'blob' });
-}
+  }
+  obtenerInmueblesPorUsuario(idUsuario: number): Observable<Inmueble[]> {
+    return this.http.get<Inmueble[]>(`${environment.urlBase}inmueble/obtenerInmueblesPorUsuario?idUsuario=${idUsuario}`);
+  }
 }

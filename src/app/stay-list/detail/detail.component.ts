@@ -15,6 +15,7 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { CitasService } from 'src/app/services/citas.service';
 import { Mensaje } from 'src/app/models/mensaje';
 import { Cita } from 'src/app/models/cita';
+import { AuthService } from 'src/app/services/auth.service';
 defineLocale('es', esLocale);
 @Component({
   selector: 'app-detail',
@@ -34,12 +35,12 @@ export class DetailComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private fb: FormBuilder,
     private tipoCitService: TipoCitaService,
-    private localeService: BsLocaleService
+    private localeService: BsLocaleService,
+    private authService:AuthService,
   ) { }
   ngOnInit(): void {
     this.localeService.use('es');
     this.crearFormulario();
-    this.cargarTiposCitas();
     if (this.rutaActiva.snapshot.params?.id) {
       this.inmuebleService.findById(this.rutaActiva.snapshot.params.id).subscribe(data => {
         this.inmueble = data;
@@ -52,6 +53,11 @@ export class DetailComponent implements OnInit {
     }
   }
   submit() {
+    if (Utils.isNullOrUndefined(this.authService.getToken())) {
+      Alerts.error('Error', 'Debe iniciar sesion para crear una cita', null);
+      this.router.navigate(['/login']);
+      return;
+    }
     Alerts.warning('Advertencia', 'Esta seguro de crear la cita? ', 'Si,confirmar').then((result) => {
       if (!result.isConfirmed) {
         Alerts.info('Info', 'Operacion cancelada por el usuario');
@@ -72,11 +78,11 @@ export class DetailComponent implements OnInit {
       cita.fechaFin = fechaFin;
       cita.fechaCreacion = new Date();
       cita.fechaModificacion = new Date();
-      cita.modificado = "admin";
+      cita.modificado = this.authService.getUsername();
       cita.idTipoCita = 1;
       cita.idEstadoCita = 1;
       cita.idInmueble = this.inmueble.idInmueble;
-      cita.idUsuarioCliente = 3;
+      cita.idUsuarioCliente = this.authService.getIdUsuario();
       this.citaService.save(cita).subscribe(data => {
         Alerts.success('Exito', 'Cita creada correctamente en el sistema nos pondremos en contacto con usted');
         this.router.navigate(['/listado']);
@@ -90,11 +96,7 @@ export class DetailComponent implements OnInit {
       descripcion: [''],
     }, { validators: [CustomValidators.validateDate] });
   }
-  cargarTiposCitas() {
-    this.tipoCitService.findAll().subscribe(data => {
-      this.tiposCitas = data;
-    }, error => Alerts.error('Error', 'Error al cargar los tipos de citas', error));
-  }
+
   combinarFechas(fechaControlName: Date, fechaTimeControlName: Date, horasDeMas: number): Date {
     const fechaInicio = fechaControlName;
     const fechaInicioTime = fechaTimeControlName;
@@ -107,7 +109,6 @@ export class DetailComponent implements OnInit {
       nuevaFecha.setHours(hours + horasDeMas);
     }
     nuevaFecha.setMinutes(minutes);
-    // Convertir la fecha a formato ISO 8601 con la zona horaria en UTC+2 (dos horas adelante)
     const offset = -2;
     const offsetMs = offset * 60 * 60 * 1000;
     const dateWithOffset = new Date(nuevaFecha.getTime() - offsetMs);

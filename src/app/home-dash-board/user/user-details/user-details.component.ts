@@ -12,6 +12,7 @@ import { Utils } from 'src/app/utils/Utils';
 import { Alerts } from 'src/app/utils/Alerts';
 import { BaseComponent } from 'src/app/utils/BaseComponent';
 import { CustomValidators } from 'src/app/utils/CustomValidators';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-user-details',
@@ -27,7 +28,8 @@ export class UserDetailsComponent extends BaseComponent implements OnInit {
   prametosRuta: Params;
   test: String
   constructor(private usuarioService: UsuarioService, private router: Router, private rutaActiva: ActivatedRoute,
-    private rolService: RolService, private estadoUsuarioService: EstadoUsuarioService, private fb: FormBuilder) {
+    private rolService: RolService, private estadoUsuarioService: EstadoUsuarioService, private fb: FormBuilder,
+    private authService: AuthService,) {
     super();
   }
 
@@ -79,7 +81,7 @@ export class UserDetailsComponent extends BaseComponent implements OnInit {
     user.idEstadoUsuario = this.userForm.get('estado').value;
     user.fechaCreacion = Utils.isNullOrUndefined(this.userForm.get('fechaCreacion').value) ? new Date() : this.userForm.get('fechaCreacion').value;
     user.fechaModificacion = new Date();
-    user.modificado = "ADMIN";
+    user.modificado =  this.authService.getUsername();
     return user;
   }
   cargarDatoSelect() {

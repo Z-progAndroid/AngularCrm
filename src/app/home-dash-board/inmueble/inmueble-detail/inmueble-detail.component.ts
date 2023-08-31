@@ -11,6 +11,7 @@ import { Pais } from 'src/app/models/pais';
 import { Provincia } from 'src/app/models/provincia';
 import { TipoInmueble } from 'src/app/models/tipo-inmueble';
 import { User } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
 import { BarrioService } from 'src/app/services/barrio.service';
 import { EstadoInmuebleService } from 'src/app/services/estado-inmueble.service';
 import { InmuebleService } from 'src/app/services/inmueble.service';
@@ -58,7 +59,8 @@ export class InmuebleDetailComponent extends BaseComponent implements OnInit {
     private rutaActiva: ActivatedRoute,
     private fb: FormBuilder,
     private router: Router,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private authService: AuthService,
   ) {
     super();
     this.inmuebleForm = this.iniciarFormulario();
@@ -132,8 +134,8 @@ export class InmuebleDetailComponent extends BaseComponent implements OnInit {
     return this.fb.group({
       precioventa: ['', Validators.required],
       precioalquiler: ['', Validators.required],
-      numHabitaciones: ['', Validators.required],
-      numBanos: ['', Validators.required],
+      numHabitaciones: [''],
+      numBanos: [''],
       metroscuadrados: ['', Validators.required],
       anoconstruccion: ['', [Validators.required, CustomValidators.yearValidator()]],
       direccion: ['', Validators.required],
@@ -177,7 +179,7 @@ export class InmuebleDetailComponent extends BaseComponent implements OnInit {
     inmueble.idInmueble = this.inmuebleForm.get('idInmueble').value;
     inmueble.fechaCreacion = Utils.isNullOrUndefined(this.inmuebleForm.get('fechaCreacion').value) ? new Date() : this.inmuebleForm.get('fechaCreacion').value;
     inmueble.fechaModificacion = new Date();
-    inmueble.modificado = "admin";
+    inmueble.modificado = this.authService.getUsername();;
     inmueble.imagen1 = Utils.isNullOrUndefined(this.imagenesUnit8Array[0]) ? null : this.imagenesUnit8Array[0];
     inmueble.imagen2 = Utils.isNullOrUndefined(this.imagenesUnit8Array[1]) ? null : this.imagenesUnit8Array[1];
     inmueble.imagen3 = Utils.isNullOrUndefined(this.imagenesUnit8Array[2]) ? null : this.imagenesUnit8Array[2];

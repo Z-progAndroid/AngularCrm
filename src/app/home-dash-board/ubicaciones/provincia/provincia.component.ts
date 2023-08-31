@@ -8,6 +8,7 @@ import { forkJoin } from 'rxjs';
 import { Utils } from 'src/app/utils/Utils';
 import { Alerts } from 'src/app/utils/Alerts';
 import { TableColumn } from 'src/app/interfaces/table-column';
+import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-provincia',
   templateUrl: './provincia.component.html',
@@ -26,7 +27,8 @@ export class ProvinciaComponent {
   constructor(
     private fb: FormBuilder,
     private paisService: PaisService,
-    private provinciaService: ProvinciaService
+    private provinciaService: ProvinciaService,
+    private authService: AuthService,
   ) { }
   ngOnInit(): void {
     this.crearFormulario();
@@ -81,7 +83,7 @@ export class ProvinciaComponent {
       ? new Date()
       : this.provinciasForm.get('fechaModificacion').value;
     provincia.fechaCreacion = new Date();
-    provincia.modificado = 'admin';
+    provincia.modificado = this.authService.getUsername();
     return provincia;
   }
   delete($event) {

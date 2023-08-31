@@ -1,0 +1,20 @@
+<app-header [visible]="false" [botonVisible]="false"></app-header>
+<div class="wrapper">
+    <div class="row">
+        <div *ngFor="let cita of citas" class="card col-12 col-md-6 col-lg-3 m-1">
+            <div class="card-body">
+                <h5 class="card-title">{{cita.titulo}}</h5>
+                <p class="card-text">
+                    {{cita.descripcion}}
+                </p>
+                <div class="text-end mb-2">
+                    <button type="button" class="btn btn-primary btn-lg btn-floating" (click)="descargarDetalle(cita.idCita)">
+                        <i class="fas fa-file-pdf font-size-1-5-rem"></i>
+                    </button>
+                </div>
+                <div class="card-footer">Estado: {{cita.estadoCita}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

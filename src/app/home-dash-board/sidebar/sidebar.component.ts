@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 import { MenuServiceService } from 'src/app/services/menu-service.service';
 
 @Component({
@@ -9,7 +10,20 @@ import { MenuServiceService } from 'src/app/services/menu-service.service';
 export class SidebarComponent {
   @Input() responsiveClass: any;
   menu: any[] = [];
-  constructor(private menuService: MenuServiceService) {
-    this.menu = menuService.getMenu();
+  activeItem: Number = 0;
+  constructor(
+    private menuService: MenuServiceService,
+    private authService: AuthService
+  ) {
+
+    this.authService.isAgent()
+      ?this.menu = menuService.getMenuAgente()
+      :this.menu = menuService.getMenu();
+  }
+  logout() { 
+    this.authService.logout();
+  }
+  handleItemClick(i) { 
+    this.activeItem = i;
   }
 }

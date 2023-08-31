@@ -16,5 +16,6 @@ export class Contrato {
     idInmueble:number;
     idEstadoContrato:number;
     cliente: number;
-    estadoContrato:string
+    estadoContrato: string
+    noestadoEliminado:boolean;
 }

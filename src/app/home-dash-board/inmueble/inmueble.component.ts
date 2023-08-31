@@ -16,14 +16,13 @@ import { PaisService } from 'src/app/services/pais.service';
 import { ProvinciaService } from 'src/app/services/provincia.service';
 import { TipoInmuebleService } from 'src/app/services/tipo-inmueble.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { forkJoin } from 'rxjs';
 import { Inmueble } from 'src/app/models/inmueble';
 import { Alerts } from 'src/app/utils/Alerts';
 import { BaseComponent } from 'src/app/utils/BaseComponent';
 import { TableColumn } from 'src/app/interfaces/table-column';
-import { Mensaje } from 'src/app/models/mensaje';
 import { Router } from '@angular/router';
 import { Utils } from 'src/app/utils/Utils';
+import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-inmueble',
   templateUrl: './inmueble.component.html',
@@ -40,6 +39,7 @@ export class InmuebleComponent extends BaseComponent implements OnInit {
   provincias: Provincia[] = [];
   tiposInmueble: TipoInmueble[] = [];
   usuarios: User[] = [];
+  isAgente: boolean = this.authService.isAgent() ? true : false;
   tableColumns: TableColumn[] = [
     { name: 'Direccion', dataKey: 'direccion' },
     { name: 'Precio Venta', dataKey: 'precio_venta' },
@@ -57,7 +57,8 @@ export class InmuebleComponent extends BaseComponent implements OnInit {
     private tipoInmuebleService: TipoInmuebleService,
     private usuariosService: UsuarioService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) { super(); }
   ngOnInit(): void {
     this.crearFormulario();
@@ -65,29 +66,41 @@ export class InmuebleComponent extends BaseComponent implements OnInit {
     this.cargarInmuebles();
   }
   cargarDatos() {
-    const observables = [
-      this.inmuebleService.findAll(),
-      this.barrioservice.findAll(),
-      this.estadoInmuebleService.findAll(),
-      this.municipioService.findAll(),
-      this.paisService.findAll(),
-      this.provinciaService.findAll(),
-      this.tipoInmuebleService.findAll(),
-      this.usuariosService.findAllUserAdminORAgente()
-    ];
-    forkJoin(observables).subscribe(
-      (results: any[]) => {
-        this.inmuebles = results[0];
-        this.barrios = results[1];
-        this.estadosInmueble = results[2];
-        this.municipios = results[3];
-        this.paises = results[4];
-        this.provincias = results[5];
-        this.tiposInmueble = results[6];
-        this.usuarios = results[7];
-      }, (error) => {
-        Alerts.error('Error', 'Error al cargar los datos de los select', error);
-      });
+    this.barrioservice.findAll().subscribe(barrios => {
+      this.barrios = barrios;
+    }, (error) => {
+      Alerts.error('Error', 'Error al cargar los datos de los select', error);
+    });
+    this.estadoInmuebleService.findAll().subscribe(estadosInmueble => {
+      this.estadosInmueble = estadosInmueble;
+    }, (error) => {
+      Alerts.error('Error', 'Error al cargar los datos de los select', error);
+    });
+    this.municipioService.findAll().subscribe(municipios => {
+      this.municipios = municipios;
+    }, (error) => {
+      Alerts.error('Error', 'Error al cargar los datos de los select', error);
+    });
+    this.paisService.findAll().subscribe(paises => {
+      this.paises = paises;
+    }, (error) => {
+      Alerts.error('Error', 'Error al cargar los datos de los select', error);
+    });
+    this.provinciaService.findAll().subscribe(provincias => {
+      this.provincias = provincias;
+    }, (error) => {
+      Alerts.error('Error', 'Error al cargar los datos de los select', error);
+    });
+    this.tipoInmuebleService.findAll().subscribe(tiposInmueble => {
+      this.tiposInmueble = tiposInmueble;
+    }, (error) => {
+      Alerts.error('Error', 'Error al cargar los datos de los select', error);
+    });
+    this.usuariosService.findAllClientes().subscribe(usuarios => {
+      this.usuarios = usuarios;
+    }, (error) => {
+      Alerts.error('Error', 'Error al cargar los datos de los select', error);
+    });
   }
   busqueda() {
     this.inmuebles = [];
@@ -148,16 +161,30 @@ export class InmuebleComponent extends BaseComponent implements OnInit {
     inmueble.idPais = this.buscadorFrom.get('ipPais').value;
     inmueble.idProvincia = this.buscadorFrom.get('provincia').value;
     inmueble.idMunicipio = this.buscadorFrom.get('municipio').value;
-    inmueble.idUsuario = this.buscadorFrom.get('idUsuario').value;
+    inmueble.idUsuario = this.authService.isAdmin()
+      ? this.buscadorFrom.get('idUsuario').value
+      : this.authService.getIdUsuario();
     inmueble.idBarrio = this.buscadorFrom.get('barrio').value;
+    inmueble.noEliminado = this.authService.isAgent() ? true : false
     return inmueble;
   }
   cargarInmuebles() {
-    this.inmuebleService.findAll().subscribe((inmuebles: Inmueble[]) => {
-      this.inmuebles = inmuebles;
-    }, (error) => {
-      Alerts.error('Error', 'Error no se han encontrado inmuebles por los parametros introducidos', error);
-    });
+    if (this.authService.isAdmin()) {
+      this.inmuebleService.findAllSinRelaciones().subscribe(inmuebles => {
+        this.inmuebles = inmuebles;
+      }, (error) => {
+        Alerts.error('Error', 'Error al cargar los inmuebles', error);
+      });
+      return;
+    }
+    if (this.authService.isAgent()) {
+      this.inmuebleService.obtenerInmueblesPorUsuario(this.authService.getIdUsuario()).subscribe(inmuebles => {
+        this.inmuebles = inmuebles;
+      }, (error) => {
+        Alerts.error('Error', 'Error al cargar los inmuebles', error);
+      });
+      return;
+    }
   }
   delete($event) {
     Alerts.warning('Advertencia', 'el inmueble se eliminara de forma permanente con todos sus datos asociados', 'si,eliminar').then((result) => {

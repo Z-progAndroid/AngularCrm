@@ -58,4 +58,22 @@ export class CustomValidators {
 
         return null;
     }
+    static passwordsMatchValidator(): ValidatorFn {
+        return (control: AbstractControl): { [key: string]: any } | null => {
+            const contrasena = control.get('contrasena');
+            const contrasenaRepetir = control.get('contrasenaRepetir');
+
+            if (!contrasena || !contrasenaRepetir) {
+                return null;
+            }
+
+            if (contrasena.value !== contrasenaRepetir.value) {
+                contrasenaRepetir.setErrors({ passwordsNotMatch: true });
+                return { passwordsNotMatch: true };
+            }
+
+            contrasenaRepetir.setErrors(null);
+            return null;
+        };
+    }
 }

@@ -5,6 +5,7 @@ import { TableColumn } from 'src/app/interfaces/table-column';
 import { EstadoTarea } from 'src/app/models/estado-tarea';
 import { Tarea } from 'src/app/models/tarea';
 import { User } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
 import { EstadoTareaService } from 'src/app/services/estado-tarea.service';
 import { TareaService } from 'src/app/services/tarea.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -27,8 +28,10 @@ export class TareaComponent implements OnInit {
     private estadoTareaService: EstadoTareaService,
     private usuarioService: UsuarioService,
     private tareaService: TareaService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) { }
+  isAgente: boolean = this.authService.isAgent() ? true : false;
   tableColumns: TableColumn[] = [
     { name: 'Titulo', dataKey: 'titulo' },
     { name: 'Descripcion', dataKey: 'descripcion' },
@@ -79,9 +82,18 @@ export class TareaComponent implements OnInit {
   }
   cargarTareas() {
     this.tareas = [];
-    this.tareaService.findAll().subscribe((tarea: Tarea[]) => {
-      this.tareas = tarea;
-    }, error => Alerts.error('Error', 'Error al cargar laa tareas', error));
+    if (this.authService.isAgent()) { 
+      let tarea = new Tarea();
+      tarea.idUsuario=this.authService.getIdUsuario()
+      this.tareaService.findAllByParams(tarea).subscribe((tarea: Tarea[]) => {
+        this.tareas = tarea;
+      }, error => Alerts.error('Error', 'Error al cargar laa tareas', error));
+    }
+    if (this.authService.isAdmin()) {
+      this.tareaService.findAll().subscribe((tarea: Tarea[]) => {
+        this.tareas = tarea;
+      }, error => Alerts.error('Error', 'Error al cargar laa tareas', error));
+    }
   }
   delete($event) {
     Alerts.warning('Eliminar', '¿Está seguro de eliminar la tarea?', 'Si, confirmar').then((result) => {

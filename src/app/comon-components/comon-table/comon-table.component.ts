@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { TableColumn } from 'src/app/interfaces/table-column';
 import { MatPaginatorIntl } from '@angular/material/paginator';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-comon-table',
@@ -19,6 +20,7 @@ export class ComonTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort, { static: true }) matSort: MatSort;
   currentSortColumn: string;
   currentSortDirection: string = ''; // O 'desc' según tu preferencia
+  isAgente: boolean = this.authService.isAgent() ? true : false;
   @Input() isPageable = false;
   @Input() isSortable = false;
   @Input() isFilterable = false;
@@ -38,7 +40,10 @@ export class ComonTableComponent implements OnInit, AfterViewInit {
     this.setTableDataSource(data);
   }
 
-  constructor(private matPaginatorIntl: MatPaginatorIntl) {
+  constructor(
+    private matPaginatorIntl: MatPaginatorIntl,
+    private authService: AuthService
+  ) {
     this.matPaginatorIntl.itemsPerPageLabel = 'Elementos por página:';
     this.matPaginatorIntl.nextPageLabel = 'Siguiente página';
     this.matPaginatorIntl.previousPageLabel = 'Página anterior';

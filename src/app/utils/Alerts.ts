@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 const ERROR_ICON = 'error';
 const CANCEL_BUTTON_TEXT = 'Cancelar';
@@ -17,7 +18,9 @@ export class Alerts {
     static router: any;
     constructor(private router: Router) { }
     static error(titulo: string, mensaje: string, error: any): any {
-        console.log(error);
+        if (!environment.production) { 
+            console.log(error);
+        }
         mensaje = error?.error?.mensaje ? error.error.mensaje : mensaje;
         return Swal.fire({
             icon: ERROR_ICON,

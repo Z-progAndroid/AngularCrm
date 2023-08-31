@@ -1,14 +1,12 @@
 <div class="wrapper">
+    <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
+            <h2>Citas</h2>
+        </div>
+    </div>
     <div class="group-inputs">
         <div class="row">
             <div class="col-12 col-md-12 col-lg-9">
-                <div>Tipo cita</div>
-                <span class="tipo-cita-item" *ngFor="let item of legend">{{item.nombre}} <div class="tipo-cita-color"
-                        style="{{item.color}}"></div></span>
-                <div></div>
-                <div>Estado cita</div>
-                <span class="tipo-cita-item" *ngFor="let item of legendEstado">{{item.nombre}} <div
-                        class="tipo-cita-color" style="{{item.color}}"></div></span>
                 <full-calendar [options]="calendarGridOptions"></full-calendar>
             </div>
             <div class="col-12 col-md-12 col-lg-3">

@@ -34,4 +34,5 @@ export class Inmueble {
     imagen3:Uint8Array;
     imagen4: Uint8Array;
     imagenes: SafeUrl[] = [];
+    noEliminado:boolean;
 }

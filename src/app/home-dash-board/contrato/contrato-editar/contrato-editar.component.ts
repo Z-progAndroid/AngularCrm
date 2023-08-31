@@ -19,6 +19,7 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { CustomValidators } from 'src/app/utils/CustomValidators';
 import { Utils } from 'src/app/utils/Utils';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 defineLocale('es', esLocale);
 @Component({
   selector: 'app-contrato-editar',
@@ -43,8 +44,8 @@ export class ContratoEditarComponent extends BaseComponent implements OnInit {
     private contratoService: ContratoService,
     private localeService: BsLocaleService,
     private router: Router,
-    private rutaActiva: ActivatedRoute
-    
+    private rutaActiva: ActivatedRoute,
+    private authService: AuthService,
   ) {
     super();
   }
@@ -101,13 +102,20 @@ export class ContratoEditarComponent extends BaseComponent implements OnInit {
     this.tipoPagoService.findAll().subscribe((data) => {
       this.tipoPagos = data;
     }, error => Alerts.error('Error', 'Error al cargar combo tipo pagos', error));
-    this.inmuebleService.findAll().subscribe((data) => {
-      this.inmuebles = data;
-    }, error => Alerts.error('Error', 'Error al cargar combo inmuebles', error));
+    if (this.authService.isAgent()) {
+      this.inmuebleService.obtenerInmueblesPorUsuario(this.authService.getIdUsuario()).subscribe((data) => {
+        this.inmuebles = data;
+      }, error => Alerts.error('Error', 'Error al cargar combo inmuebles', error));
+    }
+    if (this.authService.isAdmin()) {
+      this.inmuebleService.findAllSinRelaciones().subscribe((data) => {
+        this.inmuebles = data;
+      }, error => Alerts.error('Error', 'Error al cargar combo inmuebles', error));
+    }
     this.estadoContratoService.findAll().subscribe((data) => {
       this.estadosContrato = data;
     }, error => Alerts.error('Error', 'Error al cargar  combo estados', error));
-    this.usuarioService.findAll().subscribe((data) => {
+    this.usuarioService.findAllClientes().subscribe((data) => {
       this.usuarios = data;
     }, error => Alerts.error('Error', 'Error al cargar combo clientes', error));
   }
@@ -126,7 +134,7 @@ export class ContratoEditarComponent extends BaseComponent implements OnInit {
       ? new Date()
       : this.contratoFrom.get('fechaCreacion').value
     contrato.fechaModificacion = new Date();
-    contrato.modificado = 'admin'
+    contrato.modificado = this.authService.getUsername();
     contrato.idTipoContrato = this.contratoFrom.get('idTipoContrato').value
     contrato.idTipoPago = this.contratoFrom.get('idTipoPago').value
     contrato.idInmueble = this.contratoFrom.get('idInmueble').value

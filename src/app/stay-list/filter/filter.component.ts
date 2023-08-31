@@ -124,6 +124,7 @@ export class FilterComponent extends BaseComponent implements OnInit {
     inmueble.idProvincia = this.filterForm.controls['provincia'].value==''?0:this.filterForm.controls['provincia'].value;
     inmueble.idMunicipio = this.filterForm.controls['municipio'].value==''?0:this.filterForm.controls['municipio'].value;
     inmueble.idBarrio = this.filterForm.controls['barrio'].value==''?0:this.filterForm.controls['barrio'].value;
+    inmueble.idEstadoInmueble = 1;
     this.filter.emit(inmueble);
   }
 }
