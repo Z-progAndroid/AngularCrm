@@ -35,6 +35,7 @@ export class CitaCrearComponent extends BaseComponent implements OnInit {
   clientes: User[] = [];
   citaConsultada: Cita;
   isEdit = false;
+  isAgente: boolean = this.authService.isAgent() ? true : false;
   constructor(
     private fb: FormBuilder,
     private localeService: BsLocaleService,

@@ -12,6 +12,11 @@
                         <i class="fas fa-file-pdf font-size-1-5-rem"></i>
                     </button>
                 </div>
+                <div class="text-end mb-2">
+                    <button type="button" class="btn btn-danger btn-lg btn-floating" (click)="cancelarCita(cita.idCita)">
+                        <i class="fas fa-ban font-size-1-5-rem"></i>
+                    </button>
+                </div>
                 <div class="card-footer">Estado: {{cita.estadoCita}}</div>
             </div>
         </div>

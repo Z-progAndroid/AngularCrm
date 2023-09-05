@@ -18,13 +18,25 @@ export class CitasComponent implements OnInit {
     private authService: AuthService
   ) { }
   ngOnInit(): void {
-    this.citasService.citasUsuarioNoEliminadas(this.authService.getIdUsuario()).subscribe(citas => {
-      this.citas = citas;
-    }, error => Alerts.error('Error', 'Error al cargar las citas del usuaraio', error))
+    this.cargarCitasNoEliminadas();
   }
   descargarDetalle(idCita: number) {
     this.citasService.generarCitaPdf(idCita).subscribe((data) => {
       Utils.descargarFichero(data, 'cita.pdf', 'application/pdf');
     }, error => Alerts.error('Error', 'Error al obtener el pddf de la cita', error));
+  }
+  cancelarCita(idCita: number) {
+    this.citasService.findById(idCita).subscribe((data:Cita) => {
+      data.idEstadoCita = 3;
+      this.citasService.save(data).subscribe(() => { 
+        Alerts.success('Exito', 'La cita se cancelo correctamente');
+        this.cargarCitasNoEliminadas();
+      },error=>Alerts.error('Error', 'Error al actualizar la cita', error))
+    }, error => Alerts.error('Error', 'Error al obtener la cita', error));
+  }
+  cargarCitasNoEliminadas() { 
+    this.citasService.citasUsuarioNoEliminadas(this.authService.getIdUsuario()).subscribe(citas => {
+      this.citas = citas;
+    }, error => Alerts.error('Error', 'Error al cargar las citas del usuaraio', error))
   }
 }

@@ -76,19 +76,28 @@ export class CitaComponent extends BaseComponent implements OnInit {
   }
   cargarCitas() {
     this.citaService.findAll().subscribe((citas: Cita[]) => {
-      const citasFormateadas = citas.map((cita) => ({
-        id: cita.idCita.toString(),
-        allDay: false,
-        title: cita.titulo,
-        start: new Date(cita.fechaIncio[0], cita.fechaIncio[1] - 1, cita.fechaIncio[2], cita.fechaIncio[3], cita.fechaIncio[4], cita.fechaIncio[5]).toISOString(),
-        end: new Date(cita.fechaFin[0], cita.fechaFin[1] - 1, cita.fechaFin[2], cita.fechaFin[3], cita.fechaFin[4], cita.fechaFin[5]).toISOString(),
-        backgroundColor: this.getTipoCitaColor(cita.idTipoCita),
-        borderColor: this.getEstadoCitaColor(cita.idEstadoCita),
-        extendedProps: {
-          estado: cita.estadoCita,
-          tipo: cita.tipoCita,
-        },
-      }));
+      const citasFormateadas = citas.map((cita) => {
+        const fechaInicio = cita.fechaIncio
+        const fechaFin = cita.fechaFin
+          if (isNaN(fechaInicio[0]) || isNaN(fechaInicio[1]) || isNaN(fechaInicio[2]) || isNaN(fechaInicio[3]) || isNaN(fechaInicio[4]) || isNaN(fechaInicio[5]) ||
+            isNaN(fechaFin[0]) || isNaN(fechaFin[1]) || isNaN(fechaFin[2]) || isNaN(fechaFin[3]) || isNaN(fechaFin[4]) || isNaN(fechaFin[5])) {
+          return null;
+        }
+  
+        return {
+          id: cita.idCita.toString(),
+          allDay: false,
+          title: cita.titulo,
+          start: new Date(fechaInicio[0], fechaInicio[1] - 1, fechaInicio[2], fechaInicio[3], fechaInicio[4], fechaInicio[5]).toISOString(),
+          end: new Date(fechaFin[0], fechaFin[1] - 1, fechaFin[2], fechaFin[3], fechaFin[4], fechaFin[5]).toISOString(),
+          backgroundColor: this.getTipoCitaColor(cita.idTipoCita),
+          borderColor: this.getEstadoCitaColor(cita.idEstadoCita),
+          extendedProps: {
+            estado: cita.estadoCita,
+            tipo: cita.tipoCita,
+          },
+        };
+      }).filter((citaFormateada) => citaFormateada !== null); 
       this.calendarGridOptions.events = citasFormateadas;
       this.calendarListOptions.events = citasFormateadas;
     }, error => Alerts.error('Error', 'Error al cargar las citas', error));
